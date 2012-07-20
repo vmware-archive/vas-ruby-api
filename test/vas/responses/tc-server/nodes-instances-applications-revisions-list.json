@@ -1,0 +1,36 @@
+{
+    "revisions":[
+        {
+            "version":"1.0.0",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/nodes/2/instances/3/applications/5/revisions/6/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "version":"2.0.0",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/nodes/2/instances/3/applications/5/revisions/8/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/2/instances/3/applications/5/revisions/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/10/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

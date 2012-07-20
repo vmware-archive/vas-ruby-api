@@ -1,0 +1,19 @@
+{
+    "links":[
+        {
+            "href":"https://localhost:8443/vfabric/v1/agent-image/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/agent-image/content/",
+            "rel":"content",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/0/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "nodes":[
+        {
+            "host-names":[ "example-host-1" ],
+            "ip-addresses":[ "192.168.0.2", "127.0.0.1" ],
+            "links":[
+                {
+                    "href":"https://localhost:8443/vfabric/v1/nodes/0/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "host-names":[ "example-host-2" ],
+            "ip-addresses":[ "127.0.0.1", "192.168.0.3" ],
+            "links":[
+                {
+                    "href":"https://localhost:8443/vfabric/v1/nodes/1/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/vfabric/v1/nodes/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/2/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

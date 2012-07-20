@@ -1,0 +1,36 @@
+{
+    "groups":[
+        {
+            "name":"example-group-two",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/1/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"example-group-one",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/2/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

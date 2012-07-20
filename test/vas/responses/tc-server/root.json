@@ -1,0 +1,29 @@
+{
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/",
+            "rel":"groups",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/installation-images/",
+            "rel":"installation-images",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/",
+            "rel":"nodes",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/revision-images/",
+            "rel":"revision-images",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/template-images/",
+            "rel":"template-images",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

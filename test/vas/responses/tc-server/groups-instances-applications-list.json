@@ -1,0 +1,42 @@
+{
+    "applications":[
+        {
+            "host":"localhost",
+            "name":"Bravo",
+            "service":"Catalina",
+            "contextPath":"/bravo",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/applications/3/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "host":"localhost",
+            "name":"Alpha",
+            "service":"Catalina",
+            "contextPath":"/alpha",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/applications/2/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/applications/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

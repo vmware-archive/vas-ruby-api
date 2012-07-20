@@ -1,0 +1,41 @@
+{
+    "version":"2.7.0.RELEASE",
+    "runtime-versions":[ "7.0.27.A.RELEASE" ],
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/installations/2/templates/",
+            "rel":"templates",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/installation-images/0/",
+            "rel":"installation-image",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/instances/3/",
+            "rel":"group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/installations/2/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/instances/4/",
+            "rel":"group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/5/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

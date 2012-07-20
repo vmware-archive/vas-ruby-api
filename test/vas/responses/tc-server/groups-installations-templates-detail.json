@@ -1,0 +1,26 @@
+{
+    "name":"example",
+    "version":"1.0.0",
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/installations/2/templates/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/installations/2/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/template-images/0/",
+            "rel":"template-image",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

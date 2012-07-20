@@ -1,0 +1,23 @@
+{
+    "ip-addresses":[ "192.168.0.2", "127.0.0.1" ],
+    "host-names":[ "example-host" ],
+    "operating-system":"Linux",
+    "architecture":"x64",
+    "agent-home":"/opt/vmware/vfabric-administration-agent",
+    "metadata":{
+        "a":"alpha",
+        "b":"bravo"
+    },
+    "links":[
+        {
+            "href":"https://localhost:8443/vfabric/v1/nodes/0/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/1/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "name":"Example",
+    "service":"Catalina",
+    "host":"localhost",
+    "context-path":"/example",
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/",
+            "rel":"node-revisions",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/",
+            "rel":"node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/4/",
+            "rel":"group-application",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

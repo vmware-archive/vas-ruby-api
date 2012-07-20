@@ -1,0 +1,46 @@
+{
+    "pending-configurations":[
+        {
+            "path":"conf/server.xml",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/3/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "path":"conf/context.xml",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/2/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "path":"conf/web.xml",
+            "links":[
+                {
+                    "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/5/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
