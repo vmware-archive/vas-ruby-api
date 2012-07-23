@@ -16,7 +16,7 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server revision images.
-  class RevisionImages < Shared::Collection
+  class RevisionImages < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
       super(location, client, "revision-images")
