@@ -15,16 +15,11 @@
 
 module TcServer
 
-  # Used to enumerate an Instance's live configuration
+  # Used to enumerate an instance's live configuration
   class LiveConfigurations < Shared::Collection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "live-configurations")
-    end
-
-    private
-    def create_entry(json)
-      Configuration.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, "live-configurations", Configuration)
     end
 
   end

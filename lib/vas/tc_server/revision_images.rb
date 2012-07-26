@@ -19,17 +19,12 @@ module TcServer
   class RevisionImages < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "revision-images")
+      super(location, client, "revision-images", RevisionImage)
     end
     
     # Creates a RevisionImage named +name+ with the version +version+ by uploading the WAR file at the given +path+
     def create(path, name, version)
       RevisionImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
-    end
-    
-    private
-    def create_entry(json)
-      RevisionImage.new(Util::LinkUtils.get_self_link_href(json), client)
     end
     
   end
@@ -50,7 +45,7 @@ module TcServer
       @version = details["version"]
     end
 
-    # The Revision s that have been created from this RevisionImage
+    # The revisions that have been created from this revision image
     def revisions
       revisions = []
       Util::LinkUtils.get_link_hrefs(client.get(location), "group-revision").each { |revision_location| revisions << Revision.new(revision_location, client)}

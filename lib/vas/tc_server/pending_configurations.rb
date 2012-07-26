@@ -15,27 +15,22 @@
 
 module TcServer
 
-  # Used to enumerate an Instance's pending configuration
+  # Used to enumerate an instance's pending configuration
   class PendingConfigurations < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "pending-configurations")
-    end
-
-    private
-    def create_entry(json)
-      PendingConfiguration.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, 'pending-configurations', PendingConfiguration)
     end
 
   end
 
   # A configuration file that is pending
-  class PendingConfiguration < Configuration
+  class PendingConfiguration < Shared::PendingConfiguration
 
-    # Updates the configuration to contain +new_content+
-    def content=(new_content)
-      client.post(@content_location, new_content)
-      @size = client.get(location)['size']
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'group-instance', Instance)
     end
+
   end
+
 end

@@ -1,0 +1,49 @@
+{
+    "plugins":[
+        {
+            "name":"stomp",
+            "version":"2.8.2",
+            "links":[
+                {
+                    "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/5/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"management",
+            "version":"2.8.2",
+            "links":[
+                {
+                    "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"example",
+            "version":"1.0.0",
+            "links":[
+                {
+                    "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/3/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

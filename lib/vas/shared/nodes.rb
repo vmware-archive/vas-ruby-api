@@ -14,15 +14,6 @@
 # limitations under the License.
 
 module Shared
-  
-  # An enumeration of Node s
-  class Nodes < Shared::Collection
-
-    def initialize(location, client) #:nodoc:
-      super(location, client, "nodes")
-    end
-
-  end
 
   # A node
   class Node < Shared::Resource

@@ -1,0 +1,27 @@
+{
+    "name":"example",
+    "version":"1.0.0",
+    "size":5673284,
+    "links":[
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/4/instances/5/plugins/6/",
+            "rel":"plugin",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/plugin-images/0/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/3/",
+            "rel":"plugin",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/7/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

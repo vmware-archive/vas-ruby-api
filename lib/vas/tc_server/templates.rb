@@ -19,17 +19,12 @@ module TcServer
   class Templates < Shared::Collection
     
     def initialize(location, client) #:nodoc:
-      super(location, client, "templates")
+      super(location, client, "templates", Template)
     end
     
-    # Creates a Template from the TemplateImage +template_image+
+    # Creates a template from the +template_image+
     def create(template_image)
       Template.new(client.post(location, { :image => template_image.location }, "template"), client)
-    end
-    
-    private
-    def create_entry(json)
-      Template.new(Util::LinkUtils.get_self_link_href(json), client)
     end
     
   end
@@ -51,7 +46,7 @@ module TcServer
       @template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
     end
 
-    # The TemplateImage, if any, that this Template was created from
+    # The template image, if any, that this template was created from
     def template_image
       if (!@template_image_location.nil?)
         TemplateImage.new(@template_image_location, client)

@@ -63,8 +63,12 @@ class StubClient
 
   end
 
-  def post_image(location, path, metadata)
-    @post_delegate.post_image(location, path, metadata)
+  def post_image(location, path, metadata = nil)
+    if (metadata.nil?)
+      @post_delegate.post_image(location, path)
+    else
+      @post_delegate.post_image(location, path, metadata)
+    end
   end
 
   def expect(name, return_value, arguments)

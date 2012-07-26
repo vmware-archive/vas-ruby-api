@@ -15,25 +15,17 @@
 
 module TcServer
 
-  # Used to enumerate tc Server NodeInstance s.
-  class NodeInstances < Shared::Collection
+  # Used to enumerate tc Server instances on an individual node
+  class NodeInstances < Shared::NodeInstances
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "node-instances")
-    end
-
-    private
-    def create_entry(json)
-      NodeInstance.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, "node-instances", NodeInstance)
     end
 
   end
 
   # A tc Server node instance
-  class NodeInstance < Shared::StateResource
-
-    # The instance's name
-    attr_reader :name
+  class NodeInstance < Shared::NodeInstance
     
     # The instance's layout
     attr_reader :layout
@@ -47,28 +39,13 @@ module TcServer
     # The instance's NodeApplications
     attr_reader :applications
 
-    # The node that contains this instance
-    attr_reader :node
-
-    # The instance's Logs
-    attr_reader :logs
-
     def initialize(location, client) #:nodoc:
-      super(location, client)
+      super(location, client, Node, Logs)
 
-      @name = details["name"]
       @layout = details["layout"]
       @runtime_version = details["runtime-version"]
       @services = details["services"]
-
       @applications = NodeApplications.new(Util::LinkUtils.get_link_href(details, "node-applications"), client)
-
-      @node = Node.new(Util::LinkUtils.get_link_href(details, "node"), client)
-      @logs = Logs.new(Util::LinkUtils.get_link_href(details, "logs"), client)
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name' runtime_version='#@runtime_version' services='#@services' layout='#@layout'>"
     end
 
   end

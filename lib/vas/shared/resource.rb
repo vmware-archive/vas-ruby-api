@@ -21,11 +21,10 @@ module Shared
   
     # The Resource's Security
     attr_reader :security
-  
+
     private
     attr_reader :client
 
-    private
     attr_reader :details
     
     def initialize(location, client)  #:nodoc:

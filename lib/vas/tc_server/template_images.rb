@@ -19,17 +19,12 @@ module TcServer
   class TemplateImages < Shared::Collection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "template-images")
+      super(location, client, "template-images", TemplateImage)
     end
     
     # Creates a TemplateImage named +name+ with the version +version+ by uploading the file at the given +path+
     def create(path, name, version)
       TemplateImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
-    end
-    
-    private
-    def create_entry(json)
-      TemplateImage.new(Util::LinkUtils.get_self_link_href(json), client)
     end
     
   end

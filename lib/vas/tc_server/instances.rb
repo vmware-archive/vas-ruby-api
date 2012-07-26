@@ -19,7 +19,7 @@ module TcServer
   class Instances < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instances")
+      super(location, client, "group-instances", Instance)
     end
 
     # Creates a new instance named +name+, using the Installation +installation+.
@@ -59,18 +59,10 @@ module TcServer
       Instance.new(client.post(location, payload, "group-instance"), client)
     end
 
-    private
-    def create_entry(json)
-      Instance.new(Util::LinkUtils.get_self_link_href(json), client)
-    end
-
   end
 
   # A tc Server instance
-  class Instance < Shared::StateResource
-
-    # The instance's name
-    attr_reader :name
+  class Instance < Shared::Instance
     
     # The instance's layout
     attr_reader :layout
@@ -84,41 +76,23 @@ module TcServer
     # The instance's Applications
     attr_reader :applications
 
-    # The instance's LiveConfigurations
-    attr_reader :live_configurations
-
-    # The Group that contains this instance
-    attr_reader :group
-
     def initialize(location, client) #:nodoc:
-      super(location, client)
+      super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations)
 
-      @name = details["name"]
       @layout = details["layout"]
       @runtime_version = details["runtime-version"]
       @services = details["services"]
-
       @applications = Applications.new(Util::LinkUtils.get_link_href(details, "group-applications"), client)
-      @live_configurations = LiveConfigurations.new(Util::LinkUtils.get_link_href(details, "live-configurations"), client)
 
-      @group = Group.new(Util::LinkUtils.get_link_href(details, "group"), client)
     end
 
-    # The Installation that this instance is using
-    def installation
-      Installation.new(Util::LinkUtils.get_link_href(client.get(location), 'installation'), client)
-    end
-
+    # Updates the instance to use the given +installation+ and, optionally, to use the given +runtime_version+
     def update(installation, runtime_version = nil)
       payload = { :installation => installation.location }
       if (!runtime_version.nil?)
         payload['runtime-version'] = runtime_version
       end
-      client.post(@location, payload);
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name' runtime_version='#@runtime_version' services='#@services' layout='#@layout'>"
+      client.post(location, payload);
     end
 
   end

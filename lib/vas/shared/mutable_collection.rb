@@ -16,10 +16,6 @@
 module Shared
   class MutableCollection < Collection
 
-    def initialize(location, client, type) #:nodoc:
-      super(location, client, type)
-    end
-
     # Deletes the item
     def delete(entry)
       client.delete(entry.location)

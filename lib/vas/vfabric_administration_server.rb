@@ -16,6 +16,9 @@
 # The main entry point to the vFabric Administration Server API.
 class VFabricAdministrationServer
 
+  # The Rabbit API
+  attr_reader :rabbit
+
   # The tc Server API
   attr_reader :tc_server
 
@@ -35,6 +38,7 @@ class VFabricAdministrationServer
 
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
+    @rabbit = Rabbit::Rabbit.new("https://#{host}:#{port}/vfabric/v1", @client)
   end
   
 end
