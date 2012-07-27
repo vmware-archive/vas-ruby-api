@@ -22,6 +22,7 @@ module Rabbit
           'https://localhost:8443/rabbitmq/v1/groups/1/instances/',
           StubClient.new)
       assert_count(2, instances)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', instances.security.location)
     end
 
     def test_create
@@ -39,7 +40,7 @@ module Rabbit
     end
 
     def test_instance
-      location = 'https://localhost:8443/rabbitmq/v1/groups/1/instances/2/'
+      location = 'https://localhost:8443/rabbitmq/v1/groups/2/instances/4/'
 
       client = StubClient.new
 
@@ -48,6 +49,14 @@ module Rabbit
       assert_equal('example', instance.name)
       assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/installations/3/', instance.installation.location)
       assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/', instance.group.location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/instances/4/configurations/live/', instance.live_configurations.location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/instances/4/configurations/pending/', instance.pending_configurations.location)
+      assert_equal(2, instance.node_instances.size)
+      assert_equal('https://localhost:8443/rabbitmq/v1/nodes/0/instances/5/', instance.node_instances[0].location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/nodes/1/instances/6/', instance.node_instances[1].location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/instances/4/plugins/', instance.plugins.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/7/', instance.security.location)
+
       assert_equal('STOPPED', instance.state)
 
       client.expect(:post, nil, ['https://localhost:8443/rabbitmq/v1/groups/2/instances/4/state/', {:status => 'STARTED'}])
@@ -69,6 +78,15 @@ module Rabbit
 
       instance.update(installation)
 
+      client.verify
+    end
+
+    def test_delete
+      client = StubClient.new
+      instances = Instances.new('https://localhost:8443/rabbitmq/v1/groups/1/instances/', client)
+      instance_location = 'https://localhost:8443/rabbitmq/v1/groups/2/instances/4/'
+      client.expect(:delete, nil, [instance_location])
+      instances.delete(Instance.new(instance_location, client))
       client.verify
     end
 

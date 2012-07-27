@@ -31,7 +31,7 @@ module TcServer
     attr_reader :runtime_versions
 
     def initialize(location, client) #:nodoc:
-      super(location, client, InstallationImage)
+      super(location, client, InstallationImage, Group)
 
       @runtime_versions = details["runtime-versions"]
       @templates_location = Util::LinkUtils.get_link_href(details, "templates")

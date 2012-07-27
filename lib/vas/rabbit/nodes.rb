@@ -25,13 +25,13 @@ module Rabbit
   end
 
   # A Rabbit node
-  class Node < Shared::Node
+  class Node < Shared::GroupableNode
 
     # The Node's Java home
     attr_reader :java_home
 
     def initialize(location, client) #:nodoc:
-      super(location, client)
+      super(location, client, Group)
       @java_home = details["java-home"]
     end
 

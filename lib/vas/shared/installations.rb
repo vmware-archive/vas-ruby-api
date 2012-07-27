@@ -36,11 +36,15 @@ module Shared
     # The installation image that was used to create the installation
     attr_reader :installation_image
 
-    def initialize(location, client, installation_image_class) #:nodoc:
+    # The group that contains the installation
+    attr_reader :group
+
+    def initialize(location, client, installation_image_class, group_class) #:nodoc:
       super(location, client)
 
       @version = details["version"]
       @installation_image = installation_image_class.new(Util::LinkUtils.get_link_href(details, "installation-image"), client)
+      @group = group_class.new(Util::LinkUtils.get_link_href(details, "group"), client)
     end
 
     def to_s #:nodoc:

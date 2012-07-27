@@ -22,6 +22,7 @@ module Rabbit
           'https://localhost:8443/rabbitmq/v1/nodes/1/instances/2/logs/',
           StubClient.new)
       assert_count(2, logs)
+      assert_equal('https://localhost:8443/vfabric/v1/security/6/', logs.security.location)
     end
   
     def test_log
@@ -34,6 +35,7 @@ module Rabbit
       assert_equal(1337872856, log.last_modified)
 
       assert_equal('https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/', log.instance.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/5/', log.security.location)
     end
 
     def test_content
@@ -56,6 +58,17 @@ module Rabbit
       content = ""
       log.content({:end_line => 1}) { |chunk| content << chunk}
       assert_equal('somestreamed', content)
+    end
+
+    def test_delete
+      client = StubClient.new
+      logs = Logs.new('https://localhost:8443/rabbitmq/v1/nodes/1/instances/2/logs/', client)
+      location = 'https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/logs/4/'
+      client.expect(:delete, nil, [location])
+
+      logs.delete(Log.new(location, client))
+
+      client.verify
     end
 
   end

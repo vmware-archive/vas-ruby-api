@@ -32,6 +32,7 @@ module Shared
       @client = client
 
       @details = client.get(location)
+
       @security = Security.new(Util::LinkUtils.get_link_href(@details, 'security'), client)
 
     end

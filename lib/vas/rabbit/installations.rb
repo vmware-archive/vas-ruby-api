@@ -28,7 +28,7 @@ module Rabbit
   class Installation < Shared::Installation
 
     def initialize(location, client) #:nodoc:
-      super(location, client, InstallationImage)
+      super(location, client, InstallationImage, Group)
     end
 
     # An array of the instances that are using the installation

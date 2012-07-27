@@ -22,6 +22,7 @@ module Rabbit
           "https://localhost:8443/rabbitmq/v1/nodes/",
           StubClient.new)
       assert_count(2, nodes)
+      assert_equal('https://localhost:8443/vfabric/v1/security/2/', nodes.security.location)
     end
   
     def test_detail
@@ -37,6 +38,11 @@ module Rabbit
       assert_equal("x64", node.architecture)
       assert_equal("/opt/vmware/vfabric-administration-agent", node.agent_home)
       assert_equal({ "a" => "alpha" , "b" => "bravo" }, node.metadata)
+      assert_equal(2, node.groups.size)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/2/', node.groups[0].location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/1/', node.groups[1].location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', node.security.location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/nodes/0/instances/', node.instances.location)
 
     end
   

@@ -28,7 +28,7 @@ module Rabbit
   class NodeInstance < Shared::NodeInstance
 
     def initialize(location, client) #:nodoc:
-      super(location, client, Node, Logs)
+      super(location, client, Node, Logs, Instance, 'group-instance')
     end
 
   end

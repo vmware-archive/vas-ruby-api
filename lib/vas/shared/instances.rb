@@ -29,23 +29,38 @@ module Shared
     # The group that contains this instance
     attr_reader :group
 
+    # An array of the instance's individual node instances
+    attr_reader :node_instances
+
     def initialize(location, client,
         group_class,
         installation_class,
         live_configurations_class,
-        pending_configurations_class) #:nodoc:
+        pending_configurations_class,
+        node_instance_class,
+        node_instance_type) #:nodoc:
       super(location, client)
 
       @name = details["name"]
       @live_configurations = live_configurations_class.new(Util::LinkUtils.get_link_href(details, "live-configurations"), client)
-      @pending_configurations = pending_configurations_class.new(Util::LinkUtils.get_link_href(details, "live-configurations"), client)
+      @pending_configurations = pending_configurations_class.new(Util::LinkUtils.get_link_href(details, "pending-configurations"), client)
       @group = group_class.new(Util::LinkUtils.get_link_href(details, "group"), client)
       @installation_class = installation_class
+      @node_instance_class = node_instance_class
+      @node_instance_type = node_instance_type
     end
 
     # The installation that this instance is using
     def installation
       @installation_class.new(Util::LinkUtils.get_link_href(client.get(location), 'installation'), client)
+    end
+
+    # An array of the instance's individual node instances
+    def node_instances
+      node_instances = []
+      Util::LinkUtils.get_link_hrefs(client.get(location), @node_instance_type).each {
+          |node_instance_location| node_instances << @node_instance_class.new(node_instance_location, client)}
+      node_instances
     end
 
     def to_s #:nodoc:

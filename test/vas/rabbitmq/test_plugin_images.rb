@@ -22,6 +22,7 @@ module Rabbit
           "https://localhost:8443/rabbitmq/v1/plugin-images/",
           StubClient.new)
       assert_count(2, plugin_images)
+      assert_equal('https://localhost:8443/vfabric/v1/security/2/', plugin_images.security.location)
     end
   
     def test_create
@@ -46,6 +47,19 @@ module Rabbit
       assert_equal("example", plugin_image.name)
 
       assert_count(2, plugin_image.plugins)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/4/instances/5/plugins/6/', plugin_image.plugins[0].location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/3/', plugin_image.plugins[1].location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      plugin_images = PluginImages.new('https://localhost:8443/rabbitmq/v1/plugin-images/', client)
+      location = 'https://localhost:8443/rabbitmq/v1/plugin-images/1/'
+      client.expect(:delete, nil, [location])
+
+      plugin_images.delete(Plugin.new(location, client))
+
+      client.verify
     end
   
   end

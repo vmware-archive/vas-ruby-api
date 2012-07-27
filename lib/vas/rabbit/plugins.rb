@@ -16,7 +16,7 @@
 module Rabbit
 
   # Used to enumerate, create, and delete plugins.
-  class Plugins < Shared::Collection
+  class Plugins < Shared::MutableCollection
     
     def initialize(location, client) #:nodoc:
       super(location, client, "plugins", Plugin)

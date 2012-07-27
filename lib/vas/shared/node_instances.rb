@@ -34,13 +34,17 @@ module Shared
     # The instance's Logs
     attr_reader :logs
 
-    def initialize(location, client, node_class, logs_class) #:nodoc:
+    # The node instance's group instance
+    attr_reader :group_instance
+
+    def initialize(location, client, node_class, logs_class, group_instance_class, group_instance_type) #:nodoc:
       super(location, client)
 
       @name = details["name"]
 
       @node = node_class.new(Util::LinkUtils.get_link_href(details, "node"), client)
       @logs = logs_class.new(Util::LinkUtils.get_link_href(details, "logs"), client)
+      @group_instance = group_instance_class.new(Util::LinkUtils.get_link_href(details, group_instance_type), client)
     end
 
     def to_s #:nodoc:

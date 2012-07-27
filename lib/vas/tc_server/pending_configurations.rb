@@ -16,7 +16,7 @@
 module TcServer
 
   # Used to enumerate an instance's pending configuration
-  class PendingConfigurations < Shared::MutableCollection
+  class PendingConfigurations < Shared::PendingConfigurations
 
     def initialize(location, client) #:nodoc:
       super(location, client, 'pending-configurations', PendingConfiguration)

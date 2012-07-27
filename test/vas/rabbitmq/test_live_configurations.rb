@@ -22,6 +22,7 @@ module Rabbit
           'https://localhost:8443/rabbitmq/v1/groups/1/instances/2/configurations/live/',
           StubClient.new)
       assert_count(1, configurations)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', configurations.security.location)
     end
   
     def test_live_configuration
@@ -33,11 +34,10 @@ module Rabbit
       assert_equal('conf/rabbit.config', live_configuration.path)
       assert_equal(10537, live_configuration.size)
       assert_equal('https://localhost:8443/rabbitmq/v1/groups/0/instances/1/', live_configuration.instance.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', live_configuration.security.location)
   
       content = ''
-  
       live_configuration.content { |chunk| content << chunk}
-  
       assert_equal('somestreamedcontent', content)
     end
   

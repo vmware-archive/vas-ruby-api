@@ -22,6 +22,7 @@ module Rabbit
           "https://localhost:8443/rabbitmq/v1/installation-images/",
           StubClient.new)
       assert_count(2, installation_images)
+      assert_equal('https://localhost:8443/vfabric/v1/security/2/', installation_images.security.location)
     end
   
     def test_create
@@ -45,6 +46,20 @@ module Rabbit
       assert_equal("2.8.1", installation_image.version)
 
       assert_count(2, installation_image.installations)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/1/installations/2/', installation_image.installations[0].location)
+      assert_equal('https://localhost:8443/rabbitmq/v1/groups/3/installations/4/', installation_image.installations[1].location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      installation_images = InstallationImages.new('https://localhost:8443/rabbitmq/v1/installation-images/', client)
+
+      installation_image_location = "https://localhost:8443/rabbitmq/v1/installation-images/1/"
+      client.expect(:delete, nil, [installation_image_location])
+
+      installation_images.delete(InstallationImage.new(installation_image_location, client))
+
+      client.verify
     end
   
   end

@@ -33,8 +33,12 @@ module Rabbit
   # A Rabbit instance
   class Instance < Shared::Instance
 
+    # The instance's plugins
+    attr_reader :plugins
+
     def initialize(location, client) #:nodoc:
-      super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations)
+      super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations, NodeInstance, 'node-instance')
+      @plugins = Plugins.new(Util::LinkUtils.get_link_href(details, "plugins"), client)
     end
 
     # Updates the instance to use the given +installation+

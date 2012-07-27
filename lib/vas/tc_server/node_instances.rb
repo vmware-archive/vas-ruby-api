@@ -40,7 +40,7 @@ module TcServer
     attr_reader :applications
 
     def initialize(location, client) #:nodoc:
-      super(location, client, Node, Logs)
+      super(location, client, Node, Logs, Instance, 'group-instance')
 
       @layout = details["layout"]
       @runtime_version = details["runtime-version"]
