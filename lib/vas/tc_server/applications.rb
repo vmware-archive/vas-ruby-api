@@ -70,6 +70,14 @@ module TcServer
       Instance.new(@instance_location, client)
     end
 
+    # An array of the application's individual node applications
+    def node_applications
+      node_applications = []
+      Util::LinkUtils.get_link_hrefs(client.get(location), 'node-application').each {
+          |node_application_location| node_applications << NodeApplication.new(node_application_location, client)}
+      node_applications
+    end
+
     def to_s #:nodoc:
       "#<#{self.class} name='#@name' context_path='#@context_path' service='#@service' host='#@host'>"
     end

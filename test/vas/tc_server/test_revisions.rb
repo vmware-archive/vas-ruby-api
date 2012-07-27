@@ -22,6 +22,7 @@ module TcServer
           'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions/',
           StubClient.new)
       assert_count(2, revisions)
+      assert_equal('https://localhost:8443/vfabric/v1/security/7/', revisions.security.location)
     end
 
     def test_create
@@ -46,10 +47,16 @@ module TcServer
       revision = Revision.new(
           'https://localhost:8443/tc-server/v1/groups/3/instances/4/applications/7/revisions/10/', client)
 
-      assert_equal('https://localhost:8443/tc-server/v1/groups/3/instances/4/applications/7/revisions/10/', revision.location)
       assert_equal('1.0.0', revision.version)
-      assert_equal('https://localhost:8443/tc-server/v1/revision-images/2/', revision.revision_image.location)
+
       assert_equal('https://localhost:8443/tc-server/v1/groups/3/instances/4/applications/7/', revision.application.location)
+      assert_equal(2, revision.node_revisions.size)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/1/instances/6/applications/9/revisions/12/', revision.node_revisions[0].location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/5/applications/8/revisions/11/', revision.node_revisions[1].location)
+      assert_equal('https://localhost:8443/tc-server/v1/revision-images/2/', revision.revision_image.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/13/', revision.security.location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/3/instances/4/applications/7/revisions/10/', revision.location)
+
       assert_equal('STOPPED', revision.state)
 
       client.expect(:post, nil, [
@@ -66,6 +73,16 @@ module TcServer
 
       client.verify
 
+    end
+
+    def test_delete
+      client = StubClient.new
+      revisions = Revisions.new(
+          'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions', client)
+      revision_location = 'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions/4/'
+      client.expect(:delete, nil, [revision_location])
+      revisions.delete(Revision.new(revision_location, client))
+      client.verify
     end
 
   end

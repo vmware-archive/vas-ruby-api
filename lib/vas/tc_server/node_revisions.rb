@@ -32,12 +32,16 @@ module TcServer
 
     # The Revision's application
     attr_reader :application
+
+    # The revision's group revision
+    attr_reader :group_revision
     
     def initialize(location, client) #:nodoc:
       super(location, client)
       
       @version = details['version']
       @application = NodeApplication.new(Util::LinkUtils.get_link_href(details, 'node-application'), client)
+      @group_revision = Revision.new(Util::LinkUtils.get_link_href(details, 'group-revision'), client)
     end
 
     def to_s #:nodoc:

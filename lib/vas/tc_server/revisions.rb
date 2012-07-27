@@ -16,7 +16,7 @@
 module TcServer
 
   # Used to enumerate, create, and delete application revisions.
-  class Revisions < Shared::Collection
+  class Revisions < Shared::MutableCollection
     
     def initialize(location, client) #:nodoc:
       super(location, client, "revisions", Revision)
@@ -51,6 +51,14 @@ module TcServer
       if (!@revision_image_location.nil?)
         RevisionImage.new(@revision_image_location, client)
       end
+    end
+
+    # An array of the revision's individual node revisions
+    def node_revisions
+      node_revisions = []
+      Util::LinkUtils.get_link_hrefs(client.get(location), 'node-revision').each {
+          |node_revision_location| node_revisions << NodeRevision.new(node_revision_location, client)}
+      node_revisions
     end
     
     def to_s #:nodoc:

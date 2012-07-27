@@ -22,6 +22,18 @@ module TcServer
           'https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/pending/',
           StubClient.new)
       assert_count(3, configurations)
+      assert_equal('https://localhost:8443/vfabric/v1/security/5/', configurations.security.location)
+    end
+
+    def test_create
+      client = StubClient.new
+      pending_configurations_location = 'https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/pending/'
+      configurations = PendingConfigurations.new(pending_configurations_location, client)
+
+      created_location = "#{pending_configurations_location}3/"
+      client.expect(:post_image, created_location, [pending_configurations_location, 'new content', { :path => "new/path"}])
+
+      assert_equal(created_location, configurations.create('new/path', 'new content').location)
     end
   
     def test_pending_configuration
@@ -29,11 +41,13 @@ module TcServer
 
       client = StubClient.new
       pending_configuration = PendingConfiguration.new(location, client)
-  
-      assert_equal('https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/2/', pending_configuration.location)
+
       assert_equal('conf/server.xml', pending_configuration.path)
       assert_equal(10537, pending_configuration.size)
+
       assert_equal('https://localhost:8443/tc-server/v1/groups/0/instances/1/', pending_configuration.instance.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', pending_configuration.security.location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/2/', pending_configuration.location)
   
       content = ''
   
@@ -44,6 +58,19 @@ module TcServer
       client.expect(:post, nil, ['https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/2/content/', 'the new content'])
 
       pending_configuration.content = 'the new content'
+
+      client.verify
+    end
+
+    def test_delete
+      client = StubClient.new
+      configurations = PendingConfigurations.new(
+          'https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/pending/', client)
+
+      location = 'https://localhost:8443/tc-server/v1/groups/0/instances/1/configurations/pending/2/'
+      client.expect(:delete, nil, [location])
+
+      configurations.delete(PendingConfiguration.new(location, client))
 
       client.verify
     end

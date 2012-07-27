@@ -21,6 +21,7 @@ module TcServer
           "https://localhost:8443/tc-server/v1/revision-images/",
           StubClient.new)
       assert_count(2, revision_images)
+      assert_equal('https://localhost:8443/vfabric/v1/security/2/', revision_images.security.location)
     end
   
     def test_create
@@ -45,6 +46,21 @@ module TcServer
       assert_equal("example", revision_image.name)
 
       assert_count(2, revision_image.revisions)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/5/instances/6/applications/7/revisions/8/', revision_image.revisions[0].location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions/4/', revision_image.revisions[1].location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/9/', revision_image.security.location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      revision_images = RevisionImages.new('https://localhost:8443/tc-server/v1/revision-images/', client)
+
+      revision_image_location = "https://localhost:8443/tc-server/v1/revision-images/1/"
+      client.expect(:delete, nil, [revision_image_location])
+
+      revision_images.delete(RevisionImage.new(revision_image_location, client))
+
+      client.verify
     end
   
   end

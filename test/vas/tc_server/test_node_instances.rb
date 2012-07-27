@@ -21,6 +21,7 @@ module TcServer
           'https://localhost:8443/tc-server/v1/nodes/1/instances/',
           StubClient.new)
       assert_count(2, instances)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', instances.security.location)
     end
   
     def test_instance
@@ -34,8 +35,11 @@ module TcServer
       assert_equal({ 'Catalina' => { 'hosts' => ['localhost']}}, instance.services)
       assert_equal('SEPARATE', instance.layout)
       assert_equal('7.0.21.A.RELEASE', instance.runtime_version)
-      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/', instance.applications.location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/', instance.group_instance.location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/logs/', instance.logs.location)
       assert_equal('https://localhost:8443/tc-server/v1/nodes/0/', instance.node.location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/', instance.applications.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/4/', instance.security.location)
 
       client.expect(:post, nil, ['https://localhost:8443/tc-server/v1/nodes/0/instances/3/state/', { :status => 'STARTED'}])
       client.expect(:post, nil, ['https://localhost:8443/tc-server/v1/nodes/0/instances/3/state/', { :status => 'STOPPED'}])

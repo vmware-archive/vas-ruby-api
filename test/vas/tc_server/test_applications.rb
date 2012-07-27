@@ -21,6 +21,7 @@ module TcServer
           'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/',
           StubClient.new)
       assert_count(2, applications)
+      assert_equal('https://localhost:8443/vfabric/v1/security/4/', applications.security.location)
     end
   
     def test_create
@@ -42,6 +43,19 @@ module TcServer
       assert_equal('localhost', application.host)
       assert_equal('https://localhost:8443/tc-server/v1/groups/2/instances/3/applications/6/revisions/', application.revisions.location)
       assert_equal('https://localhost:8443/tc-server/v1/groups/2/instances/3/', application.instance.location)
+      assert_equal(2, application.node_applications.size)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/1/instances/5/applications/8/', application.node_applications[0].location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/4/applications/7/', application.node_applications[1].location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      applications = Applications.new(
+          'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/', client)
+      application_location = 'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/'
+      client.expect(:delete, nil, [application_location])
+      applications.delete(Application.new(application_location, client))
+      client.verify
     end
   
   end

@@ -16,7 +16,7 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server templates.
-  class Templates < Shared::Collection
+  class Templates < Shared::MutableCollection
     
     def initialize(location, client) #:nodoc:
       super(location, client, "templates", Template)
@@ -38,19 +38,25 @@ module TcServer
     # The template's name
     attr_reader :name
 
+    # The template image, if any, that this template was created from
+    attr_reader :template_image
+
+    # The template's installation
+    attr_reader :installation
+
     def initialize(location, client) #:nodoc:
       super(location, client)
 
       @version = details["version"]
       @name = details["name"]
-      @template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
-    end
 
-    # The template image, if any, that this template was created from
-    def template_image
-      if (!@template_image_location.nil?)
-        TemplateImage.new(@template_image_location, client)
+      template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
+      if (!template_image_location.nil?)
+        @template_image = TemplateImage.new(template_image_location, client)
       end
+
+      @installation = Installation.new(Util::LinkUtils.get_link_href(details, 'installation'), client)
+
     end
     
     def to_s #:nodoc:
