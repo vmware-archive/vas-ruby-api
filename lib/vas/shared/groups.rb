@@ -52,15 +52,19 @@ module Shared
       nodes
     end
 
+    def to_s #:nodoc:
+      "#<#{self.class} name='#@name'>"
+    end
+
+  end
+
+  class MutableGroup < Group
+
     # Updates the group to contain the given +nodes+.
     def update(nodes)
       node_locations = []
       nodes.each { |node| node_locations << node.location }
       client.post(location, {:nodes => node_locations})
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name'>"
     end
 
   end

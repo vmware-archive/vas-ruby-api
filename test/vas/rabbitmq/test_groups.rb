@@ -58,24 +58,6 @@ module Rabbit
       assert_equal("https://localhost:8443/rabbitmq/v1/nodes/0/", nodes[1].location)
     
     end
-    
-    def test_update
-    
-      location = "https://localhost:8443/rabbitmq/v1/groups/1/"
-    
-      client = StubClient.new
-    
-      node1 = create_mock_with_location("https://localhost:8443/rabbitmq/v1/nodes/2/")
-      node2 = create_mock_with_location("https://localhost:8443/rabbitmq/v1/nodes/3/")
-      node3 = create_mock_with_location("https://localhost:8443/rabbitmq/v1/nodes/4/")
-      node4 = create_mock_with_location("https://localhost:8443/rabbitmq/v1/nodes/5/")
-    
-      client.expect(:post, nil, [location, {:nodes => ["https://localhost:8443/rabbitmq/v1/nodes/2/",
-                                                       "https://localhost:8443/rabbitmq/v1/nodes/3/",
-                                                       "https://localhost:8443/rabbitmq/v1/nodes/4/",
-                                                       "https://localhost:8443/rabbitmq/v1/nodes/5/"]}])
-    
-      Group.new(location, client).update([node1, node2, node3, node4])
-    end    
+
   end
 end

@@ -25,7 +25,7 @@ module TcServer
   end
 
   # A tc Server group
-  class Group < Shared::Group
+  class Group < Shared::MutableGroup
 
     # The group's instances
     attr_reader :instances
