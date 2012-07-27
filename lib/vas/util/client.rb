@@ -86,10 +86,14 @@ module Util #:nodoc: all
       }
     end
   
-    def post_image(location, path, metadata)
+    def post_image(location, path, metadata = nil)
       File.open(path) { |image|
-        req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"), :metadata => UploadIO.new(StringIO.new(metadata.to_json), "application/json"))
-  
+        if (metadata.nil?)
+          req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"))
+        elsif
+          req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"), :metadata => UploadIO.new(StringIO.new(metadata.to_json), "application/json"))
+        end
+
         do_request(req) { |res|
           case res.code
             when "201"

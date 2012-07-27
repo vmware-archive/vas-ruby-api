@@ -19,17 +19,12 @@ module TcServer
   class Revisions < Shared::Collection
     
     def initialize(location, client) #:nodoc:
-      super(location, client, "revisions")
+      super(location, client, "revisions", Revision)
     end
 
     # Creates a Revision by deploying the RevisionImage +revision_image+
     def create(revision_image)
       Revision.new(client.post(location, { :image => revision_image.location}, 'group-revision'), client)
-    end
-
-    private
-    def create_entry(json)
-      Revision.new(Util::LinkUtils.get_self_link_href(json), client)
     end
     
   end

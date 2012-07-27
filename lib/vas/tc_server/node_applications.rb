@@ -19,12 +19,7 @@ module TcServer
   class NodeApplications < Shared::Collection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "applications")
-    end
-
-    private
-    def create_entry(json)
-      NodeApplication.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, "applications", NodeApplication)
     end
 
   end

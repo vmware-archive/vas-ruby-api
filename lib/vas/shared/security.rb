@@ -34,7 +34,7 @@ module Shared
   
     def initialize(location, client) #:nodoc:
       json = client.get(location)
-  
+      @location = location;
       @owner = json["owner"]
       @group = json["group"]
       @permissions = json["permissions"]

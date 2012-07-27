@@ -14,15 +14,6 @@
 # limitations under the License.
 
 module Shared
-  
-  # An enumeration of Node s
-  class Nodes < Shared::Collection
-
-    def initialize(location, client) #:nodoc:
-      super(location, client, "nodes")
-    end
-
-  end
 
   # A node
   class Node < Shared::Resource
@@ -56,6 +47,22 @@ module Shared
       @operating_system = details["operating-system"]
     end
 
+  end
+
+  class GroupableNode < Node
+
+    def initialize(location, client, group_class)
+      super(location, client)
+      @group_class = group_class
+    end
+
+    # An array of the groups which contain this node
+    def groups
+      groups = []
+      Util::LinkUtils.get_link_hrefs(client.get(location), 'group').each {
+          |group_location| groups << @group_class.new(group_location, client)}
+      groups
+    end
   end
 
 end

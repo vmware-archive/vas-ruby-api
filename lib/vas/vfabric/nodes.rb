@@ -16,11 +16,10 @@
 module VFabric
   
   # Used to enumerate VFabric nodes. Support for enumeration is provided by the superclass, Shared::Nodes.
-  class Nodes < Shared::Nodes
+  class Nodes < Shared::Collection
 
-    private
-    def create_entry(json)
-      Node.new(Util::LinkUtils.get_self_link_href(json), client)
+    def initialize(location, client)
+      super(location, client, 'nodes', Node)
     end
 
   end

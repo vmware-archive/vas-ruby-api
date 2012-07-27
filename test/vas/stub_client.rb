@@ -17,7 +17,7 @@ class StubClient
 
   def initialize
     @location_regex = /https:\/\/localhost:8443\/(.*)\/v1\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/)?)?)?)?)?)?)?)?)?)?/
-    @post_delegate = MiniTest::Mock.new
+    @delegate = MiniTest::Mock.new
   end
 
   def get(location)
@@ -56,23 +56,31 @@ class StubClient
 
   def post (location, payload, rel = nil)
     if rel.nil?
-      @post_delegate.post(location, payload)
+      @delegate.post(location, payload)
     else
-      @post_delegate.post(location, payload, rel)
+      @delegate.post(location, payload, rel)
     end
 
   end
 
-  def post_image(location, path, metadata)
-    @post_delegate.post_image(location, path, metadata)
+  def post_image(location, path, metadata = nil)
+    if (metadata.nil?)
+      @delegate.post_image(location, path)
+    else
+      @delegate.post_image(location, path, metadata)
+    end
+  end
+
+  def delete(location)
+    @delegate.delete(location)
   end
 
   def expect(name, return_value, arguments)
-    @post_delegate.expect(name, return_value, arguments)
+    @delegate.expect(name, return_value, arguments)
   end
 
   def verify
-    @post_delegate.verify
+    @delegate.verify
   end
 
   def get_stream(location, &block)

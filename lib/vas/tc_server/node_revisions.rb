@@ -19,12 +19,7 @@ module TcServer
   class NodeRevisions < Shared::Collection
     
     def initialize(location, client) #:nodoc:
-      super(location, client, 'revisions')
-    end
-
-    private
-    def create_entry(json)
-      NodeRevision.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, 'revisions', NodeRevision)
     end
     
   end

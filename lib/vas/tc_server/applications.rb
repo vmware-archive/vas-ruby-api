@@ -19,7 +19,7 @@ module TcServer
   class Applications < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "applications")
+      super(location, client, "applications", Application)
     end
 
     # Creates an Application named +name+ with the given +context_path+. The application will deploy its revisions to the given

@@ -1,0 +1,26 @@
+{
+    "path":"conf/rabbitmq.config",
+    "size":10537,
+    "links":[
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/0/instances/1/",
+            "rel":"group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/0/instances/1/configurations/pending/2/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/0/instances/1/configurations/pending/2/content/",
+            "rel":"content",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/3/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

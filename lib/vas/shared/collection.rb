@@ -16,19 +16,25 @@
 module Shared
   
   class Collection < Shared::Resource
-    
-    def initialize(location, client, type) #:nodoc:
+
+    private
+    attr_reader :entry_class
+
+    def initialize(location, client, type, entry_class) #:nodoc:
       super(location, client)
       @type = type
+      @entry_class = entry_class
     end
-    
+
+    public
+
     # Gets the items in the collection from the server. Calls the block once for each item.
     def each # :yields: item
       items = client.get(location)[@type]
 
       if (!items.nil?)
         client.get(location)[@type].each { |item|
-          yield create_entry(item)
+          yield entry_class.new(Util::LinkUtils.get_self_link_href(item), client)
         }
       end
     end

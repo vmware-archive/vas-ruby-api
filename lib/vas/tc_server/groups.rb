@@ -16,65 +16,23 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server groups.
-  class Groups < Shared::MutableCollection
+  class Groups < Shared::Groups
 
     def initialize(location, client) #:nodoc:#
-      super(location, client, "groups")
-    end
-
-    # Creates a Group named +name+ from the given +nodes+.
-    def create(name, nodes)
-      node_locations = []
-      nodes.each { |node| node_locations << node.location }
-      Group.new(client.post(location, {:name => name, :nodes => node_locations}, "group"), client)
-    end
-
-    private
-    def create_entry(json)
-      Group.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, Group)
     end
 
   end
 
   # A tc Server group
-  class Group < Shared::Resource
+  class Group < Shared::MutableGroup
 
-    # The group's Installations
-    attr_reader :installations
-
-    # The group's Instances
+    # The group's instances
     attr_reader :instances
 
-    # The name of the group
-    attr_reader :name
-
-    # An array of the group's Node s
-    attr_reader :nodes
-
     def initialize(location, client) #:nodoc:#
-      super(location, client)
-
-      @name = details["name"]
-      @installations = Installations.new(Util::LinkUtils.get_link_href(details, "installations"), client)
+      super(location, client, Node, Installations)
       @instances = Instances.new(Util::LinkUtils.get_link_href(details, "group-instances"), client)
-    end
-
-    # An array of every Node in the group
-    def nodes
-      nodes = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "node").each { |node_location| nodes << Node.new(node_location, client)}
-      nodes
-    end
-
-    # Updates the group to contain the given +nodes+.
-    def update(nodes)
-      node_locations = []
-      nodes.each { |node| node_locations << node.location }
-      client.post(location, {:nodes => node_locations})
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name'>"
     end
 
   end

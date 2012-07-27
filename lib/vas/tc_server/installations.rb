@@ -16,62 +16,35 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server installations.
-  class Installations < Shared::MutableCollection
+  class Installations < Shared::Installations
     
     def initialize(location, client) #:nodoc:
-      super(location, client, "installations")
-    end
-    
-    # Creates an Installation from the InstallationImage +installation_image+
-    def create(installation_image)
-      Installation.new(client.post(location, { :image => installation_image.location }, "installation"), client)
-    end
-    
-    private
-    def create_entry(json)
-      Installation.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, Installation)
     end
     
   end
   
   # A tc Server installation
-  class Installation < Shared::Resource
-
-    # The installation's version
-    attr_reader :version
+  class Installation < Shared::Installation
 
     # The versions of the tc Server runtime that are supported by the installation
     attr_reader :runtime_versions
 
     def initialize(location, client) #:nodoc:
-      super(location, client)
+      super(location, client, InstallationImage, Group)
 
-      @version = details["version"]
       @runtime_versions = details["runtime-versions"]
       @templates_location = Util::LinkUtils.get_link_href(details, "templates")
-      @installation_image_location = Util::LinkUtils.get_link_href(details, "installation-image")
     end
     
-    # The installation's Templates
+    # The installation's templates
     def templates
       Templates.new(@templates_location, client)
     end
 
-    # The installation image that was used to create the installation
-    def installation_image
-      InstallationImage.new(@installation_image_location, client)
-    end
-
+    # An array of the instances that are using the installation
     def instances
-      instances = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "group-instance").each { |instance_location|
-        instances << Instance.new(instance_location, client)
-      }
-      instances
-    end
-    
-    def to_s #:nodoc:
-      "#<#{self.class} version='#@version' runtime_versions='#@runtime_versions'>"
+      retrieve_instances("group-instance", Instance);
     end
     
   end

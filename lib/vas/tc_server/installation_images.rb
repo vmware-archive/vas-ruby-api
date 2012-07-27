@@ -16,47 +16,19 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server installation images.
-  class InstallationImages < Shared::MutableCollection
+  class InstallationImages < Shared::InstallationImages
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "installation-images")
-    end
-
-    # Creates an InstallationImage with the version +version+ by uploading the file at the given +path+.
-    def create(path, version)
-      InstallationImage.new(client.post_image(location, path, { :version => version }), client)
-    end
-
-    private
-    def create_entry(json)
-      InstallationImage.new(Util::LinkUtils.get_self_link_href(json), client)
+      super(location, client, InstallationImage)
     end
 
   end
   
   # A tc Server installation image
-  class InstallationImage < Shared::Resource
-    
-    # The installation image's version
-    attr_reader :version
+  class InstallationImage < Shared::InstallationImage
 
     def initialize(location, client) #:nodoc:
-      super(location, client)
-
-      @version = details["version"]
-    end
-
-    # The Installation s that have been created from this InstallationImage
-    def installations
-      installations = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "installation").each { |installation_location|
-        installations << Installation.new(installation_location, client)
-      }
-      installations
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} version='#@version'>"
+      super(location, client, Installation)
     end
 
   end

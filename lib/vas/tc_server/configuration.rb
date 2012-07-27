@@ -14,40 +14,12 @@
 # limitations under the License.
 
 module TcServer
+
   # A configuration file in a tc Server instance
-  class Configuration < Shared::Resource
-
-    # The path of the configuration
-    attr_reader :path
-
-    # The size of the configuration
-    attr_reader :size
-
-    # The instance that owns the configuration
-    attr_reader :instance
+  class Configuration < Shared::Configuration
 
     def initialize(location, client) #:nodoc:
-      super(location, client)
-
-      @path = details["path"]
-      @size = details["size"]
-
-      @instance_location = Util::LinkUtils.get_link_href(details, "group-instance")
-      @content_location = Util::LinkUtils.get_link_href(details, "content")
-    end
-
-    # Retrieves the configuration's content and passes it to the block
-    def content(&block)
-      client.get_stream(@content_location, &block)
-    end
-
-    # The instance that owns the configuration
-    def instance
-      Instance.new(@instance_location, client)
-    end
-
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@path' size=#@size>"
+      super(location, client, "group-instance", Instance)
     end
 
   end

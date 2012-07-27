@@ -15,24 +15,23 @@
 
 module TcServer
   
-  # Used to enumerate tc Server Node s
-  class Nodes < Shared::Nodes
+  # Used to enumerate tc Server nodes
+  class Nodes < Shared::Collection
 
-    private
-    def create_entry(json)
-      Node.new(Util::LinkUtils.get_self_link_href(json), client)
+    def initialize(location, client) #:nodoc:
+      super(location, client, "nodes", Node)
     end
 
   end
 
   # A tc Server node
-  class Node < Shared::Node
+  class Node < Shared::GroupableNode
 
     # The Node's Java home
     attr_reader :java_home
 
     def initialize(location, client) #:nodoc:
-      super(location, client)
+      super(location, client, Group)
       @java_home = details["java-home"]
     end
 

@@ -1,0 +1,36 @@
+{
+    "logs":[
+        {
+            "name":"rabbit.log",
+            "links":[
+                {
+                    "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/logs/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"rabbit-sasl.log",
+            "links":[
+                {
+                    "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/logs/5/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/logs/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
