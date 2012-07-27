@@ -38,7 +38,7 @@ class VFabricAdministrationServer
 
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
-    @rabbit = Rabbit::Rabbit.new("https://#{host}:#{port}/vfabric/v1", @client)
+    @rabbit = Rabbit::Rabbit.new("https://#{host}:#{port}/rabbitmq/v1", @client)
   end
   
 end
