@@ -16,7 +16,7 @@
 module TcServer
 
   # Used to enumerate, create, and delete tc Server template images.
-  class TemplateImages < Shared::Collection
+  class TemplateImages < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
       super(location, client, "template-images", TemplateImage)

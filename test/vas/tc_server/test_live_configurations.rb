@@ -14,25 +14,29 @@
 # limitations under the License.
 
 module TcServer
+
   class TestLiveConfigurations < VasTestCase
-  
+
     def test_list
       configurations = LiveConfigurations.new(
           'https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/live/',
           StubClient.new)
       assert_count(3, configurations)
+      assert_equal('https://localhost:8443/vfabric/v1/security/5/', configurations.security.location)
     end
   
     def test_live_configuration
       location = 'https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/live/3/'
   
       live_configuration = Configuration.new(location, StubClient.new)
-  
-      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/live/3/', live_configuration.location)
+
       assert_equal('conf/server.xml', live_configuration.path)
       assert_equal(10537, live_configuration.size)
+
       assert_equal('https://localhost:8443/tc-server/v1/groups/0/instances/1/', live_configuration.instance.location)
-  
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', live_configuration.security.location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/configurations/live/3/', live_configuration.location)
+
       content = ''
   
       live_configuration.content { |chunk| content << chunk}

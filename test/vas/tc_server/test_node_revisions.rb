@@ -22,6 +22,7 @@ module TcServer
           'https://localhost:8443/tc-server/v1/nodes/1/instances/2/applications/3/revisions/',
           StubClient.new)
       assert_count(2, revisions)
+      assert_equal('https://localhost:8443/vfabric/v1/security/10/', revisions.security.location)
     end
 
     def test_revision
@@ -31,9 +32,13 @@ module TcServer
       revision = NodeRevision.new(
           'https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/7/', client)
 
-      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/7/', revision.location)
       assert_equal('1.0.0', revision.version)
+
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/4/revisions/6/', revision.group_revision.location)
       assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/', revision.application.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/8/', revision.security.location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/7/', revision.location)
+
       assert_equal('STOPPED', revision.state)
 
       client.expect(:post, nil, [

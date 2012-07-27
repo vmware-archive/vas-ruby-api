@@ -21,6 +21,7 @@ module TcServer
           "https://localhost:8443/tc-server/v1/groups/1/installations/",
           StubClient.new)
       assert_count(2, installations)
+      assert_equal('https://localhost:8443/vfabric/v1/security/3/', installations.security.location)
     end
   
     def test_create
@@ -46,8 +47,25 @@ module TcServer
       assert_equal("https://localhost:8443/tc-server/v1/groups/1/installations/2/templates/", installation.templates.location)
 
       assert_equal("https://localhost:8443/tc-server/v1/installation-images/0/", installation.installation_image.location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/', installation.group.location)
 
       assert_count(2, installation.instances)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/3/', installation.instances[0].location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/4/', installation.instances[1].location)
+
+      assert_equal('https://localhost:8443/vfabric/v1/security/5/', installation.security.location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      installations = Installations.new('https://localhost:8443/tc-server/v1/groups/1/installations/', client)
+
+      installation_location = 'https://localhost:8443/tc-server/v1/groups/1/installations/2/'
+      client.expect(:delete, nil, [installation_location])
+
+      installations.delete(Installation.new(installation_location, client))
+
+      client.verify
     end
   
   end

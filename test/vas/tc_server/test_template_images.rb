@@ -22,6 +22,7 @@ module TcServer
           "https://localhost:8443/tc-server/v1/template-images/",
           StubClient.new)
       assert_count(2, template_images)
+      assert_equal('https://localhost:8443/vfabric/v1/security/2/', template_images.security.location)
     end
   
     def test_create
@@ -42,7 +43,22 @@ module TcServer
       assert_equal(location, template_image.location)
       assert_equal("1.0.0", template_image.version)
       assert_equal("example", template_image.name)
-      assert_count(2, template_image.templates)
+      assert_equal(2, template_image.templates.size)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/4/installations/5/templates/6/', template_image.templates[0].location)
+      assert_equal('https://localhost:8443/tc-server/v1/groups/1/installations/2/templates/3/', template_image.templates[1].location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/7/', template_image.security.location)
+    end
+
+    def test_delete
+      client = StubClient.new
+      template_images = TemplateImages.new('https://localhost:8443/tc-server/v1/template-images/', client)
+
+      template_image_location = "https://localhost:8443/tc-server/v1/template-images/1/"
+      client.expect(:delete, nil, [template_image_location])
+
+      template_images.delete(TemplateImage.new(template_image_location, client))
+
+      client.verify
     end
   
   end

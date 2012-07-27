@@ -21,6 +21,7 @@ module TcServer
           'https://localhost:8443/tc-server/v1/nodes/1/instances/2/applications/',
           StubClient.new)
       assert_count(2, applications)
+      assert_equal('https://localhost:8443/vfabric/v1/security/8/', applications.security.location)
     end
   
     def test_application
@@ -30,9 +31,10 @@ module TcServer
       assert_equal('/example', application.context_path)
       assert_equal('Catalina', application.service)
       assert_equal('localhost', application.host)
-      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/', application.revisions.location)
-      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/', application.instance.location)
       assert_equal('https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/4/', application.group_application.location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/', application.instance.location)
+      assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/3/applications/5/revisions/', application.revisions.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/6/', application.security.location)
     end
   
   end
