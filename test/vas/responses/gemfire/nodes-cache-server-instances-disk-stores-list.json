@@ -1,0 +1,36 @@
+{
+    "disk-stores":[
+        {
+            "name":"example1.gfs",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/disk-stores/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"example2.gfs",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/disk-stores/5/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/disk-stores/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

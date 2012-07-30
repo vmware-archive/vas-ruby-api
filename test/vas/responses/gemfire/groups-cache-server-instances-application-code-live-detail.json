@@ -1,0 +1,26 @@
+{
+    "name":"example",
+    "version":"1.0.0",
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/application-code-images/0/",
+            "rel":"application-code-image",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/",
+            "rel":"cache-server-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/application-code/live/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "live-configurations":[
+        {
+            "path":"gemfire.properties",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/groups/0/cache-server-instances/1/configurations/live/2/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "path":"cache.xml",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/groups/0/cache-server-instances/1/configurations/live/3/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/0/cache-server-instances/1/configurations/live/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

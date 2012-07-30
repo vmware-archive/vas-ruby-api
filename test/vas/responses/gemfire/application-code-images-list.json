@@ -1,0 +1,38 @@
+{
+    "application-code-images":[
+        {
+            "name":"application-code-one",
+            "version":"1.0.0",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/application-code-images/0/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"application-code-two",
+            "version":"2.0.0",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/application-code-images/1/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/application-code-images/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/2/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
