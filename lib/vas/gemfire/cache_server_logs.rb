@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate a cache server node instance's logs
+  class CacheServerLogs < Shared::Logs
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, CacheServerLog)
+    end
+
+  end
+
+  # A log file in a cache server node instance
+  class CacheServerLog < Shared::Log
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'cache-server-node-instance', CacheServerNodeInstance)
     end
 
   end

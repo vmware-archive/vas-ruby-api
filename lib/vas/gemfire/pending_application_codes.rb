@@ -13,13 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate, create, and delete a cache server's pending application code.
+  class PendingApplicationCodes < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, "pending-application-code", ApplicationCode)
+    end
+
+    # Creates pending application code from the +image+
+    def create(image)
+      ApplicationCode.new(client.post(location, { :image => image.location}), client)
     end
 
   end

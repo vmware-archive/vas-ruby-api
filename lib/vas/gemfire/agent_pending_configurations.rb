@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate an agent instance's pending configuration
+  class AgentPendingConfigurations < Shared::PendingConfigurations
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, 'pending-configurations', AgentPendingConfiguration)
+    end
+
+  end
+
+  # A configuration file that is pending
+  class AgentPendingConfiguration < Shared::PendingConfiguration
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'agent-group-instance', AgentInstance)
     end
 
   end
