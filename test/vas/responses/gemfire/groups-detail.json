@@ -1,0 +1,45 @@
+{
+    "name":"example-group",
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/",
+            "rel":"cache-server-group-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/installations/",
+            "rel":"installations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/locator-instances/",
+            "rel":"locator-group-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/agent-instances/",
+            "rel":"agent-group-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/1/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/3/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "name":"example",
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/agent-instances/2/",
+            "rel":"agent-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/agent-instances/3/logs/",
+            "rel":"logs",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/agent-instances/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/agent-instances/3/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

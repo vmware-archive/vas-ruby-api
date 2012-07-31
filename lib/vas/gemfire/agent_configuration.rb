@@ -13,15 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # A configuration file in an agent instance
+  class AgentConfiguration < Shared::Configuration
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, "agent-group-instance", AgentInstance)
     end
 
   end
-
 end

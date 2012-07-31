@@ -1,0 +1,37 @@
+{
+    "name":"example",
+    "version":"1.0.0",
+    "size":5673284,
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/application-code/live/3/",
+            "rel":"live-application-code",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/4/cache-server-instances/5/application-code/live/6/",
+            "rel":"live-application-code",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/application-code-images/0/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/10/cache-server-instances/11/application-code/pending/12/",
+            "rel":"pending-application-code",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/7/cache-server-instances/8/application-code/pending/9/",
+            "rel":"pending-application-code",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/13/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate, create, and delete GemFire installation images.
+  class InstallationImages < Shared::InstallationImages
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, InstallationImage)
+    end
+
+  end
+  
+  # A GemFire installation image
+  class InstallationImage < Shared::InstallationImage
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, Installation)
     end
 
   end

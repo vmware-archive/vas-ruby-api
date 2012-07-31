@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate an agent node instance's logs
+  class AgentLogs < Shared::Logs
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, AgentLog)
+    end
+
+  end
+
+  # A log file in an agent node instance
+  class AgentLog < Shared::Log
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'agent-node-instance', AgentNodeInstance)
     end
 
   end

@@ -16,6 +16,9 @@
 # The main entry point to the vFabric Administration Server API.
 class VFabricAdministrationServer
 
+  # The GemFire API
+  attr_reader :gemfire
+
   # The Rabbit API
   attr_reader :rabbit
 
@@ -39,6 +42,7 @@ class VFabricAdministrationServer
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
     @rabbit = Rabbit::Rabbit.new("https://#{host}:#{port}/rabbitmq/v1", @client)
+    @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
   end
   
 end

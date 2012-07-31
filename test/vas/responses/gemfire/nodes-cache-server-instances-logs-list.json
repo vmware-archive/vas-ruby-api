@@ -1,0 +1,36 @@
+{
+    "logs":[
+        {
+            "name":"example1.log",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/logs/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "name":"example2.log",
+            "links":[
+                {
+                    "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/logs/5/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/logs/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "name":"example",
+    "address":"192.168.0.2",
+    "port":41111,
+    "peer":true,
+    "server":true,
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/locator-instances/2/",
+            "rel":"locator-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/logs/",
+            "rel":"logs",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

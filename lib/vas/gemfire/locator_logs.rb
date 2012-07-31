@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
+module Gemfire
 
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate a locator node instance's logs
+  class LocatorLogs < Shared::Logs
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, LocatorLog)
+    end
+
+  end
+
+  # A log file in a locator node instance
+  class LocatorLog < Shared::Log
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'locator-node-instance', LocatorNodeInstance)
     end
 
   end

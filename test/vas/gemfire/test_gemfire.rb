@@ -13,15 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module TcServer
-
-  # A configuration file in a tc Server instance
-  class Configuration < Shared::Configuration
-
-    def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+module Gemfire
+  
+  class TestGemfire < VasTestCase
+  
+    def test_locations
+  
+      gemfire = Gemfire.new('https://localhost:8443/gemfire/v1/', StubClient.new)
+      
+      assert_equal("https://localhost:8443/gemfire/v1/groups/", gemfire.groups.location)
+      assert_equal("https://localhost:8443/gemfire/v1/installation-images/", gemfire.installation_images.location)
+      assert_equal("https://localhost:8443/gemfire/v1/nodes/", gemfire.nodes.location)
+      assert_equal("https://localhost:8443/gemfire/v1/application-code-images/", gemfire.application_code_images.location)
     end
-
+  
   end
-
+  
 end

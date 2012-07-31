@@ -1,0 +1,49 @@
+{
+    "ip-addresses":[ "192.168.0.2", "127.0.0.1" ],
+    "host-names":[ "example-host" ],
+    "operating-system":"Linux",
+    "architecture":"x64",
+    "agent-home":"/opt/vmware/vfabric-administration-agent",
+    "metadata":{
+        "a":"alpha",
+        "b":"bravo"
+    },
+    "java-home":"usr/bin",
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/",
+            "rel":"locator-node-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/2/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/",
+            "rel":"cache-server-node-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/agent-instances/",
+            "rel":"agent-node-instances",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/3/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
