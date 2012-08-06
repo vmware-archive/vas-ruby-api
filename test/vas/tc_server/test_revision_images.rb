@@ -44,6 +44,7 @@ module TcServer
       assert_equal(location, revision_image.location)
       assert_equal("1.0.0", revision_image.version)
       assert_equal("example", revision_image.name)
+      assert_equal(5673284, revision_image.size)
 
       assert_count(2, revision_image.revisions)
       assert_equal('https://localhost:8443/tc-server/v1/groups/5/instances/6/applications/7/revisions/8/', revision_image.revisions[0].location)

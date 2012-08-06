@@ -43,6 +43,7 @@ module TcServer
       assert_equal(location, template_image.location)
       assert_equal("1.0.0", template_image.version)
       assert_equal("example", template_image.name)
+      assert_equal(5673284, template_image.size)
       assert_equal(2, template_image.templates.size)
       assert_equal('https://localhost:8443/tc-server/v1/groups/4/installations/5/templates/6/', template_image.templates[0].location)
       assert_equal('https://localhost:8443/tc-server/v1/groups/1/installations/2/templates/3/', template_image.templates[1].location)

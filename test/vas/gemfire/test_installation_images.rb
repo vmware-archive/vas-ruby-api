@@ -44,6 +44,7 @@ module Gemfire
   
       assert_equal(location, installation_image.location)
       assert_equal("6.6.1", installation_image.version)
+      assert_equal(7340032, installation_image.size)
 
       assert_count(2, installation_image.installations)
       assert_equal('https://localhost:8443/gemfire/v1/groups/3/installations/4/', installation_image.installations[0].location)

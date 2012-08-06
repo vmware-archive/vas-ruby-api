@@ -38,11 +38,15 @@ module TcServer
     # The template image's version
     attr_reader :version
 
+    # The template image's size
+    attr_reader :size
+
     def initialize(location, client) #:nodoc:
       super(location, client)
 
       @name = details["name"]
       @version = details["version"]
+      @size = details['size']
     end
 
     # The Template s that have been created from this TemplateImage

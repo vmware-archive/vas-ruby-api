@@ -33,9 +33,13 @@ module Shared
     # The installation image's version
     attr_reader :version
 
+    # The installation image's size
+    attr_reader :size
+
     def initialize(location, client, installation_class) #:nodoc:
       super(location, client)
       @version = details["version"]
+      @size = details["size"]
       @installation_class = installation_class
     end
 
