@@ -57,5 +57,5 @@ rescue OptionParser::MissingArgument, OptionParser::InvalidOption
   exit 1
 end
   
-agent_root = VFabricAdministrationServer.new(options).vfabric.agent_image.extractTo(options[:location])
+agent_root = VFabricAdministrationServer.new(options).vfabric.agent_image.extract_to(options[:location])
 `#{agent_root}/bin/administration-agent.sh start`
