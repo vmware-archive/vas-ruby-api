@@ -6,8 +6,8 @@ server.
 
 ## Running the sample
 
-./bootstrap_agent.rb
+	./bootstrap_agent.rb
 
 ## Usage information
 
-./bootstrap_agent.rb --help
+	./bootstrap_agent.rb --help
