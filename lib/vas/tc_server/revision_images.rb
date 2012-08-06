@@ -38,11 +38,15 @@ module TcServer
     # The revision image's version
     attr_reader :version
 
+    # The revision image's size
+    attr_reader :size
+
     def initialize(location, client) #:nodoc:
       super(location, client)
 
       @name = details["name"]
       @version = details["version"]
+      @size = details['size']
     end
 
     # The revisions that have been created from this revision image

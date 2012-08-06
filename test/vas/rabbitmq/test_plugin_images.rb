@@ -45,6 +45,7 @@ module Rabbit
       assert_equal(location, plugin_image.location)
       assert_equal("1.0.0", plugin_image.version)
       assert_equal("example", plugin_image.name)
+      assert_equal(5673284, plugin_image.size)
 
       assert_count(2, plugin_image.plugins)
       assert_equal('https://localhost:8443/rabbitmq/v1/groups/4/instances/5/plugins/6/', plugin_image.plugins[0].location)

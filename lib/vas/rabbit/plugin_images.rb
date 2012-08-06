@@ -38,11 +38,15 @@ module Rabbit
     # The plugin image's version
     attr_reader :version
 
+    # The plugin image's size
+    attr_reader :size
+
     def initialize(location, client) #:nodoc:
       super(location, client)
 
       @name = details["name"]
       @version = details["version"]
+      @size = details['size']
     end
 
     # The plugins that have been created from this plugin image
