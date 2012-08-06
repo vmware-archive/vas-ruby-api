@@ -32,12 +32,6 @@ module Shared
     # The name of the log
     attr_reader :name
 
-    # The size of the log
-    attr_reader :size
-
-    # The last modified stamp of the log
-    attr_reader :last_modified
-
     # The node instance that the log belongs to
     attr_reader :instance
 
@@ -45,8 +39,6 @@ module Shared
       super(location, client)
 
       @name = details['name']
-      @size = details['size']
-      @last_modified = details['last-modified']
       @content_location = Util::LinkUtils.get_link_href(details, 'content')
       @instance = instance_class.new(Util::LinkUtils.get_link_href(details, instance_type), client)
     end
@@ -78,6 +70,16 @@ module Shared
       else
         client.get_stream(@content_location, &block)
       end
+    end
+
+    # The size of the log
+    def size
+      client.get(location)['size']
+    end
+
+    # The last_modified stamp of the log
+    def last_modified
+      client.get(location)['last-modified']
     end
 
     def to_s #:nodoc:
