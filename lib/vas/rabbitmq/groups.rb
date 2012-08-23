@@ -15,22 +15,26 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit installation images.
-  class InstallationImages < Shared::InstallationImages
+  # Used to enumerate, create, and delete Rabbit groups.
+  class Groups < Shared::Groups
 
-    def initialize(location, client) #:nodoc:
-      super(location, client, InstallationImage)
+    def initialize(location, client) #:nodoc:#
+      super(location, client, Group)
     end
 
   end
-  
-  # A Rabbit installation image
-  class InstallationImage < Shared::InstallationImage
 
-    def initialize(location, client) #:nodoc:
-      super(location, client, Installation)
+  # A Rabbit group
+  class Group < Shared::Group
+
+    # The group's instances
+    attr_reader :instances
+
+    def initialize(location, client) #:nodoc:#
+      super(location, client, Node, Installations)
+      @instances = Instances.new(Util::LinkUtils.get_link_href(details, "group-instances"), client)
     end
 
   end

@@ -15,18 +15,18 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
   
   class TestRabbit < VasTestCase
   
     def test_locations
   
-      rabbit = Rabbit.new('https://localhost:8443/rabbitmq/v1/', StubClient.new)
+      rabbitmq = RabbitMq.new('https://localhost:8443/rabbitmq/v1/', StubClient.new)
       
-      assert_equal("https://localhost:8443/rabbitmq/v1/groups/", rabbit.groups.location)
-      assert_equal("https://localhost:8443/rabbitmq/v1/installation-images/", rabbit.installation_images.location)
-      assert_equal("https://localhost:8443/rabbitmq/v1/plugin-images/", rabbit.plugin_images.location)
-      assert_equal("https://localhost:8443/rabbitmq/v1/nodes/", rabbit.nodes.location)
+      assert_equal("https://localhost:8443/rabbitmq/v1/groups/", rabbitmq.groups.location)
+      assert_equal("https://localhost:8443/rabbitmq/v1/installation-images/", rabbitmq.installation_images.location)
+      assert_equal("https://localhost:8443/rabbitmq/v1/plugin-images/", rabbitmq.plugin_images.location)
+      assert_equal("https://localhost:8443/rabbitmq/v1/nodes/", rabbitmq.nodes.location)
 
     end
   

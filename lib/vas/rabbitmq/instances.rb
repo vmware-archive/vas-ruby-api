@@ -15,7 +15,7 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
   # Used to enumerate, create, and delete Rabbit instances.
   class Instances < Shared::MutableCollection

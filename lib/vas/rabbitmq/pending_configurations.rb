@@ -15,14 +15,24 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
-  # A configuration file in a Rabbit instance
-  class Configuration < Shared::Configuration
+  # Used to enumerate an instance's pending configuration
+  class PendingConfigurations < Shared::PendingConfigurations
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "group-instance", Instance)
+      super(location, client, 'pending-configurations', PendingConfiguration)
     end
 
   end
+
+  # A configuration file that is pending
+  class PendingConfiguration < Shared::PendingConfiguration
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, 'group-instance', Instance)
+    end
+
+  end
+
 end
