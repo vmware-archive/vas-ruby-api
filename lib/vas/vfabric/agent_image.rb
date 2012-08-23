@@ -32,9 +32,15 @@ module VFabric
       agent_image = Tempfile.open('agent-image.zip') { |temp_file|
         content { |chunk| temp_file << chunk }
         temp_file.rewind
-        Zip::ZipFile.foreach(temp_file) { |entry| entry.extract }
+        Zip::ZipFile.foreach(temp_file.path) { |entry|
+          FileUtils.mkdir_p(File.dirname(entry.name))
+          entry.extract
+        }
         temp_file.rewind
-        Zip::ZipFile.foreach(temp_file) { |entry| File.chmod(entry.unix_perms, entry.name) }
+        Zip::ZipFile.foreach(temp_file.path) { |entry|
+          File.chmod(entry.unix_perms, entry.name)
+        }
+        temp_file.delete
       }
 
       File.join(location, 'vfabric-administration-agent')

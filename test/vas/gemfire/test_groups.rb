@@ -37,7 +37,7 @@ module Gemfire
       node1_location = 'https://localhost:8443/gemfire/v1/nodes/1/'
       node2_location = 'https://localhost:8443/gemfire/v1/nodes/2/'
     
-      client.expect(:post, group_location, [location, {name: 'test-group', nodes: [node1_location, node2_location]}, 'group'])
+      client.expect(:post, group_location, [location, {:name => 'test-group', :nodes => [node1_location, node2_location]}, 'group'])
     
       node1 = create_mock_with_location(node1_location)
       node2 = create_mock_with_location(node2_location)

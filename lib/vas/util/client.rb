@@ -93,7 +93,7 @@ module Util #:nodoc: all
         if (metadata.nil?)
           req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"))
         elsif
-          req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"), :metadata => UploadIO.new(StringIO.new(metadata.to_json), "application/json"))
+          req = Net::HTTP::Post::Multipart.new(location, :data => UploadIO.new(image, "application/octet-stream"), :metadata => UploadIO.new(StringIO.new(metadata.to_json), "application/json", "metadata.json"))
         end
 
         do_request(req) { |res|
@@ -110,12 +110,15 @@ module Util #:nodoc: all
     private
     def do_request(req)
       req.basic_auth(@username, @password)
+
       uri = URI(req.path)
-  
-      result = nil
-  
-      Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true, :verify_mode => OpenSSL::SSL::VERIFY_NONE) { |http|
-        http.request(req) { |res|
+
+      https = Net::HTTP.new(uri.host, uri.port)
+      https.use_ssl = true
+      https.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      https.start() { |https|
+        https.request(req) { |res|
           yield res
         }
       }
@@ -147,7 +150,7 @@ module Util #:nodoc: all
         json = JSON.parse(res.body)
         json["reasons"].each { |reason| messages << reason["message"]}
       ensure
-        raise VasException.new(res.code, messages)
+        raise VasException.new(messages, res.code)
       end
     end
     

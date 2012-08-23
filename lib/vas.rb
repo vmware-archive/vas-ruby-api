@@ -16,6 +16,8 @@
 #++
 
 require 'json'
+require 'net/http'
+require 'net/https'
 require 'net/http/post/multipart'
 require 'vas/shared/resource'
 require 'vas/shared/collection'
