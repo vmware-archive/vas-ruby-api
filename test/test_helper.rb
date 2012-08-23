@@ -15,12 +15,13 @@
 # limitations under the License.
 #++
 
+require 'rubygems' if RUBY_VERSION < '1.9'
 require 'simplecov'
 require 'minitest/autorun'
 require 'fakeweb'
 
 FakeWeb.allow_net_connect = false
-SimpleCov.start
+# SimpleCov.start
 
 require 'vas'
 

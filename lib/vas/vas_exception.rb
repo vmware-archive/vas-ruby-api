@@ -24,7 +24,7 @@ class VasException < RuntimeError
   # The error messages, if any, returned by the server
   attr_reader :messages
   
-  def initialize(code = nil, messages) #:nodoc:
+  def initialize(messages, code=nil) #:nodoc:
     @code = code
     @messages = messages
   end
