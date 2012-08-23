@@ -15,29 +15,24 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit installations.
-  class Installations < Shared::Installations
-    
-    def initialize(location, client) #:nodoc:
-      super(location, client, Installation)
-    end
-    
-  end
-  
-  # A Rabbit installation
-  class Installation < Shared::Installation
+  # Used to enumerate Rabbit instances on an individual node
+  class NodeInstances < Shared::NodeInstances
 
     def initialize(location, client) #:nodoc:
-      super(location, client, InstallationImage, Group)
+      super(location, client, "node-instances", NodeInstance)
     end
 
-    # An array of the instances that are using the installation
-    def instances
-      retrieve_instances("group-instance", Instance);
-    end
-    
   end
-  
+
+  # A Rabbit node instance
+  class NodeInstance < Shared::NodeInstance
+
+    def initialize(location, client) #:nodoc:
+      super(location, client, Node, Logs, Instance, 'group-instance')
+    end
+
+  end
+
 end

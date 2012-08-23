@@ -15,24 +15,14 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
-  # Used to enumerate a tRabbit instance's logs
-  class Logs < Shared::Logs
+  # A configuration file in a Rabbit instance
+  class Configuration < Shared::Configuration
 
     def initialize(location, client) #:nodoc:
-      super(location, client, Log)
+      super(location, client, "group-instance", Instance)
     end
 
   end
-
-  # A log file in a Rabbit node instance
-  class Log < Shared::Log
-
-    def initialize(location, client) #:nodoc:
-      super(location, client, 'node-instance', NodeInstance)
-    end
-
-  end
-
 end

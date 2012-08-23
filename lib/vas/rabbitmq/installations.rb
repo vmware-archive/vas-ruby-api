@@ -15,15 +15,29 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
-  # Used to enumerate an instance's live configuration
-  class LiveConfigurations < Shared::Collection
+  # Used to enumerate, create, and delete Rabbit installations.
+  class Installations < Shared::Installations
+    
+    def initialize(location, client) #:nodoc:
+      super(location, client, Installation)
+    end
+    
+  end
+  
+  # A Rabbit installation
+  class Installation < Shared::Installation
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "live-configurations", Configuration)
+      super(location, client, InstallationImage, Group)
     end
 
+    # An array of the instances that are using the installation
+    def instances
+      retrieve_instances("group-instance", Instance);
+    end
+    
   end
-
+  
 end

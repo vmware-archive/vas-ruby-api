@@ -15,22 +15,34 @@
 # limitations under the License.
 #++
 
-module Rabbit
-
-  # Used to enumerate Rabbit instances on an individual node
-  class NodeInstances < Shared::NodeInstances
+module RabbitMq
+  
+  # Used to enumerate Rabbit nodes
+  class Nodes < Shared::Collection
 
     def initialize(location, client) #:nodoc:
-      super(location, client, "node-instances", NodeInstance)
+      super(location, client, "nodes", Node)
     end
 
   end
 
-  # A Rabbit node instance
-  class NodeInstance < Shared::NodeInstance
+  # A Rabbit node
+  class Node < Shared::GroupableNode
+
+    # The Node's Java home
+    attr_reader :java_home
 
     def initialize(location, client) #:nodoc:
-      super(location, client, Node, Logs, Instance, 'group-instance')
+      super(location, client, Group)
+      @java_home = details["java-home"]
+    end
+
+    def instances
+      @instances = NodeInstances.new(Util::LinkUtils.get_link_href(details, "node-instances"), client)
+    end
+    
+    def to_s #:nodoc:
+      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#{java_home}' metadata='#{metadata}'>"
     end
 
   end

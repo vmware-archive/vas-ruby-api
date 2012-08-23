@@ -22,7 +22,7 @@ class VFabricAdministrationServer
   attr_reader :gemfire
 
   # The Rabbit API
-  attr_reader :rabbit
+  attr_reader :rabbitmq
 
   # The tc Server API
   attr_reader :tc_server
@@ -43,7 +43,7 @@ class VFabricAdministrationServer
 
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
-    @rabbit = Rabbit::Rabbit.new("https://#{host}:#{port}/rabbitmq/v1", @client)
+    @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1", @client)
     @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
   end
   

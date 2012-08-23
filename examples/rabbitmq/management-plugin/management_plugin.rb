@@ -28,7 +28,7 @@ options = {
 }
 
 optionParser = OptionParser.new { |opts|
-  opts.banner = "Usage: management_plugin.rb <installation-image.zip> <installation-image-version> [options]"
+  opts.banner = "Usage: management_plugin.rb <installation-image-path> <installation-image-version> [options]"
   opts.on("--host <host>", "The vFabric Administration Server host. Defaults to localhost.") { |host|
     options[:host] = host
   }
@@ -61,14 +61,14 @@ end
 installation_image_path = args[0]
 installation_image_version = args[1]
 
-rabbit = VFabricAdministrationServer.new(options).rabbit
+rabbitmq = VFabricAdministrationServer.new(options).rabbitmq
 
 print 'Creating installation image... '
-installation_image = rabbit.installation_images.create(installation_image_path, installation_image_version)
+installation_image = rabbitmq.installation_images.create(installation_image_path, installation_image_version)
 puts 'done'
 
 print 'Creating group... '
-group = rabbit.groups.create('example', rabbit.nodes)
+group = rabbitmq.groups.create('example', rabbitmq.nodes)
 puts 'done'
 
 print 'Creating installation... '
@@ -98,9 +98,9 @@ instance.stop
 puts 'done'
 
 print 'Deleting group... '
-rabbit.groups.delete(group)
+rabbitmq.groups.delete(group)
 puts 'done'
 
 print 'Deleting installation image... '
-rabbit.installation_images.delete(installation_image)
+rabbitmq.installation_images.delete(installation_image)
 puts 'done'

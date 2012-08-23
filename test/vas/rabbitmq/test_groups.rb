@@ -15,7 +15,7 @@
 # limitations under the License.
 #++
 
-module Rabbit
+module RabbitMq
 
   class TestGroups < VasTestCase
 
