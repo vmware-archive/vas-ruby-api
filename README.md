@@ -13,13 +13,33 @@ The VAS Ruby API requires Ruby 1.8.7 or 1.9.x. It has been built and tested on 1
 
 ## Installation
 
-The VAS Ruby API is not yet available on [RubyGems](https://rubygems.org/). However, pre-built
-gems can be [downloaded](https://github.com/vFabric/vas-ruby-api/downloads) and installed. For
-example:
+The VAS Ruby API is available on [RubyGems](https://rubygems.org/gems/vas). To install it run:
 
-	gem install vas-<version>.gem
+	gem install vas
 
-## Licence
+## Getting started
+
+### Examples
+
+A number of [examples](https://github.com/vFabric/vas-ruby-api/tree/master/examples) are provided:
+
+#### tc Server
+
+* [Provision tc Server and deploy a web application](https://github.com/vFabric/vas-ruby-api/tree/master/examples/tc-server/web-application)
+
+#### RabbitMQ
+
+* [Provision Rabbit and enable the management plugin](https://github.com/vFabric/vas-ruby-api/tree/master/examples/rabbitmq/management-plugin)
+
+#### VAS
+
+* [Download, install, and start the VAS agent](https://github.com/vFabric/vas-ruby-api/tree/master/examples/rabbitmq/management-plugin)
+
+### Documentation
+
+You may also like to look at the [API documentation](http://rubydoc.info/gems/vas/0.3.0/frames).
+
+##Licence
 
 The VAS Ruby API is licensed under the [Apache Licence, Version 2.0][asl2].
 
