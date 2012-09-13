@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,23 +12,31 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
+  # @abstract A collection of an instance's pending configurations
   class PendingConfigurations < MutableCollection
 
-    # Creates a configuration with the given +path+ in the instance and the given +content+
+    # Creates a new configuration. The configuration will be pending until its instance is started at which point the configuration will become live
+    #
+    # @param path [String] the configuration's path
+    # @param content [String] the configuration's content
+    #
+    # @return [PendingConfiguration] the new configuration
     def create(path, content)
       entry_class.new(client.post_image(location, content, { :path => path }), client)
     end
 
   end
 
-  # A configuration file that is pending and will be made live the next time its instance is started
+  # @abstract A configuration file that is pending and will be made live the next time its instance is started
   class PendingConfiguration < Configuration
 
-    # Updates the configuration to contain +new_content+
+    # Updates the contents of the configuration
+    #
+    # @param new_content [String] the new content
     def content=(new_content)
       client.post(content_location, new_content)
       @size = client.get(location)['size']

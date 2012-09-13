@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
@@ -60,7 +59,7 @@ module RabbitMq
       location = 'https://localhost:8443/rabbitmq/v1/plugin-images/1/'
       client.expect(:delete, nil, [location])
 
-      plugin_images.delete(Plugin.new(location, client))
+      plugin_images.delete(PluginImage.new(location, client))
 
       client.verify
     end

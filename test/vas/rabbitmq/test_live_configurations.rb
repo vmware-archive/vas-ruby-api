@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
   
@@ -30,7 +29,7 @@ module RabbitMq
     def test_live_configuration
       location = 'https://localhost:8443/rabbitmq/v1/groups/1/instances/2/configurations/live/3/'
   
-      live_configuration = Configuration.new(location, StubClient.new)
+      live_configuration = LiveConfiguration.new(location, StubClient.new)
   
       assert_equal('https://localhost:8443/rabbitmq/v1/groups/1/instances/2/configurations/live/3/', live_configuration.location)
       assert_equal('conf/rabbit.config', live_configuration.path)

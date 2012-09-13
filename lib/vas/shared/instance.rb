@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,27 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
+  # @abstract A collection of instances
   class Instance < Shared::StateResource
 
-    # The instance's name
+    # @return [String] the instance's name
     attr_reader :name
 
-    # The instance's live configurations
+    # @return the instance's live configurations
     attr_reader :live_configurations
 
-    # The instance's pending configurations
+    # @return the instance's pending configurations
     attr_reader :pending_configurations
 
-    # The group that contains this instance
+    # @return [Group] the group that contains this instance
     attr_reader :group
 
-    # An array of the instance's individual node instances
-    attr_reader :node_instances
-
+    # @private
     def initialize(location, client,
         group_class,
         installation_class,
@@ -52,12 +50,12 @@ module Shared
       @node_instance_type = node_instance_type
     end
 
-    # The installation that this instance is using
+    # @return [Installation] the installation that this instance is using
     def installation
       @installation_class.new(Util::LinkUtils.get_link_href(client.get(location), 'installation'), client)
     end
 
-    # An array of the instance's individual node instances
+    # @return [NodeInstance[]] the instance's individual node instances
     def node_instances
       node_instances = []
       Util::LinkUtils.get_link_hrefs(client.get(location), @node_instance_type).each {
@@ -65,7 +63,8 @@ module Shared
       node_instances
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the instance
+    def to_s
       "#<#{self.class} name='#@name'>"
     end
 

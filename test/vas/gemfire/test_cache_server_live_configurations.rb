@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
@@ -30,7 +29,7 @@ module Gemfire
     def test_live_configuration
       location = 'https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/configurations/live/3/'
   
-      live_configuration = CacheServerConfiguration.new(location, StubClient.new)
+      live_configuration = CacheServerLiveConfiguration.new(location, StubClient.new)
 
       assert_equal('cache.xml', live_configuration.path)
       assert_equal(10537, live_configuration.size)

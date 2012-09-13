@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,15 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate a cache server instance's live configuration
   class CacheServerLiveConfigurations < Shared::Collection
 
-    def initialize(location, client) #:nodoc:
-      super(location, client, "live-configurations", CacheServerConfiguration)
+    # @private
+    def initialize(location, client)
+      super(location, client, "live-configurations", CacheServerLiveConfiguration)
+    end
+
+  end
+  
+  # A live configuration file in a cache server instance
+  class CacheServerLiveConfiguration < Shared::Configuration
+
+    # @private
+    def initialize(location, client)
+      super(location, client, "cache-server-group-instance", CacheServerInstance)
     end
 
   end

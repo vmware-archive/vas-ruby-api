@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,35 +12,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
   
-  # Used to enumerate Rabbit nodes
+  # Used to enumerate RabbitMQ nodes
   class Nodes < Shared::Collection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "nodes", Node)
     end
 
   end
 
-  # A Rabbit node
+  # A RabbitMQ node
   class Node < Shared::GroupableNode
+    
+    # @return [NodeInstances] the node's instances
+    attr_reader :instances
 
-    # The Node's Java home
-    attr_reader :java_home
-
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group)
-      @java_home = details["java-home"]
-    end
-
-    def instances
       @instances = NodeInstances.new(Util::LinkUtils.get_link_href(details, "node-instances"), client)
     end
-    
-    def to_s #:nodoc:
+
+    # @return [String] a string representation of the node
+    def to_s 
       "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#{java_home}' metadata='#{metadata}'>"
     end
 

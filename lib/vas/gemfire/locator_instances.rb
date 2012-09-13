@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,25 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate, create, and delete locator instances.
   class LocatorInstances < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "locator-group-instances", LocatorInstance)
     end
 
-    # Creates a new instance named +name+, using the given +installation+.
-    # Creation can be customized using +options+.
-    #
-    # Recognized options are:
-    #
-    # peer::   +true+ if the locator should act as a peer, otherwise +false+. Defaults to +true+
-    # port::   The port on which the locator should listen. If omitted the locator will listen on the default port (10334)
-    # server:: +true+ if the locator should act as a server, otherwise +false+. Defaults to +true+
+    # Creates a new locator instance
+    # @param installation [Installation] the installation that the instance will use
+    # @param name [String] the name of the instance
+    # @param options [Hash] optional configuration for the instance
+    # @option options :peer (true) +true+ if the locator should act as a peer, otherwise +false+
+    # @option options :port [Integer] (10334) the port that the locator will listen on
+    # @option options :server (true) +true+ if the locator should act as a server, otherwise +false+
+    # @return [LocatorInstance] the new instance
     def create(installation, name, options = {})
       payload = { :installation => installation.location, :name => name }
 
@@ -55,18 +55,23 @@ module Gemfire
   # A locator instance
   class LocatorInstance < Shared::Instance
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group, Installation, LocatorLiveConfigurations, LocatorPendingConfigurations, LocatorNodeInstance, 'locator-node-instance')
     end
 
     # Updates the instance using the supplied +options+.
     #
-    # Recognized options are:
+    # @param options [Hash] optional configuration for the instance
     #
-    # installation:: The installation to use when running the locator instance. If omitted or nil, the installation configuration will not be changed
-    # peer::         Whether or not the locator will act as a peer. If omitted, the configuration will not be changed
-    # port::         The port on which the locator will listen. If omitted, the port configuration will not be changed
-    # server::       Whether or not the locator will act as a server. If omitted, the configuration will not be changed
+    # @option options :installation [Installation] the installation to be used by the instance.
+    #   If omitted or nil, the installation configuration will not be changed
+    # @option options :peer +true+ if the locator should act as a peer, otherwise +false+.
+    #   If omitted or nil, the installation configuration will not be changed
+    # @option options :port [Integer] the port that the locator will listen on.
+    #   If omitted or nil, the installation configuration will not be changed
+    # @option options :server +true+ if the locator should act as a server, otherwise +false+.
+    #   If omitted or nil, the installation configuration will not be changed
     def update(options)
       payload = {}
 
@@ -89,17 +94,17 @@ module Gemfire
       client.post(location, payload)
     end
 
-    # The port that the locator will listen on
+    # @return [Integer] the port that the locator will listen on
     def port
       client.get(location)['port']
     end
 
-    # +true+ if the locator will act as a peer, +false+ if it will not
+    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
     def peer
       client.get(location)['peer']
     end
 
-    # +true+ if the locator will act as a server, +false+ if it will not
+    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
     def server
       client.get(location)['server']
     end

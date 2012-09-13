@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,29 +12,31 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
 
+
+# API for administering tc Server
 module TcServer
   
   # The entry point to the API for administering tc Server
   class TcServer
 
-    # The tc Server Groups
+    # @return [Groups] the tc Server groups
     attr_reader :groups
 
-    # The tc Server InstallationImages
+    # @return [InstallationImages] the tc Server installation images
     attr_reader :installation_images
 
-    # The tc Server Nodes
+    # @return [Nodes] the tc Server Nodes
     attr_reader :nodes
 
-    # The tc Server RevisionImages
+    # @return [RevisionImages] the tc Server revision images
     attr_reader :revision_images
 
-    # The tc Server TemplateImages
+    # @return [TemplateImages] the tc Server template images
     attr_reader :template_images
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
 
       json = client.get(location)
       

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,23 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit installation images.
+  # Used to enumerate, create, and delete RabbitMQ installation images.
   class InstallationImages < Shared::InstallationImages
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, InstallationImage)
     end
 
   end
   
-  # A Rabbit installation image
+  # A RabbitMQ installation image
   class InstallationImage < Shared::InstallationImage
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Installation)
     end
 

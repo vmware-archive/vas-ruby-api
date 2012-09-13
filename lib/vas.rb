@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 require 'json'
 require 'net/http'
@@ -29,11 +28,10 @@ require 'vas/shared/installation_images'
 require 'vas/shared/pending_configuration'
 require 'vas/shared/security'
 require 'vas/shared/state_resource'
-require 'vas/shared/instances'
+require 'vas/shared/instance'
 require 'vas/shared/logs'
 require 'vas/shared/node_instances'
 require 'vas/shared/nodes'
-require 'vas/gemfire/agent_configuration'
 require 'vas/gemfire/agent_instances'
 require 'vas/gemfire/agent_live_configurations'
 require 'vas/gemfire/agent_logs'
@@ -41,7 +39,6 @@ require 'vas/gemfire/agent_node_instances'
 require 'vas/gemfire/agent_pending_configurations'
 require 'vas/gemfire/application_code_images'
 require 'vas/gemfire/application_code'
-require 'vas/gemfire/cache_server_configuration'
 require 'vas/gemfire/cache_server_instances'
 require 'vas/gemfire/cache_server_live_configurations'
 require 'vas/gemfire/cache_server_logs'
@@ -53,7 +50,6 @@ require 'vas/gemfire/groups'
 require 'vas/gemfire/installation_images'
 require 'vas/gemfire/installations'
 require 'vas/gemfire/live_application_codes'
-require 'vas/gemfire/locator_configuration'
 require 'vas/gemfire/locator_instances'
 require 'vas/gemfire/locator_live_configurations'
 require 'vas/gemfire/locator_logs'
@@ -62,7 +58,6 @@ require 'vas/gemfire/locator_pending_configurations'
 require 'vas/gemfire/nodes'
 require 'vas/gemfire/pending_application_codes'
 require 'vas/gemfire/statistics'
-require 'vas/rabbitmq/configuration'
 require 'vas/rabbitmq/groups'
 require 'vas/rabbitmq/installation_images'
 require 'vas/rabbitmq/plugin_images'

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,22 +12,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
+  # @abstract A configuration file in an instance
   class Configuration < Shared::Resource
 
-    # The path of the configuration
+    # @return [String] the configuration's path
     attr_reader :path
 
-    # The size of the configuration
+    # @return [Integer] the configuration's size
     attr_reader :size
 
     private
+    
     attr_reader :content_location
+    
+    public
 
-    def initialize(location, client, instance_type, instance_class) #:nodoc:
+    # @private
+    def initialize(location, client, instance_type, instance_class)
       super(location, client)
 
       @path = details["path"]
@@ -40,18 +44,22 @@ module Shared
       @instance_class = instance_class
     end
 
-    public
     # Retrieves the configuration's content and passes it to the block
+    #
+    # @yield [chunk] a chunk of the configuration's content
+    #
+    # @return [void]
     def content(&block)
       client.get_stream(@content_location, &block)
     end
 
-    # The instance that owns the configuration
+    # @return [Instance] the instance that owns the configuration
     def instance
       @instance_class.new(@instance_location, client)
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the configuration
+    def to_s
       "#<#{self.class} name='#@path' size=#@size>"
     end
 

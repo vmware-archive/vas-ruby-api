@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,21 +12,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module VFabric
 
+  # Provides access to the installation image for the vFabric Administration Agent
   class AgentImage < Shared::Resource
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
       @content_location = Util::LinkUtils.get_link_href(details, "content")
     end
 
+    # Retrieves the content of the agent installation image (a zip file) from the server
+    #
+    # @yield [chunk] a chunk of the agent image's content
+    #
+    # @return [void]
     def content(&block)
       client.get_stream(@content_location, &block)
     end
 
+    # Downloads and extracts the agent installation image
+    #
+    # @param location [String] the location to extract the agent to
+    #
+    # @return [void]
     def extract_to(location = '.')
       agent_image = Tempfile.open('agent-image.zip') { |temp_file|
         content { |chunk| temp_file << chunk }

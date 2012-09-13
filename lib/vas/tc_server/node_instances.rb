@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate tc Server instances on an individual node
   class NodeInstances < Shared::NodeInstances
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "node-instances", NodeInstance)
     end
 
@@ -29,19 +29,20 @@ module TcServer
   # A tc Server node instance
   class NodeInstance < Shared::NodeInstance
     
-    # The instance's layout
+    # @return [String] the instance's layout
     attr_reader :layout
     
-    # The version of runtime used by the instance
+    # @return [String] the version of runtime used by the instance
     attr_reader :runtime_version
     
-    # The instance's services
+    # @return [Hash] the instance's services
     attr_reader :services
 
-    # The instance's NodeApplications
+    # @return [NodeApplications] the instance's applications
     attr_reader :applications
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Node, Logs, Instance, 'group-instance')
 
       @layout = details["layout"]

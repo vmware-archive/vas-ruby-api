@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit instances.
+  # Used to enumerate, create, and delete RabbitMQ instances
   class Instances < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "group-instances", Instance)
     end
 
-    # Creates a new instance named +name+, using the installation +installation+.
+    # Creates a new instance
+    #
+    # @param installation [Installation] the installation to be used by the instance
+    # @param name [String] the name of the instance
+    #
+    # @return  [Instance] the new instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
       Instance.new(client.post(location, payload, "group-instance"), client)
@@ -32,19 +37,24 @@ module RabbitMq
 
   end
 
-  # A Rabbit instance
+  # A RabbitMQ instance
   class Instance < Shared::Instance
 
-    # The instance's plugins
+    # @return [Plugins] the instance's plugins
     attr_reader :plugins
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations, NodeInstance, 'node-instance')
       @plugins = Plugins.new(Util::LinkUtils.get_link_href(details, "plugins"), client)
     end
 
-    # Updates the instance to use the given +installation+
-    def update(installation, runtime_version = nil)
+    # Updates the instance to use a different installation
+    #
+    # @param installation [Installation] the installation that the instance should use
+    #
+    # @return [void]
+    def update(installation)
       client.post(location, { :installation => installation.location });
     end
 

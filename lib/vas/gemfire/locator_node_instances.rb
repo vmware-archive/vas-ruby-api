@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate locator instances on an individual node
   class LocatorNodeInstances < Shared::NodeInstances
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "locator-node-instances", LocatorNodeInstance)
     end
 
@@ -29,21 +29,22 @@ module Gemfire
   # A locator node instance
   class LocatorNodeInstance < Shared::NodeInstance
 
+    # @private
     def initialize(location, client) #:nodoc:
       super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance')
     end
 
-    # The port that the locator will listen on
+    # @return [Integer] the port that the locator will listen on
     def port
       client.get(location)['port']
     end
 
-    # +true+ if the locator will act as a peer, +false+ if it will not
+    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
     def peer
       client.get(location)['peer']
     end
 
-    # +true+ if the locator will act as a server, +false+ if it will not
+    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
     def server
       client.get(location)['server']
     end

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,11 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
-  # Used to enumerate, create, and delete plugins.
+  # Used to enumerate, create, and delete plugins
   class Plugins < Shared::MutableCollection
     
     def initialize(location, client) #:nodoc:
@@ -31,53 +30,55 @@ module RabbitMq
     
   end
 
-  # A plugin in a Rabbit instance
+  # A plugin in a RabbitMQ instance
   class Plugin < Shared::Resource
 
-    # The plugin's version
+    # @return [String] the plugin's version
     attr_reader :version
 
-    # The plugin's name
+    # @return [String] the plugin's name
     attr_reader :name
     
-    def initialize(location, client) #:nodoc:
+    # @return [Instance] the instance that contains the plugin
+    attr_reader :instance
+    
+    # @return [PluginImage] the plugin image, if any, that was used to create the plugin
+    attr_reader :plugin_image
+    
+    # @private
+    def initialize(location, client)
       super(location, client)
       
       @name = details['name']
       @version = details['version']
-      @plugin_image_location = Util::LinkUtils.get_link_href(details, 'plugin-image')
-      @instance_location = Util::LinkUtils.get_link_href(details, 'group-instance')
+      @instance = Instance.new(Util::LinkUtils.get_link_href(details, 'group-instance'), client)
       @state_location = Util::LinkUtils.get_link_href(details, 'state')
+      
+      plugin_image_location = Util::LinkUtils.get_link_href(details, 'plugin-image')
+      @plugin_image = PluginImage.new(plugin_image_location, client) unless plugin_image_location.nil?
     end
 
-    # The plugin image, if any, that was used to create the plugin
-    def plugin_image
-      if (!@plugin_image_location.nil?)
-        PluginImage.new(@plugin_image_location, client)
-      end
-    end
-
-    # The instance that contains the plugin
-    def instance
-      Instance.new(@instance_location, client)
-    end
-
-    # The state of the plugin
+    # @return [String] the state of the plugin
     def state
       client.get(@state_location)['status']
     end
 
     # Enables the plugin
+    #
+    # @return [void]
     def enable
       client.post(@state_location, { :status => 'ENABLED' })
     end
 
     # Disables the plugin
+    #
+    # @return [void]
     def disable
       client.post(@state_location, { :status => 'DISABLED' })
     end
     
-    def to_s #:nodoc:
+    # @return [String] a string representation of the plugin
+    def to_s
       "#<#{self.class} name='#@name' version='#@version'>"
     end
   end

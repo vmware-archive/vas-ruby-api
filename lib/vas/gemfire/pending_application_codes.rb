@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate, create, and delete a cache server's pending application code.
   class PendingApplicationCodes < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "pending-application-code", ApplicationCode)
     end
 
-    # Creates pending application code from the +image+
+    # Creates a new pending application code
+    #
+    # @param image [ApplicationCodeImage] the image to create the application code from
+    #
+    # @return [ApplicationCode] the new application code
     def create(image)
       ApplicationCode.new(client.post(location, { :image => image.location}), client)
     end

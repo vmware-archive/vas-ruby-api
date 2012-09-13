@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 require 'rubygems' if RUBY_VERSION < '1.9'
 require 'simplecov'
@@ -21,7 +20,7 @@ require 'minitest/autorun'
 require 'fakeweb'
 
 FakeWeb.allow_net_connect = false
-# SimpleCov.start
+SimpleCov.start
 
 require 'vas'
 

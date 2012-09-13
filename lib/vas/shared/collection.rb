@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,25 +12,32 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
 
+# Shared code to be extended by component-specific APIs
 module Shared
   
+  # @abstract A dynamic collection of items
   class Collection < Shared::Resource
 
     private
+    
     attr_reader :entry_class
+    
+    public
 
-    def initialize(location, client, type, entry_class) #:nodoc:
+    # @private
+    def initialize(location, client, type, entry_class)
       super(location, client)
       @type = type
       @entry_class = entry_class
     end
 
-    public
-
     # Gets the items in the collection from the server. Calls the block once for each item.
-    def each # :yields: item
+    #
+    # @yieldparam item an item in the collection
+    #
+    # @return [void]
+    def each
       items = client.get(location)[@type]
 
       if (!items.nil?)

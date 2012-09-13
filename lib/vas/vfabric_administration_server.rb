@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,28 +12,29 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 # The main entry point to the vFabric Administration Server API.
 class VFabricAdministrationServer
 
-  # The GemFire API
+  # @return [Gemfire::Gemfire] the GemFire API
   attr_reader :gemfire
 
-  # The Rabbit API
+  # @return [RabbitMq::RabbitMq] the RabbitMQ API
   attr_reader :rabbitmq
 
-  # The tc Server API
+  # @return [TcServer::TcServer] the tc Server API
   attr_reader :tc_server
 
-  # The vFabric API
+  # @return [VFabric::VFabric] the vFabric API
   attr_reader :vfabric
 
-  # Creates an entry point that will connect to a vFabric Administration Server. Supported configuration options are:
-  # host:: The host of the Administration Server. Defaults to localhost.
-  # port:: The HTTPS port of the Administration Server. Defaults to 8443.
-  # username:: The username used to authenticate. Defaults to admin
-  # password:: The password used to authenticate. Defaults to vmware
+  # Creates an entry point that will connect to a vFabric Administration Server. 
+  # @param [Hash] configuration the connection configuration
+  # @option configuration [String] :username ('admin') The username to use to authenticate with the server
+  # @option configuration [String] :password ('vmware') The password to use to authenticate with the server
+  # @option configuration [String] :host ('localhost') The host of the server
+  # @option configuration [Integer] :port (8443) The HTTPS port of the server
   def initialize(configuration = {})
     @client = Util::Client.new(configuration[:username] || "admin", configuration[:password] || "vmware")
 

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,32 +12,37 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
+  # @abstract A collection of node instances
   class NodeInstances < Shared::Collection
 
-    def initialize(location, client, type, entry_class) #:nodoc:
+    private 
+
+    def initialize(location, client, type, entry_class)
       super(location, client, type, entry_class)
     end
 
   end
 
+  # @abstract A node instance, i.e. an instance on an individual node
   class NodeInstance < Shared::StateResource
 
-    # The instance's name
+    # @return [String] the instance's name
     attr_reader :name
 
-    # The node that contains this instance
+    # @return [GroupableNode] the node that contains this instance
     attr_reader :node
 
-    # The instance's Logs
+    # @return [Logs] the instance's Logs
     attr_reader :logs
 
-    # The node instance's group instance
+    # @return [Instance] the node instance's group instance
     attr_reader :group_instance
 
+    # @private
     def initialize(location, client, node_class, logs_class, group_instance_class, group_instance_type) #:nodoc:
       super(location, client)
 
@@ -49,6 +53,7 @@ module Shared
       @group_instance = group_instance_class.new(Util::LinkUtils.get_link_href(details, group_instance_type), client)
     end
 
+    # @return [String] a string representation of the node instance
     def to_s #:nodoc:
       "#<#{self.class} name='#@name'>"
     end

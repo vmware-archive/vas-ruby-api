@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete tc Server template images.
   class TemplateImages < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "template-images", TemplateImage)
     end
     
-    # Creates a TemplateImage named +name+ with the version +version+ by uploading the file at the given +path+
+    # Creates a new template image by uploading a +.zip+ file to the server
+    #
+    # @param path [String] the path of the template image +.zip+ file
+    # @param name [String] the name of the template image
+    # @param version [String] the version of the template image
+    #
+    # @return [TemplateImage] the new template image
     def create(path, name, version)
       TemplateImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
     end
@@ -34,16 +40,17 @@ module TcServer
   # A template image
   class TemplateImage < Shared::Resource
 
-    # The template image's name
+    # @return [String] the template image's name
     attr_reader :name
 
-    # The template image's version
+    # @return [String] the template image's version
     attr_reader :version
 
-    # The template image's size
+    # @return [String] the template image's size
     attr_reader :size
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @name = details["name"]
@@ -51,15 +58,16 @@ module TcServer
       @size = details['size']
     end
 
-    # The Template s that have been created from this TemplateImage
+    # @return [Template[]] the templates that have been created from the template image
     def templates
       templates = []
       Util::LinkUtils.get_link_hrefs(client.get(location), "template").each { |template_location| templates << Template.new(template_location, client)}
       templates
     end
 
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name' version='#@version'>"
+    # @return [String] a string representation of the template image
+    def to_s
+      "#<#{self.class} name='#@name' version='#@version' size='#@size'>"
     end
 
   end

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,30 +12,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete tc Server instances.
   class Instances < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "group-instances", Instance)
     end
 
-    # Creates a new instance named +name+, using the Installation +installation+.
-    # Creation can be customized using +options+.
+    # Creates a new instance
     #
-    # Recognized options are:
+    # @param installation [Installation] the installation to be used by the instance
+    # @param name [String] the name of the instance
+    # @param options [Hash] optional configuration
     #
-    # properties::      A hash of properties
-    # runtime_version:: The version of the runtime to be used by the instance.
-    #                   Must be one of the runtime_versions available in the Installation.
-    #                   Defaults to the latest available version.
-    # templates::       An array of templates to use when creating the instance. Each Template
-    #                   must be present in the Installation.
-    # layout::          The layout to use when creating the instance. Valid values are +COMBINED+
-    #                   and +SEPARATE+. Defaults to +SEPARATE+.
+    # @option options :properties [Hash] configuration properties that customise the instance
+    # @option options :runtime_version [String] the version of the runtime to be used by the 
+    #   instance. Must be one of the +runtime_versions+ available in the +installation+.
+    #   Defaults to the latest version that is available in the installation
+    # @option options :templates [Template[]] the templates to use when creating the instance
+    # @option options :layout [String] the layout to use when creating the instance. Valid
+    #   values are +COMBINED+ and +SEPARATE+. Defaults to +SEPARATE+
+    #
+    # @return [Instance] the new instance
     def create(installation, name, options = {})
       payload = { :installation => installation.location, :name => name }
       
@@ -66,19 +68,20 @@ module TcServer
   # A tc Server instance
   class Instance < Shared::Instance
     
-    # The instance's layout
+    # @return [String] the instance's layout
     attr_reader :layout
     
-    # The version of runtime used by the instance
+    # @return [String] the version of runtime used by the instance
     attr_reader :runtime_version
     
-    # The instance's services
+    # @return [Hash] the instance's services
     attr_reader :services
 
-    # The instance's Applications
+    # @return [Applications] the instance's applications
     attr_reader :applications
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations, NodeInstance, 'node-instance')
 
       @layout = details["layout"]
@@ -88,7 +91,12 @@ module TcServer
 
     end
 
-    # Updates the instance to use the given +installation+ and, optionally, to use the given +runtime_version+
+    # Updates the installation and, optionally, the runtime_version used by the instance
+    #
+    # @param installation [Installation] the installation to be used by the instance
+    # @param runtime_version [String] the version of the runtime to be used by the instance
+    #
+    # @return [void]
     def update(installation, runtime_version = nil)
       payload = { :installation => installation.location }
       if (!runtime_version.nil?)

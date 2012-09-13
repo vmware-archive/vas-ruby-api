@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete tc Server revision images.
   class RevisionImages < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "revision-images", RevisionImage)
     end
     
-    # Creates a RevisionImage named +name+ with the version +version+ by uploading the WAR file at the given +path+
+    # Creates a new revision image by uploading a war file to the server
+    #
+    # @param path [String] the path of the WAR file
+    # @param name [String] the name of the revision image
+    # @param version [String] the version of the revision image
+    #
+    # @return [RevisionImage] the new revision image
     def create(path, name, version)
       RevisionImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
     end
@@ -34,16 +40,17 @@ module TcServer
   # A revision image, i.e. a WAR file
   class RevisionImage < Shared::Resource
 
-    # The revision image's name
+    # @return [String] the revision image's name
     attr_reader :name
 
-    # The revision image's version
+    # @return [String] the revision image's version
     attr_reader :version
 
-    # The revision image's size
+    # @return [Integer] the revision image's size
     attr_reader :size
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @name = details["name"]
@@ -51,15 +58,16 @@ module TcServer
       @size = details['size']
     end
 
-    # The revisions that have been created from this revision image
+    # @return [Revision[]] the revisions that have been created from this revision image
     def revisions
       revisions = []
       Util::LinkUtils.get_link_hrefs(client.get(location), "group-revision").each { |revision_location| revisions << Revision.new(revision_location, client)}
       revisions
     end
 
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name' version='#@version'>"
+    # @return [String] a string representation of the revision image
+    def to_s
+      "#<#{self.class} name='#@name' version='#@version' size='#@size'>"
     end
 
   end

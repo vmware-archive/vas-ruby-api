@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate, create, and delete cache server instances.
   class CacheServerInstances < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "cache-server-group-instances", CacheServerInstance)
     end
 
-    # Creates a new instance named +name+, using the given +installation+.
+    # Creates a new cache server instance
+    #
+    # @param installation [Installation] the installation to be used by the instance
+    # @param name [String] the name of the instance
+    #
+    # @return [CacheServerInstance] the new cache server instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
       CacheServerInstance.new(client.post(location, payload, "cache-server-group-instance"), client)
@@ -35,19 +40,24 @@ module Gemfire
   # A cache server instance
   class CacheServerInstance < Shared::Instance
 
-    # The instance's live application code
+    # @return [LiveApplicationCodes] the instance's live application code
     attr_reader :live_application_code
 
-    # The instance's pending application code
+    # @return [PendingApplicationCodes] the instance's pending application code
     attr_reader :pending_application_code
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group, Installation, CacheServerLiveConfigurations, CacheServerPendingConfigurations, CacheServerNodeInstance, 'cache-server-node-instance')
       @live_application_code = LiveApplicationCodes.new(Util::LinkUtils.get_link_href(details, 'live-application-code'), client)
       @pending_application_code = PendingApplicationCodes.new(Util::LinkUtils.get_link_href(details, 'pending-application-code'), client)
     end
 
-    # Updates the instance to use the given +installation+
+    # Updates the instance to use a different installation
+    #
+    # @param installation [Installation] the installation that the instance should use
+    #
+    # @return [void]
     def update(installation)
       client.post(location, { :installation => installation.location });
     end

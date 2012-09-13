@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,12 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
+  
+  # @abstract A collection that allows items to be deleted from it
   class MutableCollection < Collection
 
-    # Deletes the item
+    # Deletes the item from the collection
+    # @return [void]
     def delete(entry)
       client.delete(entry.location)
     end

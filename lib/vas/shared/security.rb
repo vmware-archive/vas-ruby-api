@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,36 +12,41 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
   
   # The security configuration for a resource
   class Security
 
-    # The permissions of the resource
+    # @return [Hash] The permissions of the resource
     attr_reader :permissions
 
-    # The owner of the resource
+    # @return [String] the owner of the resource
     attr_reader :owner
 
-    # The group of the resource
+    # @return [String] the group of the resource
     attr_reader :group
-
-    attr_reader :location #:nodoc:
-
+    
+    # @private
+    attr_reader :location
+    
     private
     attr_reader :client
   
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       json = client.get(location)
       @location = location;
       @owner = json["owner"]
       @group = json["group"]
       @permissions = json["permissions"]
     end
-  
-    def to_s #:nodoc:
+    
+    public
+
+    # @return [String] a string representation of this security object
+    def to_s
       "#<#{self.class} owner='#@owner' group='#@group' permissions='#@permissions'>"
     end
     

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 # Raised to indicate a failure has occurred when communicating with the vFabric Administration Server
 class VasException < RuntimeError
 
-  # The HTTP error code returned by the server
+  # @return [Integer] the HTTP error code returned by the server
   attr_reader :code
 
-  # The error messages, if any, returned by the server
+  # @return [String[]] the error messages, if any, returned by the server
   attr_reader :messages
-  
-  def initialize(messages, code=nil) #:nodoc:
+
+  # @private
+  def initialize(messages, code=nil)
     @code = code
     @messages = messages
   end

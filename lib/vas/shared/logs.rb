@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,29 +12,31 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
-  # Used to enumerate a node instance's logs
+  # @abstract A node instance's logs
   class Logs < Shared::MutableCollection
 
-    def initialize(location, client, log_class) #:nodoc:
+    # @private
+    def initialize(location, client, log_class)
       super(location, client, 'logs', log_class)
     end
 
   end
 
-  # A log file in a node instance
+  # abstract A log file in a node instance
   class Log < Shared::Resource
 
-    # The name of the log
+    # @return [String] the name of the log
     attr_reader :name
 
-    # The node instance that the log belongs to
+    # @return [NodeInstance] the node instance that the log belongs to
     attr_reader :instance
-
-    def initialize(location, client, instance_type, instance_class) #:nodoc:
+    
+    # @private
+    def initialize(location, client, instance_type, instance_class)
       super(location, client)
 
       @name = details['name']
@@ -43,16 +44,23 @@ module Shared
       @instance = instance_class.new(Util::LinkUtils.get_link_href(details, instance_type), client)
     end
 
-    # The Log's content. The content that is passed to the block can be controlled using +options+.
+    # Retrieve the content of the log
     #
-    # Recognized options are:
+    # @param [Hash] options the options that control the content that is returned
     #
-    # start_line::  The start point, in lines, of the content to pass to the block. Omitting the parameter will result
-    #               in content from the start of the file being passed. If the provided value is greater than the
-    #               number of lines in the file, no content will be passed.
-    # end_line::    The end point, in lines, of the content to pass to the block. Omitting the parameter will result in
-    #               content up to the end of the file being passed. If the provided value is greater than the number of
-    #               lines in the file, content up to and including the last line in the file will be passed.
+    # @option options [Integer] :start_line the start point, in lines, of the content to pass to
+    #   the block. Omitting the parameter will result in content from the start of the file being
+    #   passed. If the provided value is greater than the number of lines in the file, no content
+    #   will be passed.
+    #
+    # @option options [Integer] :end_line the end point, in lines, of the content to pass to the
+    #   block. Omitting the parameter will result in content up to the end of the file being
+    #   passed. If the provided value is greater than the number of lines in the file, content up
+    #   to and including the last line in the file will be passed.
+    #
+    # @yield [chunk] a chunk of the log's content
+    #
+    # @return [void]
     def content(options = {}, &block)
       query=""
       if (!options[:start_line].nil?)
@@ -72,18 +80,19 @@ module Shared
       end
     end
 
-    # The size of the log
+    # @return [Integer] the size of the log
     def size
       client.get(location)['size']
     end
 
-    # The last_modified stamp of the log
+    # @return [Integer] the last modified stamp of the log
     def last_modified
       client.get(location)['last-modified']
     end
 
-    def to_s #:nodoc:
-      "#<#{self.class} name='#@name' size'#@size' services='#@last_modified'>"
+    # @return [String] a string representation of the log
+    def to_s
+      "#<#{self.class} name='#@name'>"
     end
   end
 end

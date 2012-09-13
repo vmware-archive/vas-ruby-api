@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete tc Server installations.
   class Installations < Shared::Installations
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Installation)
     end
     
@@ -29,22 +29,21 @@ module TcServer
   # A tc Server installation
   class Installation < Shared::Installation
 
-    # The versions of the tc Server runtime that are supported by the installation
+    # @return [String[]] the versions of the tc Server runtime that are supported by the installation
     attr_reader :runtime_versions
+    
+    # @return [Templates] the installation's templates
+    attr_reader :templates
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, InstallationImage, Group)
 
       @runtime_versions = details["runtime-versions"]
-      @templates_location = Util::LinkUtils.get_link_href(details, "templates")
-    end
-    
-    # The installation's templates
-    def templates
-      Templates.new(@templates_location, client)
+      @templates = Templates.new(Util::LinkUtils.get_link_href(details, "templates"), client)
     end
 
-    # An array of the instances that are using the installation
+    # @return [Instance[]] the instances that are using the installation
     def instances
       retrieve_instances("group-instance", Instance);
     end

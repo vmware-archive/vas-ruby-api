@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,32 +12,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
-  # Used to enumerate Node Revision s
+  # Used to enumerate revisions of a node application
   class NodeRevisions < Shared::Collection
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, 'revisions', NodeRevision)
     end
     
   end
 
-  # A revision of a NodeApplication
+  # A revision of a node application
   class NodeRevision < Shared::StateResource
 
-    # The Revision's version
+    # @return [String] the revision's version
     attr_reader :version
 
-    # The Revision's application
+    # @return [NodeApplication] the revision's application
     attr_reader :application
 
-    # The revision's group revision
+    # @return [Revision] the group revision that this node revision is a member of
     attr_reader :group_revision
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
       
       @version = details['version']
@@ -46,7 +47,8 @@ module TcServer
       @group_revision = Revision.new(Util::LinkUtils.get_link_href(details, 'group-revision'), client)
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the ndoe revision
+    def to_s
       "#<#{self.class} version='#@version'>"
     end
 

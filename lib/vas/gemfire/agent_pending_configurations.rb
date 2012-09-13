@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate an agent instance's pending configuration
   class AgentPendingConfigurations < Shared::PendingConfigurations
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, 'pending-configurations', AgentPendingConfiguration)
     end
 
@@ -29,7 +29,8 @@ module Gemfire
   # A configuration file that is pending
   class AgentPendingConfiguration < Shared::PendingConfiguration
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, 'agent-group-instance', AgentInstance)
     end
 

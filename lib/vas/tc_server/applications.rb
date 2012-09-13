@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,19 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
-  # Used to enumerate, create, and delete applications.
+  # Used to enumerate, create, and delete applications
   class Applications < Shared::MutableCollection
 
     def initialize(location, client) #:nodoc:
       super(location, client, "applications", Application)
     end
 
-    # Creates an Application named +name+ with the given +context_path+. The application will deploy its revisions to the given
-    # +service+ and +host+.
+    # Creates an new application 
+    # 
+    # @param name [String] the name of the application
+    # @param context_path [String] the context path of the application
+    # @param service [String] the service that the application will deploy its revisions to
+    # @param host [String] the host that the application will deploy its revisions to
+    #
+    # @return [Application] the new application
     def create(name, context_path, service, host)
       Application.new(client.post(location, {"context-path" => context_path, :name => name, :host => host, :service => service}, "group-application"), client)
     end
@@ -39,40 +44,37 @@ module TcServer
   # An application
   class Application < Shared::Resource
 
-    # The application's context path
+    # @return [String] the application's context path
     attr_reader :context_path
 
-    # The application's name
+    # @return [String] the application's name
     attr_reader :name
 
-    # The service the application will deploy its revisions to
+    # @return [String] the service the application will deploy its revisions to
     attr_reader :service
 
-    # The host the application will deploy its revisions to
+    # @return [String] the host the application will deploy its revisions to
     attr_reader :host
 
-    # The application's Revisions
+    # @return [Revisions] the application's revisions
     attr_reader :revisions
+    
+    # @return [Instance] the instance that contains the application
+    attr_reader :instance
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @revisions = Revisions.new(Util::LinkUtils.get_link_href(details, "group-revisions"), client)
-
       @context_path = details["context-path"]
       @name = details["name"]
       @service = details["service"]
       @host = details["host"]
-
-      @instance_location = Util::LinkUtils.get_link_href(details, "group-instance")
+      @instance = Instance.new(Util::LinkUtils.get_link_href(details, "group-instance"), client)
     end
 
-    # The instance that contains the application
-    def instance
-      Instance.new(@instance_location, client)
-    end
-
-    # An array of the application's individual node applications
+    # @return [NodeApplication[]] the application's individual node applications
     def node_applications
       node_applications = []
       Util::LinkUtils.get_link_hrefs(client.get(location), 'node-application').each {
@@ -80,7 +82,8 @@ module TcServer
       node_applications
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the application
+    def to_s
       "#<#{self.class} name='#@name' context_path='#@context_path' service='#@service' host='#@host'>"
     end
 

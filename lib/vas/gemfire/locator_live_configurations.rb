@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,15 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate a locator instance's live configuration
   class LocatorLiveConfigurations < Shared::Collection
 
-    def initialize(location, client) #:nodoc:
-      super(location, client, "live-configurations", LocatorConfiguration)
+    # @private
+    def initialize(location, client)
+      super(location, client, "live-configurations", LocatorLiveConfiguration)
+    end
+
+  end
+  
+  # A live configuration file in a locator instance
+  class LocatorLiveConfiguration < Shared::Configuration
+
+    # @private
+    def initialize(location, client)
+      super(location, client, "locator-group-instance", LocatorInstance)
     end
 
   end
