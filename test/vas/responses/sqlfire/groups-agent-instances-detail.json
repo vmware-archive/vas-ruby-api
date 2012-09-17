@@ -1,0 +1,51 @@
+{
+    "name":"example",
+    "jvm-options":[ "-Da=alpha" ],
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/agent-instances/4/configurations/pending/",
+            "rel":"pending-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/installations/3/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/agent-instances/5/",
+            "rel":"agent-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/1/agent-instances/6/",
+            "rel":"agent-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/agent-instances/4/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/agent-instances/4/configurations/live/",
+            "rel":"live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/agent-instances/4/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/7/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

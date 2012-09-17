@@ -1,0 +1,49 @@
+{
+    "name":"example",
+    "run-netserver":true,
+    "jvm-options":[ "-Da=alpha" ],
+    "bind-address":"bind.address",
+    "client-bind-address":"client.bind.address",
+    "client-port":1234,
+    "peer-discovery-address":"peer.discovery.address",
+    "peer-discovery-port":2345,
+    "initial-heap":"256M",
+    "max-heap":"512M",
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/locator-instances/3/configurations/live/",
+            "rel":"node-live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/locator-instances/3/logs/",
+            "rel":"logs",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/locator-instances/3/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/locator-instances/2/",
+            "rel":"locator-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/locator-instances/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "installation-images":[
+        {
+            "version":"6.6.1",
+            "links":[
+                {
+                    "href":"https://localhost:8443/sqlfire/v1/installation-images/0/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "version":"6.6.2",
+            "links":[
+                {
+                    "href":"https://localhost:8443/sqlfire/v1/installation-images/1/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/installation-images/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/2/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

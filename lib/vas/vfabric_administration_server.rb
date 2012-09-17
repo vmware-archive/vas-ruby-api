@@ -23,6 +23,9 @@ class VFabricAdministrationServer
   # @return [RabbitMq::RabbitMq] the RabbitMQ API
   attr_reader :rabbitmq
 
+  # @return [Sqlfire::Sqlfire] the SQLFire API
+  attr_reader :sqlfire
+
   # @return [TcServer::TcServer] the tc Server API
   attr_reader :tc_server
 
@@ -46,6 +49,7 @@ class VFabricAdministrationServer
 
     @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
     @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1", @client)
+    @sqlfire = Sqlfire::Sqlfire.new("https://#{host}:#{port}/rabbitmq/v1", @client)
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
     @web_server = VFabric::VFabric.new("https://#{host}:#{port}/web-server/v1", @client)

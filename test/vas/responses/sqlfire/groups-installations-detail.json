@@ -1,0 +1,45 @@
+{
+    "version":"6.6.1",
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/server-instances/4/",
+            "rel":"server-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/installation-images/0/",
+            "rel":"installation-image",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/installations/2/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/agent-instances/3/",
+            "rel":"agent-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/locator-instances/6/",
+            "rel":"locator-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/locator-instances/5/",
+            "rel":"locator-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/7/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

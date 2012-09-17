@@ -1,0 +1,48 @@
+{
+    "name":"example",
+    "run-netserver":true,
+    "jvm-options":[ "-Da=alpha" ],
+    "bind-address":"bind.address",
+    "client-bind-address":"client.bind.address",
+    "client-port":1234,
+    "critical-heap-percentage":90,
+    "initial-heap":"1024M",
+    "max-heap":"1024M",
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/",
+            "rel":"node",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/configurations/live/",
+            "rel":"node-live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/logs/",
+            "rel":"logs",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/1/server-instances/2/",
+            "rel":"server-group-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/4/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

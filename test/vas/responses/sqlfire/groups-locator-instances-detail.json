@@ -1,0 +1,59 @@
+{
+    "name":"example",
+    "run-netserver":true,
+    "jvm-options":[ "-Da=alpha" ],
+    "bind-address":"bind.address",
+    "client-bind-address":"client.bind.address",
+    "client-port":1234,
+    "peer-discovery-address":"peer.discovery.address",
+    "peer-discovery-port":2345,
+    "initial-heap":"256M",
+    "max-heap":"512M",
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/locator-instances/4/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/locator-instances/4/configurations/live/",
+            "rel":"live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/installations/3/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/1/locator-instances/6/",
+            "rel":"locator-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/locator-instances/4/configurations/pending/",
+            "rel":"pending-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/locator-instances/4/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/locator-instances/5/",
+            "rel":"locator-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/7/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

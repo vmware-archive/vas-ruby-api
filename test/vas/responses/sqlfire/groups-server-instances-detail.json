@@ -1,0 +1,58 @@
+{
+    "name":"example",
+    "run-netserver":true,
+    "jvm-options":[ "-Da=alpha" ],
+    "bind-address":"bind.address",
+    "client-bind-address":"client.bind.address",
+    "client-port":1234,
+    "critical-heap-percentage":90,
+    "initial-heap":"512M",
+    "max-heap":"1024M",
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/1/server-instances/6/",
+            "rel":"server-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/installations/3/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/",
+            "rel":"group",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/0/server-instances/5/",
+            "rel":"server-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/server-instances/4/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/server-instances/4/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/server-instances/4/configurations/live/",
+            "rel":"live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/sqlfire/v1/groups/2/server-instances/4/configurations/pending/",
+            "rel":"pending-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/7/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
