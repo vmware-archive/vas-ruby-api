@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,26 +12,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit groups.
+  # Used to enumerate, create, and delete RabbitMQ groups.
   class Groups < Shared::Groups
 
-    def initialize(location, client) #:nodoc:#
+    # @private
+    def initialize(location, client)
       super(location, client, Group)
     end
 
   end
 
-  # A Rabbit group
+  # A RabbitMQ group
   class Group < Shared::Group
 
-    # The group's instances
+    # @return [Instances] the group's instances
     attr_reader :instances
 
-    def initialize(location, client) #:nodoc:#
+    # @private
+    def initialize(location, client)
       super(location, client, Node, Installations)
       @instances = Instances.new(Util::LinkUtils.get_link_href(details, "group-instances"), client)
     end

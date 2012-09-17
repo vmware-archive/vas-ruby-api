@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,32 +12,39 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module VFabric
   
-  # Used to enumerate VFabric nodes. Support for enumeration is provided by the superclass, Shared::Nodes.
-  class Nodes < Shared::Collection
+  # Used to enumerate VFabric nodes
+  class Nodes < Shared::MutableCollection
 
+    # @private
     def initialize(location, client)
       super(location, client, 'nodes', Node)
     end
 
   end
 
-  # Deletes the Node
-  def delete(entry)
-    client.delete(entry.location)
+  # Deletes the node
+  #
+  # @param node [Node] the node to delete
+  #
+  # @return [void]
+  def delete(node)
+    client.delete(node.location)
   end
 
   # A VFabric node
   class Node < Shared::Node
-
-    def initialize(location, client) #:nodoc:
+  
+    # @private
+    def initialize(location, client)
       super(location, client)
     end
     
-    def to_s #:nodoc:
+    # @return [String] a string representation of the node
+    def to_s
       "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' metadata='#{metadata}'>"
     end
 

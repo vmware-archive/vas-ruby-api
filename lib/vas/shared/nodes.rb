@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,32 +12,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
-  # A node
+  # @abstract A node, i.e. a machine with the vFabric Administration agent installed on it
   class Node < Shared::Resource
     
-    # The location of the vFabric Administration agent
+    # @return [String] the location of the vFabric Administration agent
     attr_reader :agent_home
     
-    # The architecture of the node's operating system
+    # @return [String] the architecture of the node's operating system
     attr_reader :architecture
     
-    # The node's host names
+    # @return [String] the node's host names
     attr_reader :host_names
     
-    # The node's IP addresses
+    # @return [String[]] the node's IP addresses
     attr_reader :ip_addresses
     
-    # The node's metadata
+    # @return [Hash] the node's metadata
     attr_reader :metadata
     
-    # The node's operating system
+    # @return [String] the node's operating system
     attr_reader :operating_system
 
-    def initialize(location, client)  #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
       
       @agent_home = details["agent-home"]
@@ -51,14 +51,16 @@ module Shared
 
   end
 
+  # @abstract A node that can be grouped
   class GroupableNode < Node
-
+    
+    # @private
     def initialize(location, client, group_class)
       super(location, client)
       @group_class = group_class
     end
 
-    # An array of the groups which contain this node
+    # @return [Group[]] the groups that contain this node
     def groups
       groups = []
       Util::LinkUtils.get_link_hrefs(client.get(location), 'group').each {

@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,26 +12,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
 
+
+# API for administering GemFire
 module Gemfire
   
   # The entry point to the API for administering GemFire
   class Gemfire
 
-    # The GemFire groups
+    # @return [Groups] the GemFire groups
     attr_reader :groups
 
-    # The GemFire installation images
+    # @return [InstallationImages] the GemFire installation images
     attr_reader :installation_images
 
-    # The GemFire nodes
+    # @return [Nodes] the GemFire nodes
     attr_reader :nodes
 
-    # The GemFire application code images
+    # @return [ApplicationCodeImages] the GemFire application code images
     attr_reader :application_code_images
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
 
       json = client.get(location)
       

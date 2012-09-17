@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate cache server instances on an individual node
   class CacheServerNodeInstances < Shared::NodeInstances
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "cache-server-node-instances", CacheServerNodeInstance)
     end
 
@@ -29,13 +29,14 @@ module Gemfire
   # A cache server node instance
   class CacheServerNodeInstance < Shared::NodeInstance
 
-    # The instance's disk stores
+    # @return [DiskStores] the instance's disk stores
     attr_reader :disk_stores
 
-    # The instance's statistics
+    # @return [Statistics] the instance's statistics
     attr_reader :statistics
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Node, CacheServerLogs, CacheServerInstance, 'cache-server-group-instance')
       @disk_stores = DiskStores.new(Util::LinkUtils.get_link_href(details, 'disk-stores'), client)
       @statistics = Statistics.new(Util::LinkUtils.get_link_href(details, 'statistics'), client)

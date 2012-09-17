@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,23 +12,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
   
+  # @abstract The base of all types that interact with the REST API. A resource should map to a
+  #   specific URI in the REST API
   class Resource
     
-    attr_reader :location #:nodoc:
+    # @private
+    attr_reader :location
   
-    # The Resource's Security
+    # @return [Security] the resource's security
     attr_reader :security
-
+    
     private
+    
     attr_reader :client
 
     attr_reader :details
     
-    def initialize(location, client)  #:nodoc:
+    # @private
+    def initialize(location, client)
       @location = location
       @client = client
 

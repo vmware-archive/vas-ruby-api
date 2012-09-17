@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate, create, and delete agent instances.
   class AgentInstances < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "agent-group-instances", AgentInstance)
     end
 
-    # Creates a new instance named +name+, using the given +installation+.
+    # Creates a new agent instance
+    #
+    # @param installation [Installation] the installation to be used by the instance
+    # @param name [String] the name of the instance
+    # 
+    # @return [AgentInstance] the new agent instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
       AgentInstance.new(client.post(location, payload, "agent-group-instance"), client)
@@ -35,11 +40,16 @@ module Gemfire
   # An agent instance
   class AgentInstance < Shared::Instance
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group, Installation, AgentLiveConfigurations, AgentPendingConfigurations, AgentNodeInstance, 'agent-node-instance')
     end
 
-    # Updates the instance to use the given +installation+
+    # Updates the instance to use a different installation
+    #
+    # @param installation [Installation] the installation that the instance should use
+    #
+    # @return [void]
     def update(installation)
       client.post(location, { :installation => installation.location });
     end

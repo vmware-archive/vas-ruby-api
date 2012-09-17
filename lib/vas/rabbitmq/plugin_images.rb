@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module RabbitMq
 
-  # Used to enumerate, create, and delete Rabbit plugin images
+  # Used to enumerate, create, and delete RabbitMQ plugin images
   class PluginImages < Shared::MutableCollection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "plugin-images", PluginImage)
     end
     
-    # Creates a plugin image by uploading the file at the given +path+
+    # Creates a new plugin image by uploading a file
+    #
+    # @param path [String] the path of the plugin +.ez+ file to upload
+    #
+    # @return [PluginImage] the new plugin image
     def create(path)
       PluginImage.new(client.post_image(location, path), client)
     end
@@ -43,7 +47,8 @@ module RabbitMq
     # The plugin image's size
     attr_reader :size
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @name = details["name"]
@@ -51,14 +56,15 @@ module RabbitMq
       @size = details['size']
     end
 
-    # The plugins that have been created from this plugin image
+    # @return [Plugin[]] the plugins that have been created from this plugin image
     def plugins
       plugins = []
       Util::LinkUtils.get_link_hrefs(client.get(location), "plugin").each { |plugin_location| plugins << Plugin.new(plugin_location, client)}
       plugins
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the plugin image
+    def to_s
       "#<#{self.class} name='#@name' version='#@version'>"
     end
 

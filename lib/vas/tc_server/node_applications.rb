@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,41 +12,46 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
-  # Used to enumerate a NodeInstance's NodeApplication s
+  # Used to enumerate a node instance's applications
   class NodeApplications < Shared::Collection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "applications", NodeApplication)
     end
 
   end
 
-  # A node application
+  # An application on a node instance
   class NodeApplication < Shared::Resource
 
-    # The application's context path
+    # @return [String] the application's context path
     attr_reader :context_path
 
-    # The application's name
+    # @return [String] the application's name
     attr_reader :name
 
-    # The service the application will deploy its revisions to
+    # @return [String] the service the application will deploy its revisions to
     attr_reader :service
 
-    # The host the application will deploy its revisions to
+    # @return [String] the host the application will deploy its revisions to
     attr_reader :host
 
-    # The application's NodeRevisions
+    # @return [NodeRevisions] the application's revisions
     attr_reader :revisions
 
-    # The Application that this node application is a member of
+    # @return [Application] the application that this node application is a member of
     attr_reader :group_application
+    
+    # @return [NodeInstance] the node instance that contains the application
+    attr_reader :instance
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @revisions = NodeRevisions.new(Util::LinkUtils.get_link_href(details, "node-revisions"), client)
@@ -57,17 +61,13 @@ module TcServer
       @service = details["service"]
       @host = details["host"]
 
-      @instance_location = Util::LinkUtils.get_link_href(details, "node-instance")
+      @instance = NodeInstance.new(Util::LinkUtils.get_link_href(details, "node-instance"), client)
 
       @group_application = Application.new(Util::LinkUtils.get_link_href(details, "group-application"), client)
     end
 
-    # The node instance that contains the application
-    def instance
-      NodeInstance.new(@instance_location, client)
-    end
-
-    def to_s #:nodoc:
+    # @return [String] a string representation of the node application
+    def to_s
       "#<#{self.class} name='#@name' context_path='#@context_path' service='#@service' host='#@host'>"
     end
 

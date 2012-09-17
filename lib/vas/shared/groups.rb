@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,17 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Shared
 
+  # @abstract A collection of groups
   class Groups < MutableCollection
 
-    def initialize(location, client, group_class) #:nodoc:
+    # @private
+    def initialize(location, client, group_class)
       super(location, client, "groups", group_class)
     end
 
-    # Creates a Group named +name+ from the given +nodes+.
+    public
+
+    # Creates a new group 
+    #
+    # @param name [String] the group's name
+    # @param nodes [GroupableNode[]] the group's nodes
+    #
+    # @return [Group] the new group
     def create(name, nodes)
       node_locations = []
       nodes.each { |node| node_locations << node.location }
@@ -32,37 +40,47 @@ module Shared
 
   end
 
+  # @abstract A collection of one or more nodes
   class Group < Shared::Resource
 
-    # The group's installations
+    # @return [Installations] the group's installations
     attr_reader :installations
 
-    # The name of the group
+    # @return [String] the group's name
     attr_reader :name
 
-    def initialize(location, client, nodes_class, installations_class) #:nodoc:#
+    # @private
+    def initialize(location, client, nodes_class, installations_class)
       super(location, client)
       @name = details["name"]
       @installations = installations_class.new(Util::LinkUtils.get_link_href(details, "installations"), client)
       @nodes_class = nodes_class
     end
+    
+    public
 
-    # An array of the group's nodes
+    # @return [GroupableNode[]] the group's nodes
     def nodes
       nodes = []
       Util::LinkUtils.get_link_hrefs(client.get(location), "node").each { |node_location| nodes << @nodes_class.new(node_location, client)}
       nodes
     end
 
-    def to_s #:nodoc:
+    # @return [String] a string representation of the group
+    def to_s
       "#<#{self.class} name='#@name'>"
     end
 
   end
 
+  # @abstract A group that supports changes to it membership
   class MutableGroup < Group
 
-    # Updates the group to contain the given +nodes+.
+    # Updates the group to contain the given nodes
+    #
+    # @param nodes [GroupableNode[]] the group's nodes
+    #
+    # @return [void]
     def update(nodes)
       node_locations = []
       nodes.each { |node| node_locations << node.location }

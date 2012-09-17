@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,25 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Application code in a cache server instance
   class ApplicationCode < Shared::Resource
 
-    # The name of the application code
+    # @return [String] the name of the application code
     attr_reader :name
 
-    # The version of the application code
+    # @return [String] the version of the application code
     attr_reader :version
 
-    # The image that was used to create this application code
+    # @return [ApplicationCodeImage] the image that was used to create the application code
     attr_reader :application_code_image
 
-    # The cache server instance that contains this application code
+    # @return [CacheServerInstance] the cache server instance that contains the application code
     attr_reader :instance
 
+    # @private
     def initialize(location, client)
       super(location, client)
 
@@ -45,6 +45,7 @@ module Gemfire
           Util::LinkUtils.get_link_href(details, 'cache-server-group-instance'), client)
     end
 
+    # @return [String] a string representation of the application code
     def to_s #:nodoc:
       "#<#{self.class} name='#@name' version=#@version>"
     end

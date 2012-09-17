@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,14 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
   
   # Used to enumerate GemFire nodes
   class Nodes < Shared::Collection
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "nodes", Node)
     end
 
@@ -29,30 +29,29 @@ module Gemfire
   # A GemFire node
   class Node < Shared::GroupableNode
 
-    # The Node's Java home
+    # @return [String] the Node's Java home
     attr_reader :java_home
+    
+    # @return [AgentNodeInstances] the node's agent instances
+    attr_reader :agent_instances
+    
+    # @return [CacheServerInstances] the node's cache server instances
+    attr_reader :cache_server_instances
+    
+    # @return [LocatorNodeInstances] the node's locator instances
+    attr_reader :locator_instances
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Group)
       @java_home = details["java-home"]
+      @agent_instances = AgentNodeInstances.new(Util::LinkUtils.get_link_href(details, "agent-node-instances"), client)
+      @cache_server_instances = CacheServerNodeInstances.new(Util::LinkUtils.get_link_href(details, "cache-server-node-instances"), client)
+      @locator_instances = LocatorNodeInstances.new(Util::LinkUtils.get_link_href(details, "locator-node-instances"), client)
     end
 
-    # The node's agent instances
-    def agent_instances
-      @instances = AgentNodeInstances.new(Util::LinkUtils.get_link_href(details, "agent-node-instances"), client)
-    end
-
-    # The node's cache server instances
-    def cache_server_instances
-      @instances = CacheServerNodeInstances.new(Util::LinkUtils.get_link_href(details, "cache-server-node-instances"), client)
-    end
-
-    # The node's locator instances
-    def locator_instances
-      @instances = LocatorNodeInstances.new(Util::LinkUtils.get_link_href(details, "locator-node-instances"), client)
-    end
-    
-    def to_s #:nodoc:
+    # @return [String] a string representation of the node
+    def to_s
       "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#{java_home}' metadata='#{metadata}'>"
     end
 

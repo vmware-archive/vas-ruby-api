@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,49 +12,53 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete application revisions.
   class Revisions < Shared::MutableCollection
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "revisions", Revision)
     end
 
-    # Creates a Revision by deploying the RevisionImage +revision_image+
+    # Creates a revision by deploying the revision image
+    #
+    # @param revision_image [RevisionImage] the revision image to deploy
+    #
+    # @return [Revision] the new revision
     def create(revision_image)
       Revision.new(client.post(location, { :image => revision_image.location}, 'group-revision'), client)
     end
     
   end
 
-  # A revision of an Application
+  # A revision of an application
   class Revision < Shared::StateResource
 
-    # The Revision's version
+    # @return [String] the revision's version
     attr_reader :version
 
-    # The Revision's application
+    # @return [Application] the revision's application
     attr_reader :application
     
-    def initialize(location, client) #:nodoc:
+    # @return [RevisionImage] the revision image, if any, that was used to create the revision
+    attr_reader :revision_image
+    
+    # @private
+    def initialize(location, client)
       super(location, client)
       
       @version = details['version']
-      @revision_image_location = Util::LinkUtils.get_link_href(details, 'revision-image')
       @application = Application.new(Util::LinkUtils.get_link_href(details, 'group-application'), client)
+      
+      revision_image_location = Util::LinkUtils.get_link_href(details, 'revision-image')
+      @revision_image = RevisionImage.new(revision_image_location, client) unless revision_image_location.nil?
     end
 
-    # The revision image, if any, that was used to create the revision
-    def revision_image
-      if (!@revision_image_location.nil?)
-        RevisionImage.new(@revision_image_location, client)
-      end
-    end
-
-    # An array of the revision's individual node revisions
+    # @return [NodeRevision[]] the revision's node revisions
     def node_revisions
       node_revisions = []
       Util::LinkUtils.get_link_hrefs(client.get(location), 'node-revision').each {
@@ -63,7 +66,8 @@ module TcServer
       node_revisions
     end
     
-    def to_s #:nodoc:
+    # @return [String] a string representation of the revision
+    def to_s
       "#<#{self.class} version='#@version'>"
     end
   end

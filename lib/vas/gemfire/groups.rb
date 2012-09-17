@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,32 +12,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module Gemfire
 
   # Used to enumerate, create, and delete GemFire groups.
   class Groups < Shared::Groups
 
-    def initialize(location, client) #:nodoc:#
+    # @private
+    def initialize(location, client)
       super(location, client, Group)
     end
 
   end
 
-  # A tc Server group
+  # A GemFire group
   class Group < Shared::MutableGroup
 
-    # The group's agent instances
+    # @return [AgentInstances] the group's agent instances
     attr_reader :agent_instances
 
-    # The group's cache server instances
+    # @return [CacheServerInstances] the group's cache server instances
     attr_reader :cache_server_instances
 
-    # The group's locator instances
+    # @return [LocatorInstances] the group's locator instances
     attr_reader :locator_instances
 
-    def initialize(location, client) #:nodoc:#
+    # @private
+    def initialize(location, client)
       super(location, client, Node, Installations)
       @agent_instances = AgentInstances.new(Util::LinkUtils.get_link_href(details, "agent-group-instances"), client)
       @cache_server_instances = CacheServerInstances.new(Util::LinkUtils.get_link_href(details, "cache-server-group-instances"), client)

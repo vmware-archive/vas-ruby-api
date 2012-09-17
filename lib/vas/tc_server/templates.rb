@@ -1,4 +1,3 @@
-#--
 # vFabric Administration Server Ruby API
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
@@ -13,18 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#++
+
 
 module TcServer
 
   # Used to enumerate, create, and delete tc Server templates.
   class Templates < Shared::MutableCollection
     
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, "templates", Template)
     end
     
-    # Creates a template from the +template_image+
+    # Creates a new template
+    #
+    # @param template_image [TemplateImage] the template image to use to create the template
+    #
+    # @return [Template] the new template
     def create(template_image)
       Template.new(client.post(location, { :image => template_image.location }, "template"), client)
     end
@@ -34,34 +38,32 @@ module TcServer
   # A tc Server template
   class Template < Shared::Resource
 
-    # The template's version
+    # @return [String] the template's version
     attr_reader :version
     
-    # The template's name
+    # @return [String] the template's name
     attr_reader :name
 
-    # The template image, if any, that this template was created from
+    # @return [TemplateImage] the template image, if any, that this template was created from
     attr_reader :template_image
 
-    # The template's installation
+    # @return [Installation] the template's installation
     attr_reader :installation
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client)
 
       @version = details["version"]
       @name = details["name"]
-
-      template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
-      if (!template_image_location.nil?)
-        @template_image = TemplateImage.new(template_image_location, client)
-      end
-
       @installation = Installation.new(Util::LinkUtils.get_link_href(details, 'installation'), client)
 
+      template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
+      @template_image = TemplateImage.new(template_image_location, client) unless template_image_location.nil?
     end
-    
-    def to_s #:nodoc:
+
+    # @return [String] a string representation of the template
+    def to_s
       "#<#{self.class} name='#@name' version='#@version'>"
     end
     
