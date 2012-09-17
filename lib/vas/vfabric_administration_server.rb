@@ -29,6 +29,9 @@ class VFabricAdministrationServer
   # @return [VFabric::VFabric] the vFabric API
   attr_reader :vfabric
 
+  # @return [WebServer::WebServer] the vFabric Web Server API
+  attr_reader :web_server
+
   # Creates an entry point that will connect to a vFabric Administration Server. 
   # @param [Hash] configuration the connection configuration
   # @option configuration [String] :username ('admin') The username to use to authenticate with the server
@@ -41,10 +44,11 @@ class VFabricAdministrationServer
     host = configuration[:host] || "localhost"
     port = configuration[:port] || 8443
 
+    @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
+    @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1", @client)
     @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
     @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
-    @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1", @client)
-    @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
+    @web_server = VFabric::VFabric.new("https://#{host}:#{port}/web-server/v1", @client)
   end
   
 end

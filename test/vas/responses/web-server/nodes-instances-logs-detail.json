@@ -1,0 +1,27 @@
+{
+    "name":"access_log",
+    "size":149,
+    "last-modified":1337872856,
+    "links":[
+        {
+            "href":"https://localhost:8443/web-server/v1/nodes/0/instances/3/",
+            "rel":"node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/web-server/v1/nodes/0/instances/3/logs/4/content/",
+            "rel":"content",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/web-server/v1/nodes/0/instances/3/logs/4/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/5/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

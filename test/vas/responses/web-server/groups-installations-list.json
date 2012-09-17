@@ -1,0 +1,36 @@
+{
+    "installations":[
+        {
+            "version":"2.8.1",
+            "links":[
+                {
+                    "href":"https://localhost:8443/web-server/v1/groups/0/installations/1/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "version":"2.8.2",
+            "links":[
+                {
+                    "href":"https://localhost:8443/web-server/v1/groups/0/installations/2/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/web-server/v1/groups/0/installations/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/3/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

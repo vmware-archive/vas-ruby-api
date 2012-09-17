@@ -1,0 +1,28 @@
+{
+    "operating-system":"Linux",
+    "architecture":"x64",
+    "version":"2.8.1",
+    "size":7340032,
+    "links":[
+        {
+            "href":"https://localhost:8443/web-server/v1/groups/1/installations/2/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/web-server/v1/groups/3/installations/4/",
+            "rel":"installation",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/web-server/v1/installation-images/0/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/5/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}
