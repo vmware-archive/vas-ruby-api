@@ -27,12 +27,12 @@ Gem::Specification.new do |gem|
   gem.platform = Gem::Platform::RUBY
   gem.extra_rdoc_files = %w(README.md LICENSE NOTICE)
   
-  gem.add_dependency "json_pure", ">= 1.7.3"
-  gem.add_dependency "multipart-post", ">=1.1.5"
-  gem.add_dependency "rubyzip", ">=0.9.9"
+  gem.add_dependency "json_pure", "~> 1.7.3"
+  gem.add_dependency "multipart-post", "~> 1.1.5"
+  gem.add_dependency "rubyzip", "~> 0.9.9"
 
-  gem.add_development_dependency "simplecov", ">=0.6.4"
-  gem.add_development_dependency "fakeweb", ">=1.3.0"
+  gem.add_development_dependency "simplecov", "~> 0.6.4"
+  gem.add_development_dependency "fakeweb", "~> 1.3.0"
 
   gem.files         = %w(LICENSE NOTICE README.md Rakefile) + Dir.glob("lib/**/*")
   gem.require_path = "lib"
