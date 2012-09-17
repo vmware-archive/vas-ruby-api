@@ -37,7 +37,7 @@ A number of [examples](https://github.com/vFabric/vas-ruby-api/tree/master/examp
 
 ### Documentation
 
-You may also like to look at the [API documentation](http://rubydoc.info/gems/vas/0.4.0/frames).
+You may also like to look at the [API documentation](http://rubydoc.info/gems/vas/frames).
 
 ##Licence
 
