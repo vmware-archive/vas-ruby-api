@@ -48,6 +48,7 @@ module Sqlfire
       instance = AgentInstance.new(location, client)
 
       assert_equal('example', instance.name)
+      assert_equal(['-Da=alpha'], instance.jvm_options)
       assert_equal('https://localhost:8443/sqlfire/v1/groups/2/installations/3/', instance.installation.location)
       assert_equal('https://localhost:8443/sqlfire/v1/groups/2/', instance.group.location)
       assert_equal('https://localhost:8443/sqlfire/v1/groups/2/agent-instances/4/configurations/live/', instance.live_configurations.location)
@@ -68,7 +69,7 @@ module Sqlfire
       client.verify
     end
 
-    def test_update
+    def test_update_installation
       client = StubClient.new
       installation = create_mock_with_location('https://localhost:8443/sqlfire/v1/groups/1/installations/3/')
       instance = AgentInstance.new('https://localhost:8443/sqlfire/v1/groups/1/agent-instances/2/', client)
@@ -76,10 +77,23 @@ module Sqlfire
       client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/groups/1/agent-instances/2/',
                                  {:installation => 'https://localhost:8443/sqlfire/v1/groups/1/installations/3/'}])
 
-      instance.update(installation)
+      instance.update({:installation => installation})
 
       client.verify
     end
+
+    def test_update_jvm_options
+      client = StubClient.new
+      instance = AgentInstance.new('https://localhost:8443/sqlfire/v1/groups/1/agent-instances/2/', client)
+
+      client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/groups/1/agent-instances/2/',
+                                 {'jvm-options' => ['-Da=alpha']}])
+
+      instance.update({'jvm-options' => ['-Da=alpha']})
+
+      client.verify
+    end
+
 
     def test_delete
       client = StubClient.new

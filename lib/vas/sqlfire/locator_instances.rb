@@ -121,7 +121,7 @@ module Sqlfire
     # @option options :installation [String] The installation to be used by the instance. If omitted or +nil+, the
     #   configuration will not be changed.
     # @option options 'jvm-options' [String[]] The JVM options that are passed to the locator's JVM when it is started.
-    #   If omitted or +nil+, the configuration will not be chanaged
+    #   If omitted or +nil+, the configuration will not be changed
     # @option options 'max-heap' [String] The maximum heap size to be used by the locator's JVM. If omitted or +nil+, the
     #   configuration will not be changed. If set to an empty string the JVM's default is used
     # @option options 'peer-discovery-address' [String] The property in a node's metadata to use to determine the

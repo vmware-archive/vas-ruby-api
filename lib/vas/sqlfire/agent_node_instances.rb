@@ -34,6 +34,11 @@ module Sqlfire
       super(location, client, Node, AgentLogs, AgentInstance, 'agent-group-instance')
     end
 
+    # @return [String[]] The JVM options that are passed to the agent's JVM when it is started
+    def jvm_options
+      client.get(location)['jvm-options']
+    end
+
   end
 
 end

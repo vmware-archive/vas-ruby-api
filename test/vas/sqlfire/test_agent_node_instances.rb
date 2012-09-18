@@ -34,6 +34,7 @@ module Sqlfire
       instance = AgentNodeInstance.new(location, client)
   
       assert_equal('example', instance.name)
+      assert_equal(['-Da=alpha'], instance.jvm_options)
       assert_equal('https://localhost:8443/sqlfire/v1/nodes/0/', instance.node.location)
       assert_equal('https://localhost:8443/sqlfire/v1/groups/1/agent-instances/2/', instance.group_instance.location)
       assert_equal('https://localhost:8443/sqlfire/v1/nodes/0/agent-instances/3/logs/', instance.logs.location)

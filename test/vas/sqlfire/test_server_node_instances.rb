@@ -34,7 +34,6 @@ module Sqlfire
       instance = ServerNodeInstance.new(location, client)
   
       assert_equal('example', instance.name)
-      assert_equal('example', instance.name)
       assert_equal(['-Da=alpha'], instance.jvm_options)
       assert_equal('bind.address', instance.bind_address)
       assert_equal('client.bind.address', instance.client_bind_address)

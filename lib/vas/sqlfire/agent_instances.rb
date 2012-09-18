@@ -28,10 +28,18 @@ module Sqlfire
     #
     # @param installation [Installation] the installation to be used by the instance
     # @param name [String] the name of the instance
-    # 
+    # @param options [Hash] optional configuration for the instance
+    #
+    # @option options 'jvm-options' [String[]] The JVM options that are passed to the agents's JVM when it is started
+
     # @return [AgentInstance] the new agent instance
-    def create(installation, name)
+    def create(installation, name, options = {})
       payload = { :installation => installation.location, :name => name }
+
+      if options.has_key? 'jvm-options'
+        payload['jvm-options'] = options['jvm-options']
+      end
+
       AgentInstance.new(client.post(location, payload, "agent-group-instance"), client)
     end
 
@@ -45,13 +53,33 @@ module Sqlfire
       super(location, client, Group, Installation, AgentLiveConfigurations, AgentPendingConfigurations, AgentNodeInstance, 'agent-node-instance')
     end
 
-    # Updates the instance to use a different installation
+    # Updates the instance using the supplied +options+
     #
-    # @param installation [Installation] the installation that the instance should use
+    # @param options [Hash] optional configuration for the instance
+    #
+    # @option options :installation [String] The installation to be used by the instance. If omitted or +nil+, the
+    #   configuration will not be changed.
+    # @option options 'jvm-options' [String[]] The JVM options that are passed to the agent's JVM when it is started.
+    #   If omitted or +nil+, the configuration will not be changed
     #
     # @return [void]
-    def update(installation)
-      client.post(location, { :installation => installation.location });
+    def update(options = {})
+      payload = {}
+
+      if options.has_key? 'jvm-options'
+        payload['jvm-options'] = options['jvm-options']
+      end
+
+      if options.has_key? :installation
+        payload[:installation] = options[:installation].location
+      end
+
+      client.post(location, payload);
+    end
+
+    # @return [String[]] The JVM options that are passed to the agent's JVM when it is started
+    def jvm_options
+      client.get(location)['jvm-options']
     end
 
   end
