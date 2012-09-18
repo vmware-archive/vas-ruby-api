@@ -16,42 +16,49 @@
 
 class StubClient
 
-  def initialize
+  attr_reader  :delegate
+
+  def initialize disabled_components = []
     @location_regex = /https:\/\/localhost:8443\/(.*)\/v1\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/(?:([^\/]*)\/)?)?)?)?)?)?)?)?)?)?/
     @delegate = MiniTest::Mock.new
+    @disabled_components = disabled_components
   end
 
   def get(location)
     @location_regex.match location
 
-    response_path = "#{File.dirname(__FILE__)}/responses/#{$~.captures[0]}/"
-    
-    captures = $~.captures.find_all{|capture| !capture.nil?}
-    
-    if (captures.size == 1)
-      response_path << "root.json"
+    if @disabled_components.include? $~.captures[0]
+      @delegate.get(location)
     else
-      joined_captures = captures[1..-1].find_all{|capture| !integer?(capture) && capture != 'state'}.join("-")
 
-      if (joined_captures.length > 0)
-        response_path << "#{joined_captures}-"
-      end
+      response_path = "#{File.dirname(__FILE__)}/responses/#{$~.captures[0]}/"
 
-      final_capture = captures[-1]
+      captures = $~.captures.find_all { |capture| !capture.nil? }
 
-      if (integer?(final_capture))
-        response_path << "detail.json"
-      elsif (final_capture == "state")
-        response_path << "state.json"
+      if (captures.size == 1)
+        response_path << "root.json"
       else
-        response_path << "list.json"
+        joined_captures = captures[1..-1].find_all { |capture| !integer?(capture) && capture != 'state' }.join("-")
+
+        if (joined_captures.length > 0)
+          response_path << "#{joined_captures}-"
+        end
+
+        final_capture = captures[-1]
+
+        if (integer?(final_capture))
+          response_path << "detail.json"
+        elsif (final_capture == "state")
+          response_path << "state.json"
+        else
+          response_path << "list.json"
+        end
+
       end
-      
+
+      return JSON.parse(IO.read(response_path))
+
     end
-
-    return JSON.parse(IO.read(response_path))
-
-    raise RuntimeError.new("No match found for '#{location}'")
 
   end
 
@@ -102,8 +109,9 @@ class StubClient
 
     ["some", "streamed", "content"][start_line..end_line].each { |content| block.call content }
   end
-  
+
   @private
+
   def integer?(string)
     true if Integer(string) rescue false
   end

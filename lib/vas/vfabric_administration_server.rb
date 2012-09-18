@@ -23,7 +23,7 @@ class VFabricAdministrationServer
   # @return [RabbitMq::RabbitMq] the RabbitMQ API
   attr_reader :rabbitmq
 
-  # @return [Sqlfire::Sqlfire] the SQLFire API
+  # @return [Sqlfire::Sqlfire, nil] the SQLFire API or +nil if the server is not version 1.1.0 or later
   attr_reader :sqlfire
 
   # @return [TcServer::TcServer] the tc Server API
@@ -32,7 +32,7 @@ class VFabricAdministrationServer
   # @return [VFabric::VFabric] the vFabric API
   attr_reader :vfabric
 
-  # @return [WebServer::WebServer] the vFabric Web Server API
+  # @return [WebServer::WebServer, nil] the vFabric Web Server API or +nil if the server is not version 1.1.0 or later
   attr_reader :web_server
 
   # Creates an entry point that will connect to a vFabric Administration Server. 
@@ -42,17 +42,40 @@ class VFabricAdministrationServer
   # @option configuration [String] :host ('localhost') The host of the server
   # @option configuration [Integer] :port (8443) The HTTPS port of the server
   def initialize(configuration = {})
-    @client = Util::Client.new(configuration[:username] || "admin", configuration[:password] || "vmware")
+
+    configuration.has_key?(:client) ?
+        client = configuration[:client] :
+        client = Util::Client.new(configuration[:username] || "admin", configuration[:password] || "vmware")
 
     host = configuration[:host] || "localhost"
     port = configuration[:port] || 8443
 
-    @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1", @client)
-    @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1", @client)
-    @sqlfire = Sqlfire::Sqlfire.new("https://#{host}:#{port}/rabbitmq/v1", @client)
-    @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1", @client)
-    @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1", @client)
-    @web_server = VFabric::VFabric.new("https://#{host}:#{port}/web-server/v1", @client)
+    @gemfire = Gemfire::Gemfire.new("https://#{host}:#{port}/gemfire/v1/", client)
+    @rabbitmq = RabbitMq::RabbitMq.new("https://#{host}:#{port}/rabbitmq/v1/", client)
+
+    sqlfire_location = "https://#{host}:#{port}/sqlfire/v1/"
+    @sqlfire = Sqlfire::Sqlfire.new(sqlfire_location, client) if available? sqlfire_location, client
+
+    @tc_server = TcServer::TcServer.new("https://#{host}:#{port}/tc-server/v1/", client)
+    @vfabric = VFabric::VFabric.new("https://#{host}:#{port}/vfabric/v1/", client)
+
+    web_server_location = "https://#{host}:#{port}/web-server/v1/"
+    @web_server = WebServer::WebServer.new(web_server_location, client) if available? web_server_location, client
   end
-  
+
+  private
+
+  def available? (location, client)
+    begin
+      client.get(location)
+      true
+    rescue VasException => error
+      if error.code == 404
+        false
+      else
+        raise error
+      end
+    end
+  end
+
 end
