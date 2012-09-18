@@ -23,7 +23,7 @@ class VFabricAdministrationServer
   # @return [RabbitMq::RabbitMq] the RabbitMQ API
   attr_reader :rabbitmq
 
-  # @return [Sqlfire::Sqlfire, nil] the SQLFire API or +nil if the server is not version 1.1.0 or later
+  # @return [Sqlfire::Sqlfire, nil] the SQLFire API, or +nil+ if the server is not version 1.1.0 or later
   attr_reader :sqlfire
 
   # @return [TcServer::TcServer] the tc Server API
@@ -32,7 +32,7 @@ class VFabricAdministrationServer
   # @return [VFabric::VFabric] the vFabric API
   attr_reader :vfabric
 
-  # @return [WebServer::WebServer, nil] the vFabric Web Server API or +nil if the server is not version 1.1.0 or later
+  # @return [WebServer::WebServer, nil] the vFabric Web Server API, or +nil+ if the server is not version 1.1.0 or later
   attr_reader :web_server
 
   # Creates an entry point that will connect to a vFabric Administration Server. 
