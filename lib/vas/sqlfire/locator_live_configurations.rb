@@ -27,11 +27,11 @@ module Sqlfire
   end
   
   # A live configuration file in a locator instance
-  class LocatorLiveConfiguration < Shared::Configuration
+  class LocatorLiveConfiguration < Shared::LiveConfiguration
 
     # @private
     def initialize(location, client)
-      super(location, client, "locator-group-instance", LocatorInstance)
+      super(location, client, "locator-group-instance", LocatorInstance, LocatorNodeLiveConfiguration)
     end
 
   end

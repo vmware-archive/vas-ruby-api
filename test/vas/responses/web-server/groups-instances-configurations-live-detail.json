@@ -1,26 +1,29 @@
 {
-    "path":"conf/httpd.conf",
-    "size":24068,
-    "links":[
-        {
-            "href":"https://localhost:8443/web-server/v1/groups/0/instances/1/",
-            "rel":"group-instance",
-            "type":"application/json; charset=utf-8"
-        },
-        {
-            "href":"https://localhost:8443/web-server/v1/groups/0/instances/1/configurations/live/2/",
-            "rel":"self",
-            "type":"application/json; charset=utf-8"
-        },
-        {
-            "href":"https://localhost:8443/web-server/v1/groups/0/instances/1/configurations/live/2/content/",
-            "rel":"content",
-            "type":"application/json; charset=utf-8"
-        },
-        {
-            "href":"https://localhost:8443/vfabric/v1/security/3/",
-            "rel":"security",
-            "type":"application/json; charset=utf-8"
-        }
-    ]
+    "path" : "conf/httpd.conf",
+    "size" : 24068,
+    "links" : [ {
+        "href" : "https://localhost:8443/web-server/v1/groups/1/instances/2/configurations/live/5/",
+        "rel" : "self",
+        "type" : "application/json; charset=utf-8"
+    }, {
+        "href" : "https://localhost:8443/web-server/v1/groups/1/instances/2/",
+        "rel" : "group-instance",
+        "type" : "application/json; charset=utf-8"
+    }, {
+        "href" : "https://localhost:8443/web-server/v1/groups/1/instances/2/configurations/live/5/content/",
+        "rel" : "content",
+        "type" : "application/json; charset=utf-8"
+    }, {
+        "href" : "https://localhost:8443/web-server/v1/nodes/0/instances/4/configurations/live/7/",
+        "rel" : "node-live-configuration",
+        "type" : "application/json; charset=utf-8"
+    }, {
+        "href" : "https://localhost:8443/web-server/v1/nodes/0/instances/3/configurations/live/6/",
+        "rel" : "node-live-configuration",
+        "type" : "application/json; charset=utf-8"
+    }, {
+        "href" : "https://localhost:8443/vfabric/v1/security/8/",
+        "rel" : "security",
+        "type" : "application/json; charset=utf-8"
+    } ]
 }

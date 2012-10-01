@@ -1,0 +1,31 @@
+{
+    "path":"conf/rabbit.config",
+    "size":3412,
+    "links":[
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/configurations/live/5/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/configurations/live/5/content/",
+            "rel":"content",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/",
+            "rel":"node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/rabbitmq/v1/groups/1/instances/2/configurations/live/4/",
+            "rel":"group-live-configuration",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

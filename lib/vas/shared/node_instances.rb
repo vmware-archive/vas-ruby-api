@@ -42,8 +42,12 @@ module Shared
     # @return [Instance] the node instance's group instance
     attr_reader :group_instance
 
+    # @return the node instance's live configuration
+    attr_reader :live_configurations
+
     # @private
-    def initialize(location, client, node_class, logs_class, group_instance_class, group_instance_type) #:nodoc:
+    def initialize(location, client, node_class, logs_class, group_instance_class, group_instance_type,
+        node_live_configurations_class)
       super(location, client)
 
       @name = details["name"]
@@ -51,10 +55,12 @@ module Shared
       @node = node_class.new(Util::LinkUtils.get_link_href(details, "node"), client)
       @logs = logs_class.new(Util::LinkUtils.get_link_href(details, "logs"), client)
       @group_instance = group_instance_class.new(Util::LinkUtils.get_link_href(details, group_instance_type), client)
+      @live_configurations = node_live_configurations_class.new(
+          Util::LinkUtils.get_link_href(details, 'node-live-configurations'), client)
     end
 
     # @return [String] a string representation of the node instance
-    def to_s #:nodoc:
+    def to_s
       "#<#{self.class} name='#@name'>"
     end
 

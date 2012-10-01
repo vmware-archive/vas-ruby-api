@@ -26,4 +26,14 @@ module WebServer
 
   end
 
+  # A live configuration file in a Web Server instance
+  class LiveConfiguration < Shared::LiveConfiguration
+
+    # @private
+    def initialize(location, client)
+      super(location, client, "group-instance", Instance, NodeLiveConfiguration)
+    end
+
+  end
+
 end

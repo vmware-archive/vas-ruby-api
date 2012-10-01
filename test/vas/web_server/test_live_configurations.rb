@@ -29,14 +29,17 @@ module WebServer
     def test_live_configuration
       location = 'https://localhost:8443/web-server/v1/groups/1/instances/2/configurations/live/3/'
   
-      live_configuration = Configuration.new(location, StubClient.new)
+      live_configuration = LiveConfiguration.new(location, StubClient.new)
 
       assert_equal('conf/httpd.conf', live_configuration.path)
       assert_equal(24068, live_configuration.size)
 
-      assert_equal('https://localhost:8443/web-server/v1/groups/0/instances/1/', live_configuration.instance.location)
-      assert_equal('https://localhost:8443/vfabric/v1/security/3/', live_configuration.security.location)
+      assert_equal('https://localhost:8443/web-server/v1/groups/1/instances/2/', live_configuration.instance.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/8/', live_configuration.security.location)
       assert_equal('https://localhost:8443/web-server/v1/groups/1/instances/2/configurations/live/3/', live_configuration.location)
+      assert_equal(2, live_configuration.node_configurations.size)
+      assert_equal('https://localhost:8443/web-server/v1/nodes/0/instances/4/configurations/live/7/', live_configuration.node_configurations[0].location)
+      assert_equal('https://localhost:8443/web-server/v1/nodes/0/instances/3/configurations/live/6/', live_configuration.node_configurations[1].location)
 
       content = ''
   

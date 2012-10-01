@@ -27,11 +27,11 @@ module Gemfire
   end
   
   # A live configuration file in an agent instance
-  class AgentLiveConfiguration < Shared::Configuration
+  class AgentLiveConfiguration < Shared::LiveConfiguration
     
     # @private
     def initialize(location, client)
-      super(location, client, "agent-group-instance", AgentInstance)
+      super(location, client, "agent-group-instance", AgentInstance, AgentNodeLiveConfiguration)
     end
 
   end

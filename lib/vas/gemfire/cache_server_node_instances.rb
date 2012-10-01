@@ -37,7 +37,8 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, Node, CacheServerLogs, CacheServerInstance, 'cache-server-group-instance')
+      super(location, client, Node, CacheServerLogs, CacheServerInstance, 'cache-server-group-instance',
+            CacheServerNodeLiveConfigurations)
       @disk_stores = DiskStores.new(Util::LinkUtils.get_link_href(details, 'disk-stores'), client)
       @statistics = Statistics.new(Util::LinkUtils.get_link_href(details, 'statistics'), client)
     end

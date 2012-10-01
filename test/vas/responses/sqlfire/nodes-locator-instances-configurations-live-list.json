@@ -1,0 +1,26 @@
+{
+    "node-live-configurations":[
+        {
+            "path":"sqlfire.properties",
+            "links":[
+                {
+                    "href":"https://localhost:8443/sqlfire/v1/nodes/2/locator-instances/3/configurations/live/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/sqlfire/v1/nodes/2/locator-instances/3/configurations/live/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/5/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

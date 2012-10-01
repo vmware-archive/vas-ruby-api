@@ -1,0 +1,36 @@
+{
+    "node-live-configurations":[
+        {
+            "path":"conf/httpd.conf",
+            "links":[
+                {
+                    "href":"https://localhost:8443/web-server/v1/nodes/2/instances/3/configurations/live/4/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        },
+        {
+            "path":"conf/mime.types",
+            "links":[
+                {
+                    "href":"https://localhost:8443/web-server/v1/nodes/2/instances/3/configurations/live/5/",
+                    "rel":"self",
+                    "type":"application/json; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "links":[
+        {
+            "href":"https://localhost:8443/web-server/v1/nodes/2/instances/3/configurations/live/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

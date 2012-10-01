@@ -38,7 +38,7 @@ module Shared
         live_configurations_class,
         pending_configurations_class,
         node_instance_class,
-        node_instance_type) #:nodoc:
+        node_instance_type)
       super(location, client)
 
       @name = details["name"]

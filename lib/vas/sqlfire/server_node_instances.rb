@@ -31,7 +31,7 @@ module Sqlfire
 
     # @private
     def initialize(location, client)
-      super(location, client, Node, ServerLogs, ServerInstance, 'server-group-instance')
+      super(location, client, Node, ServerLogs, ServerInstance, 'server-group-instance', ServerNodeLiveConfigurations)
     end
 
     # @return [String] the property in a node's metadata used to determine the address that the server binds to for

@@ -27,11 +27,11 @@ module Sqlfire
   end
   
   # A live configuration file in a server instance
-  class ServerLiveConfiguration < Shared::Configuration
+  class ServerLiveConfiguration < Shared::LiveConfiguration
 
     # @private
     def initialize(location, client)
-      super(location, client, "server-group-instance", ServerInstance)
+      super(location, client, "server-group-instance", ServerInstance, ServerNodeLiveConfiguration)
     end
 
   end

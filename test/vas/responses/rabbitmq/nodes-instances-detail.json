@@ -17,6 +17,11 @@
             "type":"application/json; charset=utf-8"
         },
         {
+            "href":"https://localhost:8443/rabbitmq/v1/nodes/0/instances/3/configurations/live/",
+            "rel":"node-live-configurations",
+            "type":"application/json; charset=utf-8"
+        },
+        {
             "href":"https://localhost:8443/rabbitmq/v1/nodes/0/",
             "rel":"node",
             "type":"application/json; charset=utf-8"

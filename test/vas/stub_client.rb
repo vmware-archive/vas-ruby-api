@@ -27,6 +27,10 @@ class StubClient
   def get(location)
     @location_regex.match location
 
+    if $~.nil?
+      puts location
+    end
+
     if @disabled_components.include? $~.captures[0]
       @delegate.get(location)
     else

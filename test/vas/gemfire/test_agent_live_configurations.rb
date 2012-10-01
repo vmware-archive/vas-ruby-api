@@ -34,9 +34,12 @@ module Gemfire
       assert_equal('agent.properties', live_configuration.path)
       assert_equal(10537, live_configuration.size)
 
-      assert_equal('https://localhost:8443/gemfire/v1/groups/0/agent-instances/1/', live_configuration.instance.location)
-      assert_equal('https://localhost:8443/vfabric/v1/security/3/', live_configuration.security.location)
+      assert_equal('https://localhost:8443/gemfire/v1/groups/1/agent-instances/2/', live_configuration.instance.location)
+      assert_equal('https://localhost:8443/vfabric/v1/security/8/', live_configuration.security.location)
       assert_equal('https://localhost:8443/gemfire/v1/groups/1/agent-instances/2/configurations/live/3/', live_configuration.location)
+      assert_equal(2, live_configuration.node_configurations.size)
+      assert_equal('https://localhost:8443/gemfire/v1/nodes/0/agent-instances/4/configurations/live/7/', live_configuration.node_configurations[0].location)
+      assert_equal('https://localhost:8443/gemfire/v1/nodes/0/agent-instances/3/configurations/live/6/', live_configuration.node_configurations[1].location)
 
       content = ''
   

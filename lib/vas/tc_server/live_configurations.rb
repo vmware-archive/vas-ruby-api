@@ -21,7 +21,17 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", Configuration)
+      super(location, client, "live-configurations", LiveConfiguration)
+    end
+
+  end
+
+  # A live configuration file in a tc Server instance
+  class LiveConfiguration < Shared::LiveConfiguration
+
+    # @private
+    def initialize(location, client)
+      super(location, client, "group-instance", Instance, NodeLiveConfiguration)
     end
 
   end

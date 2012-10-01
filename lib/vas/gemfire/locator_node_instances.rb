@@ -31,7 +31,7 @@ module Gemfire
 
     # @private
     def initialize(location, client) #:nodoc:
-      super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance')
+      super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance', LocatorNodeLiveConfigurations)
     end
 
     # @return [Integer] the port that the locator will listen on

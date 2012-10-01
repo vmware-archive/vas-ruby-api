@@ -24,8 +24,13 @@
             "type":"application/json; charset=utf-8"
         },
         {
-            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/logs/",
-            "rel":"logs",
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/state/",
+            "rel":"state",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/configurations/live/",
+            "rel":"node-live-configurations",
             "type":"application/json; charset=utf-8"
         },
         {
@@ -34,8 +39,8 @@
             "type":"application/json; charset=utf-8"
         },
         {
-            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/state/",
-            "rel":"state",
+            "href":"https://localhost:8443/tc-server/v1/nodes/0/instances/3/logs/",
+            "rel":"logs",
             "type":"application/json; charset=utf-8"
         },
         {

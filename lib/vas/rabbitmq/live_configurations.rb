@@ -27,11 +27,11 @@ module RabbitMq
   end
   
   # A live configuration file in a RabbitMQ instance
-  class LiveConfiguration < Shared::Configuration
+  class LiveConfiguration < Shared::LiveConfiguration
 
     # @private
     def initialize(location, client)
-      super(location, client, "group-instance", Instance)
+      super(location, client, "group-instance", Instance, NodeLiveConfiguration)
     end
 
   end

@@ -31,7 +31,7 @@ module Sqlfire
 
     # @private
     def initialize(location, client)
-      super(location, client, Node, AgentLogs, AgentInstance, 'agent-group-instance')
+      super(location, client, Node, AgentLogs, AgentInstance, 'agent-group-instance', AgentNodeLiveConfigurations)
     end
 
     # @return [String[]] The JVM options that are passed to the agent's JVM when it is started

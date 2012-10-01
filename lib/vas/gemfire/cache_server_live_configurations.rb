@@ -27,11 +27,11 @@ module Gemfire
   end
   
   # A live configuration file in a cache server instance
-  class CacheServerLiveConfiguration < Shared::Configuration
+  class CacheServerLiveConfiguration < Shared::LiveConfiguration
 
     # @private
     def initialize(location, client)
-      super(location, client, "cache-server-group-instance", CacheServerInstance)
+      super(location, client, "cache-server-group-instance", CacheServerInstance, CacheServerNodeLiveConfiguration)
     end
 
   end

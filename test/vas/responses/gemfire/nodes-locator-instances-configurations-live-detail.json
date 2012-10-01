@@ -1,0 +1,31 @@
+{
+    "path":"gemfire.properties",
+    "size":3412,
+    "links":[
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/",
+            "rel":"locator-node-instance",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/configurations/live/5/content/",
+            "rel":"content",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/groups/1/locator-instances/2/configurations/live/4/",
+            "rel":"group-live-configuration",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/configurations/live/5/",
+            "rel":"self",
+            "type":"application/json; charset=utf-8"
+        },
+        {
+            "href":"https://localhost:8443/vfabric/v1/security/6/",
+            "rel":"security",
+            "type":"application/json; charset=utf-8"
+        }
+    ]
+}

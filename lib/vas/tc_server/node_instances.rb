@@ -43,7 +43,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, Node, Logs, Instance, 'group-instance')
+      super(location, client, Node, Logs, Instance, 'group-instance', NodeLiveConfigurations)
 
       @layout = details["layout"]
       @runtime_version = details["runtime-version"]

@@ -31,7 +31,8 @@ module Sqlfire
 
     # @private
     def initialize(location, client) #:nodoc:
-      super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance')
+      super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance',
+            LocatorNodeLiveConfigurations)
     end
 
     # @return [String] the property in a node's metadata used to determine the address that the locator binds to for
