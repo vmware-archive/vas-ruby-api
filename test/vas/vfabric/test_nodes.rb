@@ -31,7 +31,9 @@ module VFabric
       node = Node.new(location, client)
   
       assert_equal(location, node.location)
-      assert_equal([ "192.168.0.2", "127.0.0.1"], node.ip_addresses)
+      assert_equal(['fc00:192:168:0:2d:4fff:fd48:5e80', '192.168.0.2'], node.ip_addresses)
+      assert_equal(['fc00:192:168:0:2d:4fff:fd48:5e80'], node.ipv6_addresses)
+      assert_equal(['192.168.0.2'], node.ipv4_addresses)
       assert_equal([ "example-host"], node.host_names)
       assert_equal("Linux", node.operating_system)
       assert_equal("x64", node.architecture)

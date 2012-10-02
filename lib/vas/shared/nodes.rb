@@ -30,6 +30,12 @@ module Shared
     
     # @return [String[]] the node's IP addresses
     attr_reader :ip_addresses
+
+    # @return [String[], nil] the node's IPv4 addresses. +nil+ if the server is not version 1.1.0 or later
+    attr_reader :ipv4_addresses
+
+    # @return [String[], nil] the node's IPv6 addresses. +nil+ if the server is not version 1.1.0 or later
+    attr_reader :ipv6_addresses
     
     # @return [String] the node's operating system
     attr_reader :operating_system
@@ -38,12 +44,14 @@ module Shared
     def initialize(location, client)
       super(location, client)
       
-      @agent_home = details["agent-home"]
-      @architecture = details["architecture"]
-      @host_names = details["host-names"]
-      @ip_addresses = details["ip-addresses"]
-      @metadata = details["metadata"]
-      @operating_system = details["operating-system"]
+      @agent_home = details['agent-home']
+      @architecture = details['architecture']
+      @host_names = details['host-names']
+      @ip_addresses = details['ip-addresses']
+      @ipv4_addresses = details['ipv4-addresses']
+      @ipv6_addresses = details['ipv6-addresses']
+      @metadata = details['metadata']
+      @operating_system = details['operating-system']
     end
 
     # Updates the node's metadata
