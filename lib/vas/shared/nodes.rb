@@ -31,9 +31,6 @@ module Shared
     # @return [String[]] the node's IP addresses
     attr_reader :ip_addresses
     
-    # @return [Hash] the node's metadata
-    attr_reader :metadata
-    
     # @return [String] the node's operating system
     attr_reader :operating_system
 
@@ -47,6 +44,16 @@ module Shared
       @ip_addresses = details["ip-addresses"]
       @metadata = details["metadata"]
       @operating_system = details["operating-system"]
+    end
+
+    # Updates the node's metadata
+    def update(metadata)
+      client.post(location, {:metadata => metadata})
+    end
+
+    # @return [Hash] the node's metadata
+    def metadata
+      client.get(location)['metadata']
     end
 
   end

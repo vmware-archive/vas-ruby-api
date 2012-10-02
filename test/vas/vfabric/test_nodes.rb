@@ -19,13 +19,13 @@ module VFabric
   
     def test_list
       nodes = Nodes.new(
-          "https://localhost:8443/tc-server/v1/nodes/",
+          "https://localhost:8443/vfabric/v1/nodes/",
           StubClient.new)
       assert_count(2, nodes)
     end
   
     def test_node
-      location = "https://localhost:8443/tc-server/v1/nodes/1/"
+      location = "https://localhost:8443/vfabric/v1/nodes/1/"
       client = StubClient.new
   
       node = Node.new(location, client)
@@ -38,6 +38,17 @@ module VFabric
       assert_equal("/opt/vmware/vfabric-administration-agent", node.agent_home)
       assert_equal({ "a" => "alpha" , "b" => "bravo" }, node.metadata)
   
+    end
+
+    def test_update
+      location = "https://localhost:8443/vfabric/v1/nodes/1/"
+      client = StubClient.new
+
+      metadata = {:a => 'alpha', :b => 'bravo'}
+
+      client.expect(:post, nil, [location, {:metadata => metadata}])
+
+      Node.new(location, client).update(metadata)
     end
   
   end

@@ -17,7 +17,7 @@
 module Gemfire
 
   class TestNodes < VasTestCase
-  
+
     def test_list
       nodes = Nodes.new(
           "https://localhost:8443/gemfire/v1/nodes/",
@@ -25,7 +25,7 @@ module Gemfire
       assert_count(2, nodes)
       assert_equal('https://localhost:8443/vfabric/v1/security/2/', nodes.security.location)
     end
-  
+
     def test_detail
       location = "https://localhost:8443/gemfire/v1/nodes/1/"
       client = StubClient.new
@@ -33,12 +33,12 @@ module Gemfire
       node = Node.new(location, client)
 
       assert_equal(location, node.location)
-      assert_equal([ "192.168.0.2", "127.0.0.1"], node.ip_addresses)
-      assert_equal([ "example-host"], node.host_names)
+      assert_equal(["192.168.0.2", "127.0.0.1"], node.ip_addresses)
+      assert_equal(["example-host"], node.host_names)
       assert_equal("Linux", node.operating_system)
       assert_equal("x64", node.architecture)
       assert_equal("/opt/vmware/vfabric-administration-agent", node.agent_home)
-      assert_equal({ "a" => "alpha" , "b" => "bravo" }, node.metadata)
+      assert_equal({"a" => "alpha", "b" => "bravo"}, node.metadata)
       assert_equal("usr/bin", node.java_home)
 
       assert_equal(2, node.groups.size)
@@ -50,7 +50,18 @@ module Gemfire
       assert_equal('https://localhost:8443/gemfire/v1/nodes/0/locator-instances/', node.locator_instances.location)
 
     end
-  
+
+    def test_update
+      location = "https://localhost:8443/gemfire/v1/nodes/1/"
+      client = StubClient.new
+
+      metadata = {:a => 'alpha', :b => 'bravo'}
+
+      client.expect(:post, nil, [location, {:metadata => metadata}])
+
+      Node.new(location, client).update(metadata)
+    end
+
   end
 
 end

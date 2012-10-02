@@ -48,6 +48,17 @@ module TcServer
       assert_equal('https://localhost:8443/tc-server/v1/nodes/0/instances/', node.instances.location)
 
     end
+
+    def test_update
+      location = "https://localhost:8443/tc-server/v1/nodes/1/"
+      client = StubClient.new
+
+      metadata = {:a => 'alpha', :b => 'bravo'}
+
+      client.expect(:post, nil, [location, {:metadata => metadata}])
+
+      Node.new(location, client).update(metadata)
+    end
   
   end
 
