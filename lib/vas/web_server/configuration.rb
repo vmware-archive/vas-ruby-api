@@ -21,7 +21,7 @@ module WebServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "group-instance", Instance)
+      super(location, client, 'group-instance', Instance)
     end
 
   end

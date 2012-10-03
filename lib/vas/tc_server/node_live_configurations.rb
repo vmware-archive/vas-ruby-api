@@ -21,7 +21,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "node-live-configurations", NodeLiveConfiguration)
+      super(location, client, 'node-live-configurations', NodeLiveConfiguration)
     end
 
   end
@@ -31,7 +31,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "node-instance", NodeInstance, LiveConfiguration)
+      super(location, client, 'node-instance', NodeInstance, LiveConfiguration)
     end
 
   end

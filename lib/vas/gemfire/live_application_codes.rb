@@ -16,12 +16,12 @@
 
 module Gemfire
 
-  # Used to enumerate a cache server's live application code.
+  # Used to enumerate a cache server's live application code
   class LiveApplicationCodes < Shared::Collection
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-application-code", ApplicationCode)
+      super(location, client, 'live-application-code', ApplicationCode)
     end
 
   end

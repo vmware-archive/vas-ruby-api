@@ -36,7 +36,7 @@ module WebServer
                   :name => name}
       payload[:properties] = properties unless properties.nil?
       
-      Instance.new(client.post(location, payload, "group-instance"), client)
+      super(payload, 'group-instance')
     end
 
   end
@@ -56,7 +56,8 @@ module WebServer
     # @return [void]
     def update(installation)
       payload = { :installation => installation.location }
-      client.post(location, payload);
+      client.post(location, payload)
+      reload
     end
 
   end

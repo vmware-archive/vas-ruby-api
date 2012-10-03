@@ -34,19 +34,26 @@ module Sqlfire
       super(location, client, InstallationImage, Group)
     end
 
+    def reload
+      super
+      @agent_instances = nil
+      @locator_instances = nil
+      @server_instances = nil
+    end
+
     # @return [AgentInstance[]] the agent instances that are using the installation
     def agent_instances
-      retrieve_instances("agent-group-instance", AgentInstance);
+      @agent_instances ||= create_resources_from_links('agent-group-instance', AgentInstance);
     end
 
     # @return [LocatorInstance[]] the locator instances that are using the installation
     def locator_instances
-      retrieve_instances("locator-group-instance", LocatorInstance);
+      @locator_instances ||= create_resources_from_links('locator-group-instance', LocatorInstance);
     end
 
     # @return [ServerInstance[]] the server instances that are using the installation
     def server_instances
-      retrieve_instances("server-group-instance", ServerInstance);
+      @server_instances ||= create_resources_from_links('server-group-instance', ServerInstance);
     end
     
   end

@@ -21,9 +21,9 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "revision-images", RevisionImage)
+      super(location, client, 'revision-images', RevisionImage)
     end
-    
+
     # Creates a new revision image by uploading a war file to the server
     #
     # @param path [String] the path of the WAR file
@@ -32,11 +32,11 @@ module TcServer
     #
     # @return [RevisionImage] the new revision image
     def create(path, name, version)
-      RevisionImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
+      create_image(path, {:name => name, :version => version})
     end
-    
+
   end
-  
+
   # A revision image, i.e. a WAR file
   class RevisionImage < Shared::Resource
 
@@ -53,16 +53,20 @@ module TcServer
     def initialize(location, client)
       super(location, client)
 
-      @name = details["name"]
-      @version = details["version"]
+      @name = details['name']
+      @version = details['version']
       @size = details['size']
+    end
+
+    # Reloads the revision image's details from the server
+    def reload
+      super
+      @revisions = nil
     end
 
     # @return [Revision[]] the revisions that have been created from this revision image
     def revisions
-      revisions = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "group-revision").each { |revision_location| revisions << Revision.new(revision_location, client)}
-      revisions
+      @revisions ||= create_resources_from_links('group-revision', Revision)
     end
 
     # @return [String] a string representation of the revision image

@@ -32,22 +32,27 @@ module TcServer
     # @return [String] the revision's version
     attr_reader :version
 
-    # @return [NodeApplication] the revision's application
-    attr_reader :application
-
-    # @return [Revision] the group revision that this node revision is a member of
-    attr_reader :group_revision
-    
     # @private
     def initialize(location, client)
       super(location, client)
-      
+
+      @application_location = Util::LinkUtils.get_link_href(details, 'node-application')
+      @group_revision_location = Util::LinkUtils.get_link_href(details, 'group-revision')
+
       @version = details['version']
-      @application = NodeApplication.new(Util::LinkUtils.get_link_href(details, 'node-application'), client)
-      @group_revision = Revision.new(Util::LinkUtils.get_link_href(details, 'group-revision'), client)
     end
 
-    # @return [String] a string representation of the ndoe revision
+    # @return [NodeApplication] the revision's application
+    def application
+      @application ||= NodeApplication.new(@application_location, client)
+    end
+
+    # @return [Revision] the group revision that this node revision is a member of
+    def group_revision
+      @group_revision ||= Revision.new(@group_revision_location, client)
+    end
+
+    # @return [String] a string representation of the node revision
     def to_s
       "#<#{self.class} version='#@version'>"
     end

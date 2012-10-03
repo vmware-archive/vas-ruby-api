@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "application-code-images", ApplicationCodeImage)
+      super(location, client, 'application-code-images', ApplicationCodeImage)
     end
     
     # Creates a new application code image by uploading a file and assigning it a name and version
@@ -32,7 +32,7 @@ module Gemfire
     #
     # @return [ApplicationCodeImage] the new application code image
     def create(path, name, version)
-      ApplicationCodeImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
+      create_image(path, { :name => name, :version => version })
     end
     
   end
@@ -60,23 +60,23 @@ module Gemfire
 
     # @return [ApplicationCode[]] the live application code that has been created from this application code image
     def live_application_code
-      application_codes = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "live-application-code").each {
-          |application_code_location| application_codes << ApplicationCode.new(application_code_location, client)}
-      application_codes
+      @live_application_codes ||= create_resources_from_links('live-application-code', ApplicationCode)
     end
 
     # @return [ApplicationCode[]] the pending application code that has been created from this application code image
     def pending_application_code
-      application_codes = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "pending-application-code").each {
-          |application_code_location| application_codes << ApplicationCode.new(application_code_location, client)}
-      application_codes
+      @pending_application_codes ||= create_resources_from_links('pending-application-code', ApplicationCode)
+    end
+
+    def reload
+      super
+      @live_application_codes = nil
+      @pending_application_codes = nil
     end
 
     # @return [String] a string representation of the application code image
     def to_s
-      "#<#{self.class} name='#@name' version='#@version'>"
+      "#<#{self.class} name='#@name' version='#@version' size='#@size'>"
     end
 
   end

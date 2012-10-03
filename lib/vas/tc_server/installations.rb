@@ -31,21 +31,31 @@ module TcServer
 
     # @return [String[]] the versions of the tc Server runtime that are supported by the installation
     attr_reader :runtime_versions
-    
-    # @return [Templates] the installation's templates
-    attr_reader :templates
 
     # @private
     def initialize(location, client)
       super(location, client, InstallationImage, Group)
 
-      @runtime_versions = details["runtime-versions"]
-      @templates = Templates.new(Util::LinkUtils.get_link_href(details, "templates"), client)
+      @runtime_versions = details['runtime-versions']
+      @templates_location = Util::LinkUtils.get_link_href(details, 'templates')
+    end
+
+    # Reloads the installation's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @instances = nil
     end
 
     # @return [Instance[]] the instances that are using the installation
     def instances
-      retrieve_instances("group-instance", Instance);
+      @instances ||= create_resources_from_links('group-instance', Instance)
+    end
+
+    # @return [Templates] the installation's templates
+    def templates
+      @templates ||= Templates.new(@templates_location, client)
     end
     
   end

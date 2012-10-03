@@ -25,24 +25,25 @@ module Gemfire
     # @return [String] the version of the application code
     attr_reader :version
 
-    # @return [ApplicationCodeImage] the image that was used to create the application code
-    attr_reader :application_code_image
-
-    # @return [CacheServerInstance] the cache server instance that contains the application code
-    attr_reader :instance
-
     # @private
     def initialize(location, client)
       super(location, client)
 
-      @name = details["name"]
-      @version = details["version"]
+      @name = details['name']
+      @version = details['version']
 
-      @application_code_image = ApplicationCodeImage.new(
-          Util::LinkUtils.get_link_href(details, 'application-code-image'), client)
+      @application_code_image_location = Util::LinkUtils.get_link_href(details, 'application-code-image')
+      @instance_location = Util::LinkUtils.get_link_href(details, 'cache-server-group-instance')
+    end
 
-      @instance = CacheServerInstance.new(
-          Util::LinkUtils.get_link_href(details, 'cache-server-group-instance'), client)
+    # @return [ApplicationCodeImage] the image that was used to create the application code
+    def application_code_image
+      @application_code_image ||= ApplicationCodeImage.new(@application_code_image_location, client)
+    end
+
+    # @return [CacheServerInstance] the cache server instance that contains the application code
+    def instance
+      @instance ||= CacheServerInstance.new(@instance_location, client)
     end
 
     # @return [String] a string representation of the application code

@@ -32,15 +32,19 @@ module Gemfire
     # @return [String] the name of the disk store
     attr_reader :name
 
-    # @return [CacheServerNodeInstance] the disk store's cache server node instance
-    attr_reader :instance
+    # @return [Integer] the size of the disk store
+    attr_reader :size
+
+    # @return [Integer] the last modified stamp of the disk store
+    attr_reader :last_modified
 
     # @private
     def initialize(location, client)
       super(location, client)
 
       @name = details['name']
-      @instance = CacheServerNodeInstance.new(Util::LinkUtils.get_link_href(details, 'cache-server-node-instance'), client)
+
+      @instance_location = Util::LinkUtils.get_link_href(details, 'cache-server-node-instance')
       @content_location = Util::LinkUtils.get_link_href(details, 'content')
     end
 
@@ -52,20 +56,22 @@ module Gemfire
     def content(&block)
       client.get_stream(@content_location, &block)
     end
-    
-    # @return [Integer] the size of the disk store
-    def size
-      client.get(location)['size']
+
+    # @return [CacheServerNodeInstance] the disk store's cache server node instance
+    def instance
+      @instance ||= CacheServerNodeInstance.new(@instance_location, client)
     end
 
-    # @return [Integer] the last modified stamp of the disk store
-    def last_modified
-      client.get(location)['last-modified']
+    # Reloads the disk store's details from the server
+    def reload
+      super
+      @size = details['size']
+      @last_modified = details['last-modified']
     end
 
     # @return [String] a string representation of the disk store
     def to_s
-      "#<#{self.class} name='#@name'>"
+      "#<#{self.class} name='#@name' size='#@size' last_modified='#@last_modified'>"
     end
 
   end

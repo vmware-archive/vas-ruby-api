@@ -29,15 +29,17 @@ module RabbitMq
   # A RabbitMQ group
   class Group < Shared::Group
 
-    # @return [Instances] the group's instances
-    attr_reader :instances
-
     # @private
     def initialize(location, client)
       super(location, client, Node, Installations)
-      @instances = Instances.new(Util::LinkUtils.get_link_href(details, "group-instances"), client)
+
+      @instances_location = Util::LinkUtils.get_link_href(details, 'group-instances')
     end
 
+    # @return [Instances] the group's instances
+    def instances
+      @instances ||= Instances.new(@instances_location, client)
+    end
   end
 
 end

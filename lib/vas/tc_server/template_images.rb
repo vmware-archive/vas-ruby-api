@@ -21,7 +21,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "template-images", TemplateImage)
+      super(location, client, 'template-images', TemplateImage)
     end
     
     # Creates a new template image by uploading a +.zip+ file to the server
@@ -32,7 +32,7 @@ module TcServer
     #
     # @return [TemplateImage] the new template image
     def create(path, name, version)
-      TemplateImage.new(client.post_image(location, path, { :name => name, :version => version }), client)
+      create_image(path, { :name => name, :version => version })
     end
     
   end
@@ -53,16 +53,20 @@ module TcServer
     def initialize(location, client)
       super(location, client)
 
-      @name = details["name"]
-      @version = details["version"]
+      @name = details['name']
+      @version = details['version']
       @size = details['size']
+    end
+
+    # Reloads the template image's details from the server
+    def reload
+      super
+      @templates = nil
     end
 
     # @return [Template[]] the templates that have been created from the template image
     def templates
-      templates = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "template").each { |template_location| templates << Template.new(template_location, client)}
-      templates
+      @templates ||= create_resources_from_links('template', Template)
     end
 
     # @return [String] a string representation of the template image

@@ -25,13 +25,16 @@ module Shared
       @node_live_configuration_class = node_live_configuration_class
     end
 
+    # Reloads the live configuration's details from the server
+    def reload
+      super
+      @node_live_configurations = nil
+    end
+
     # @return [NodeLiveConfiguration[]] the configuration's node configurations
     def node_configurations
-      node_live_configurations = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), 'node-live-configuration').each {
-          |configuration_location| node_live_configurations <<
-            @node_live_configuration_class.new(configuration_location, client)}
-      node_live_configurations
+      @node_live_configurations ||= create_resources_from_links('node-live-configuration',
+                                                                @node_live_configuration_class)
     end
 
   end

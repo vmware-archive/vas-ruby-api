@@ -32,8 +32,11 @@ module Gemfire
     # @return [String] the path of statistic
     attr_reader :path
 
-    # @return [CacheServerNodeInstance] The statistic's cache server node instance
-    attr_reader :instance
+    # @return [Integer] the size of the statistic
+    attr_reader :size
+
+    # @return [Integer] the last modified stamp of the statistic
+    attr_reader :last_modified
 
     # @private
     def initialize(location, client)
@@ -41,18 +44,20 @@ module Gemfire
 
       @path = details['path']
 
-      @instance = CacheServerNodeInstance.new(Util::LinkUtils.get_link_href(details, 'cache-server-node-instance'), client)
+      @instance_location = Util::LinkUtils.get_link_href(details, 'cache-server-node-instance')
       @content_location = Util::LinkUtils.get_link_href(details, 'content')
     end
-    
-    # @return [Integer] the size of the statistic
-    def size
-      client.get(location)['size']
+
+    # Reloads the statistic's details from the server
+    def reload
+      super
+      @size = details['size']
+      @last_modified = details['last-modified']
     end
 
-    # @return [Integer] the last modified stamp of the statistic
-    def last_modified
-      client.get(location)['last-modified']
+    # @return [CacheServerNodeInstance] The statistic's cache server node instance
+    def instance
+      @instance ||= CacheServerNodeInstance.new(@instance_location, client)
     end
 
     # Retrieves the statistic's content
@@ -66,7 +71,7 @@ module Gemfire
 
     # @return [String] a string representation of the statistic
     def to_s
-      "#<#{self.class} path='#@path'>"
+      "#<#{self.class} path='#@path' size='#@size' last_modified='#@last_modified'>"
     end
 
   end

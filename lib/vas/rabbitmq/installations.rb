@@ -18,14 +18,14 @@ module RabbitMq
 
   # Used to enumerate, create, and delete RabbitMQ installations
   class Installations < Shared::Installations
-    
+
     # @private
     def initialize(location, client)
       super(location, client, Installation)
     end
-    
+
   end
-  
+
   # A RabbitMQ installation
   class Installation < Shared::Installation
 
@@ -34,11 +34,19 @@ module RabbitMq
       super(location, client, InstallationImage, Group)
     end
 
+    # Reloads the installation's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @instances = nil
+    end
+
     # @return [Instance[]] the instances that are using the installation
     def instances
-      retrieve_instances("group-instance", Instance);
+      @instances ||= create_resources_from_links('group-instance', Instance)
     end
-    
+
   end
-  
+
 end

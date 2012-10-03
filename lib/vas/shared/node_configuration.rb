@@ -25,28 +25,25 @@ module Shared
     # @return [Integer] the configuration's size
     attr_reader :size
 
-    # @return [LiveConfiguration] the node configuration's group configuration
-    attr_reader :group_configuration
-
-    # @return [NodeInstance] the node instance that owns the configuration
-    attr_reader :instance
-
-    private
-    
-    attr_reader :content_location
-    
-    public
-
     # @private
     def initialize(location, client, instance_type, instance_class, group_configuration_class)
       super(location, client)
 
-      @path = details["path"]
-      @size = details["size"]
-      @group_configuration = group_configuration_class.new(
-          Util::LinkUtils.get_link_href(details, 'group-live-configuration'), client)
-      @instance = instance_class.new(Util::LinkUtils.get_link_href(details, instance_type), client)
-      @content_location = Util::LinkUtils.get_link_href(details, "content")
+      @instance_class = instance_class
+      @group_configuration_class = group_configuration_class
+
+      @instance_location = Util::LinkUtils.get_link_href(details, instance_type)
+      @group_configuration_location = Util::LinkUtils.get_link_href(details, 'group-live-configuration')
+      @content_location = Util::LinkUtils.get_link_href(details, 'content')
+
+      @path = details['path']
+    end
+
+    # Reloads the configuration's details from the server
+    # @return [void]
+    def reload
+      super
+      @size = details['size']
     end
 
     # Retrieves the configuration's content and passes it to the block
@@ -56,6 +53,16 @@ module Shared
     # @return [void]
     def content(&block)
       client.get_stream(@content_location, &block)
+    end
+
+    # @return [LiveConfiguration] the node configuration's group configuration
+    def group_configuration
+      @group_configuration ||= @group_configuration_class.new(@group_configuration_location, client)
+    end
+
+    # @return [NodeInstance] the node instance that owns the configuration
+    def instance
+      @instance ||= @instance_class.new(@instance_location, client)
     end
 
     # @return [String] a string representation of the configuration

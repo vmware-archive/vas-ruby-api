@@ -21,7 +21,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "applications", NodeApplication)
+      super(location, client, 'applications', NodeApplication)
     end
 
   end
@@ -41,29 +41,33 @@ module TcServer
     # @return [String] the host the application will deploy its revisions to
     attr_reader :host
 
-    # @return [NodeRevisions] the application's revisions
-    attr_reader :revisions
-
-    # @return [Application] the application that this node application is a member of
-    attr_reader :group_application
-    
-    # @return [NodeInstance] the node instance that contains the application
-    attr_reader :instance
-
     # @private
     def initialize(location, client)
       super(location, client)
 
-      @revisions = NodeRevisions.new(Util::LinkUtils.get_link_href(details, "node-revisions"), client)
+      @group_application_location = Util::LinkUtils.get_link_href(details, 'group-application')
+      @instance_location = Util::LinkUtils.get_link_href(details, 'node-instance')
+      @revisions_location = Util::LinkUtils.get_link_href(details, 'node-revisions')
 
-      @context_path = details["context-path"]
-      @name = details["name"]
-      @service = details["service"]
-      @host = details["host"]
+      @context_path = details['context-path']
+      @name = details['name']
+      @service = details['service']
+      @host = details['host']
+    end
 
-      @instance = NodeInstance.new(Util::LinkUtils.get_link_href(details, "node-instance"), client)
+    # @return [NodeInstance] the node instance that contains the application
+    def instance
+      @instance ||= NodeInstance.new(@instance_location, client)
+    end
 
-      @group_application = Application.new(Util::LinkUtils.get_link_href(details, "group-application"), client)
+    # @return [Application] the application that this node application is a member of
+    def group_application
+      @group_application ||= Application.new(@group_application_location, client)
+    end
+
+    # @return [NodeRevisions] the application's revisions
+    def revisions
+      @revisions ||= NodeRevisions.new(@revisions_location, client)
     end
 
     # @return [String] a string representation of the node application

@@ -36,14 +36,21 @@ module Shared
   
     # @private
     def initialize(location, client)
-      json = client.get(location)
-      @location = location;
+      @location = location
+      @client = client
+
+      reload
+    end
+    
+    public
+
+    # Reloads the security configuration from server
+    def reload
+      json = @client.get(location)
       @owner = json["owner"]
       @group = json["group"]
       @permissions = json["permissions"]
     end
-    
-    public
 
     # @return [String] a string representation of this security object
     def to_s

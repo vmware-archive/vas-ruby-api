@@ -22,15 +22,6 @@ module Shared
     # @return [String] the instance's name
     attr_reader :name
 
-    # @return the instance's live configurations
-    attr_reader :live_configurations
-
-    # @return the instance's pending configurations
-    attr_reader :pending_configurations
-
-    # @return [Group] the group that contains this instance
-    attr_reader :group
-
     # @private
     def initialize(location, client,
         group_class,
@@ -39,28 +30,56 @@ module Shared
         pending_configurations_class,
         node_instance_class,
         node_instance_type)
+
       super(location, client)
 
-      @name = details["name"]
-      @live_configurations = live_configurations_class.new(Util::LinkUtils.get_link_href(details, "live-configurations"), client)
-      @pending_configurations = pending_configurations_class.new(Util::LinkUtils.get_link_href(details, "pending-configurations"), client)
-      @group = group_class.new(Util::LinkUtils.get_link_href(details, "group"), client)
+      @live_configurations_location = Util::LinkUtils.get_link_href(details, 'live-configurations')
+      @pending_configurations_location = Util::LinkUtils.get_link_href(details, 'pending-configurations')
+      @group_location = Util::LinkUtils.get_link_href(details, 'group')
+
+      @group_class = group_class
       @installation_class = installation_class
       @node_instance_class = node_instance_class
+      @live_configurations_class = live_configurations_class
+      @pending_configurations_class = pending_configurations_class
       @node_instance_type = node_instance_type
+
+      @name = details['name']
+    end
+
+    # Reloads the instance's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @installation_location = Util::LinkUtils.get_link_href(details, 'installation')
+      @installation = nil
+      @node_instances = nil
     end
 
     # @return [Installation] the installation that this instance is using
     def installation
-      @installation_class.new(Util::LinkUtils.get_link_href(client.get(location), 'installation'), client)
+      @installation ||= @installation_class.new(@installation_location, client)
     end
 
     # @return [NodeInstance[]] the instance's individual node instances
     def node_instances
-      node_instances = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), @node_instance_type).each {
-          |node_instance_location| node_instances << @node_instance_class.new(node_instance_location, client)}
-      node_instances
+      @node_instances ||= create_resources_from_links(@node_instance_type, @node_instance_class)
+    end
+
+    # @return [Group] the group that contains this instance
+    def group
+      @group ||= @group_class.new(@group_location, client)
+    end
+
+    # @return the instance's live configurations
+    def live_configurations
+      @live_configurations ||= @live_configurations_class.new(@live_configurations_location, client)
+    end
+
+    # @return the instance's pending configurations
+    def pending_configurations
+      @pending_configurations ||= @pending_configurations_class.new(@pending_configurations_location, client)
     end
 
     # @return [String] a string representation of the instance

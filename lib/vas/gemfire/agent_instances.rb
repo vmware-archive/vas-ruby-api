@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "agent-group-instances", AgentInstance)
+      super(location, client, 'agent-group-instances', AgentInstance)
     end
 
     # Creates a new agent instance
@@ -32,7 +32,7 @@ module Gemfire
     # @return [AgentInstance] the new agent instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
-      AgentInstance.new(client.post(location, payload, "agent-group-instance"), client)
+      super(payload, 'agent-group-instance')
     end
 
   end
@@ -51,7 +51,8 @@ module Gemfire
     #
     # @return [void]
     def update(installation)
-      client.post(location, { :installation => installation.location });
+      client.post(location, { :installation => installation.location })
+      reload
     end
 
   end

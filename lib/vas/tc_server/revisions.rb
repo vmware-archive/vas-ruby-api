@@ -30,7 +30,7 @@ module TcServer
     #
     # @return [Revision] the new revision
     def create(revision_image)
-      Revision.new(client.post(location, { :image => revision_image.location}, 'group-revision'), client)
+      super({ :image => revision_image.location}, 'group-revision')
     end
     
   end
@@ -41,29 +41,31 @@ module TcServer
     # @return [String] the revision's version
     attr_reader :version
 
-    # @return [Application] the revision's application
-    attr_reader :application
-    
-    # @return [RevisionImage] the revision image, if any, that was used to create the revision
-    attr_reader :revision_image
-    
     # @private
     def initialize(location, client)
       super(location, client)
-      
+
       @version = details['version']
-      @application = Application.new(Util::LinkUtils.get_link_href(details, 'group-application'), client)
-      
-      revision_image_location = Util::LinkUtils.get_link_href(details, 'revision-image')
-      @revision_image = RevisionImage.new(revision_image_location, client) unless revision_image_location.nil?
+      @application_location = Util::LinkUtils.get_link_href(details, 'group-application')
+      @revision_image_location = Util::LinkUtils.get_link_href(details, 'revision-image')
     end
 
     # @return [NodeRevision[]] the revision's node revisions
     def node_revisions
-      node_revisions = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), 'node-revision').each {
-          |node_revision_location| node_revisions << NodeRevision.new(node_revision_location, client)}
-      node_revisions
+      @node_revisions ||= create_resources_from_links('node-revision', NodeRevision)
+    end
+
+    # @return [Application] the revision's application
+    def application
+      @application ||= Application.new(@application_location, client)
+    end
+
+    # @return [RevisionImage] the revision image, if any, that was used to create the revision
+    def revision_image
+      if @revision_image.nil?
+        @revision_image = RevisionImage.new(@revision_image_location, client) unless @revision_image_location.nil?
+      end
+      @revision_image
     end
     
     # @return [String] a string representation of the revision

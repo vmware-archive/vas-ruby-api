@@ -21,7 +21,7 @@ module Sqlfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", ServerLiveConfiguration)
+      super(location, client, 'live-configurations', ServerLiveConfiguration)
     end
 
   end
@@ -31,7 +31,7 @@ module Sqlfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "server-group-instance", ServerInstance, ServerNodeLiveConfiguration)
+      super(location, client, 'server-group-instance', ServerInstance, ServerNodeLiveConfiguration)
     end
 
   end

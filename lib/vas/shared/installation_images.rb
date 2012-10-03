@@ -21,7 +21,7 @@ module Shared
   
     # @private
     def initialize(location, client, installation_image_class)
-      super(location, client, "installation-images", installation_image_class)
+      super(location, client, 'installation-images', installation_image_class)
     end
 
     # Creates an installation image by uploading a file to the server and assigning it a version
@@ -31,7 +31,7 @@ module Shared
     #
     # @return [InstallationImage] the new installation image
     def create(path, version)
-      entry_class.new(client.post_image(location, path, { :version => version }), client)
+      create_image(path, { :version => version })
     end
 
   end
@@ -50,23 +50,29 @@ module Shared
     # @private
     def initialize(location, client, installation_class) #:nodoc:
       super(location, client)
-      @version = details["version"]
-      @size = details["size"]
+
       @installation_class = installation_class
+
+      @version = details['version']
+      @size = details['size']
+    end
+
+    # Reloads the installation image's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @installations = nil
     end
 
     # @return [Installation[]] the installations that have been created from the installation image
     def installations
-      installations = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "installation").each { |installation_location|
-        installations << @installation_class.new(installation_location, client)
-      }
-      installations
+      @installations ||= create_resources_from_links('installation', @installation_class)
     end
 
     # @return [String] a string representation of the installation image
     def to_s
-      "#<#{self.class} version='#@version'>"
+      "#<#{self.class} version='#@version' size='#@size'>"
     end
 
   end

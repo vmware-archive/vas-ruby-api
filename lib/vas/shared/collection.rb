@@ -29,23 +29,34 @@ module Shared
 
     # @private
     def initialize(location, client, type, entry_class)
-      super(location, client)
       @type = type
       @entry_class = entry_class
+      super(location, client)
     end
 
-    # Gets the items in the collection from the server. Calls the block once for each item.
+    def reload
+      super
+      @items = nil
+    end
+
+    # Calls the block once for each item in the collection.
     #
     # @yieldparam item an item in the collection
     #
     # @return [void]
     def each
-      items = client.get(location)[@type]
+      @items ||= create_collection_entries
+      @items.each { |item| yield item }
+    end
 
-      if (!items.nil?)
-        client.get(location)[@type].each { |item|
-          yield entry_class.new(Util::LinkUtils.get_self_link_href(item), client)
-        }
+    private
+
+    def create_collection_entries
+      entries_json = details[@type]
+      if entries_json
+        entries_json.collect { |json| @entry_class.new(Util::LinkUtils.get_self_link_href(json), client) }
+      else
+        []
       end
     end
 

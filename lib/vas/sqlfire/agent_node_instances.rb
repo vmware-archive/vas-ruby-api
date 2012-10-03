@@ -21,7 +21,7 @@ module Sqlfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "agent-node-instances", AgentNodeInstance)
+      super(location, client, 'agent-node-instances', AgentNodeInstance)
     end
 
   end
@@ -29,14 +29,24 @@ module Sqlfire
   # An agent node instance
   class AgentNodeInstance < Shared::NodeInstance
 
+    # @return [String[]] The JVM options that are passed to the agent's JVM when it is started
+    attr_reader :jvm_options
+
     # @private
     def initialize(location, client)
       super(location, client, Node, AgentLogs, AgentInstance, 'agent-group-instance', AgentNodeLiveConfigurations)
     end
 
-    # @return [String[]] The JVM options that are passed to the agent's JVM when it is started
-    def jvm_options
-      client.get(location)['jvm-options']
+    # Reloads the agent instance's details from the server
+    # @return [void]
+    def reload
+      super
+      @jvm_options = details['jvm-options']
+    end
+
+    # @return [String] a string representation of the instance
+    def to_s
+      "#<#{self.class} name='#{name}' jvm_options='#@jvm_options'>"
     end
 
   end

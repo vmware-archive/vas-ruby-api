@@ -21,7 +21,7 @@ module Shared
 
     # @private
     def initialize(location, client, installation_class)
-      super(location, client, "installations", installation_class)
+      super(location, client, 'installations', installation_class)
     end
 
     # Creates a new installation
@@ -30,7 +30,7 @@ module Shared
     #
     # @return [Installation] the new installation
     def create(installation_image)
-      entry_class.new(client.post(location, { :image => installation_image.location }, "installation"), client)
+      super({ :image => installation_image.location }, 'installation')
     end
     
   end
@@ -42,35 +42,33 @@ module Shared
 
     # @return [String] the installation's version
     attr_reader :version
-
-    # @return [InstallationImage] the installation image that was used to create the installation
-    attr_reader :installation_image
-
-    # @return [Group] the group that contains the installation
-    attr_reader :group
     
     # @private
-    def initialize(location, client, installation_image_class, group_class) #:nodoc:
+    def initialize(location, client, installation_image_class, group_class)
       super(location, client)
 
-      @version = details["version"]
-      @installation_image = installation_image_class.new(Util::LinkUtils.get_link_href(details, "installation-image"), client)
-      @group = group_class.new(Util::LinkUtils.get_link_href(details, "group"), client)
+      @installation_image_location = Util::LinkUtils.get_link_href(details, 'installation-image')
+      @group_location = Util::LinkUtils.get_link_href(details, 'group')
+
+      @installation_image_class = installation_image_class
+      @group_class = group_class
+
+      @version = details['version']
+    end
+
+    # @return [Group] the group that contains the installation
+    def group
+      @group ||= @group_class.new(@group_location, client)
+    end
+
+    # @return [InstallationImage] the installation image that was used to create the installation
+    def installation_image
+      @installation_image ||= @installation_image_class.new(@installation_image_location, client)
     end
     
     # @return [String] a string representation of the installation
     def to_s #:nodoc:
       "#<#{self.class} version='#@version'>"
-    end
-    
-    private
-
-    def retrieve_instances(instance_rel, instance_class)
-      instances = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), instance_rel).each { |instance_location|
-        instances << instance_class.new(instance_location, client)
-      }
-      instances
     end
 
   end

@@ -21,7 +21,7 @@ module TcServer
     
     # @private
     def initialize(location, client)
-      super(location, client, "templates", Template)
+      super(location, client, 'templates', Template)
     end
     
     # Creates a new template
@@ -30,7 +30,7 @@ module TcServer
     #
     # @return [Template] the new template
     def create(template_image)
-      Template.new(client.post(location, { :image => template_image.location }, "template"), client)
+      super({ :image => template_image.location }, 'template')
     end
     
   end
@@ -44,22 +44,28 @@ module TcServer
     # @return [String] the template's name
     attr_reader :name
 
-    # @return [TemplateImage] the template image, if any, that this template was created from
-    attr_reader :template_image
-
-    # @return [Installation] the template's installation
-    attr_reader :installation
-
     # @private
     def initialize(location, client)
       super(location, client)
 
-      @version = details["version"]
-      @name = details["name"]
-      @installation = Installation.new(Util::LinkUtils.get_link_href(details, 'installation'), client)
+      @version = details['version']
+      @name = details['name']
 
-      template_image_location = Util::LinkUtils.get_link_href(details, "template-image")
-      @template_image = TemplateImage.new(template_image_location, client) unless template_image_location.nil?
+      @installation_location = Util::LinkUtils.get_link_href(details, 'installation')
+      @template_image_location = Util::LinkUtils.get_link_href(details, 'template-image')
+    end
+
+    # @return [Installation] the template's installation
+    def installation
+      @installation ||= Installation.new(@installation_location, client)
+    end
+
+    # @return [TemplateImage] the template image, if any, that this template was created from
+    def template_image
+      if @template_image.nil?
+        @template_image = TemplateImage.new(@template_image_location, client) unless @template_image_location.nil?
+      end
+      @template_image
     end
 
     # @return [String] a string representation of the template

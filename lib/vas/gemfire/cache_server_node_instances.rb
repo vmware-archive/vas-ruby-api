@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "cache-server-node-instances", CacheServerNodeInstance)
+      super(location, client, 'cache-server-node-instances', CacheServerNodeInstance)
     end
 
   end
@@ -29,18 +29,24 @@ module Gemfire
   # A cache server node instance
   class CacheServerNodeInstance < Shared::NodeInstance
 
-    # @return [DiskStores] the instance's disk stores
-    attr_reader :disk_stores
-
-    # @return [Statistics] the instance's statistics
-    attr_reader :statistics
-
     # @private
     def initialize(location, client)
       super(location, client, Node, CacheServerLogs, CacheServerInstance, 'cache-server-group-instance',
             CacheServerNodeLiveConfigurations)
-      @disk_stores = DiskStores.new(Util::LinkUtils.get_link_href(details, 'disk-stores'), client)
-      @statistics = Statistics.new(Util::LinkUtils.get_link_href(details, 'statistics'), client)
+
+      @disk_stores_location = Util::LinkUtils.get_link_href(details, 'disk-stores')
+      @statistics_location = Util::LinkUtils.get_link_href(details, 'statistics')
+
+    end
+
+    # @return [DiskStores] the instance's disk stores
+    def disk_stores
+      @disk_stores ||= DiskStores.new(@disk_stores_location, client)
+    end
+
+    # @return [Statistics] the instance's statistics
+    def statistics
+      @statistics ||= Statistics.new(@statistics_location, client)
     end
 
   end

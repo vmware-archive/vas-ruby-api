@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "agent-node-instances", AgentNodeInstance)
+      super(location, client, 'agent-node-instances', AgentNodeInstance)
     end
 
   end

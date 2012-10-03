@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", AgentLiveConfiguration)
+      super(location, client, 'live-configurations', AgentLiveConfiguration)
     end
 
   end
@@ -31,7 +31,7 @@ module Gemfire
     
     # @private
     def initialize(location, client)
-      super(location, client, "agent-group-instance", AgentInstance, AgentNodeLiveConfiguration)
+      super(location, client, 'agent-group-instance', AgentInstance, AgentNodeLiveConfiguration)
     end
 
   end

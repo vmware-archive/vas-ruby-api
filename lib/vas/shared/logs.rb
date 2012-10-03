@@ -32,19 +32,35 @@ module Shared
     # @return [String] the name of the log
     attr_reader :name
 
-    # @return [NodeInstance] the node instance that the log belongs to
-    attr_reader :instance
+    # @return [Integer] the size of the log
+    attr_reader :size
+
+    # @return [Integer] the last modified stamp of the log
+    attr_reader :last_modified
     
     # @private
     def initialize(location, client, instance_type, instance_class)
       super(location, client)
 
-      @name = details['name']
       @content_location = Util::LinkUtils.get_link_href(details, 'content')
-      @instance = instance_class.new(Util::LinkUtils.get_link_href(details, instance_type), client)
+      @instance_location = Util::LinkUtils.get_link_href(details, instance_type)
+
+      @instance_class = instance_class
     end
 
-    # Retrieve the content of the log
+    # Reloads the log's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @name = details['name']
+      @size = details['size']
+      @last_modified = details['last-modified']
+      @instance = nil
+    end
+
+
+    # Retrieves the content of the log from the server
     #
     # @param [Hash] options the options that control the content that is returned
     #
@@ -80,19 +96,14 @@ module Shared
       end
     end
 
-    # @return [Integer] the size of the log
-    def size
-      client.get(location)['size']
-    end
-
-    # @return [Integer] the last modified stamp of the log
-    def last_modified
-      client.get(location)['last-modified']
+    # @return [NodeInstance] the node instance that the log belongs to
+    def instance
+      @instance ||= @instance_class.new(@instance_location, client)
     end
 
     # @return [String] a string representation of the log
     def to_s
-      "#<#{self.class} name='#@name'>"
+      "#<#{self.class} name='#@name' size='#@size' last_modified='#@last_modified'>"
     end
   end
 end

@@ -21,7 +21,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "nodes", Node)
+      super(location, client, 'nodes', Node)
     end
 
   end
@@ -31,20 +31,27 @@ module TcServer
 
     # @return [String] the node's Java home
     attr_reader :java_home
-    
-    # @return [NodeInstances] the node's instances
-    attr_reader :instances
 
     # @private
     def initialize(location, client)
       super(location, client, Group)
-      @java_home = details["java-home"]
-      @instances = NodeInstances.new(Util::LinkUtils.get_link_href(details, "node-instances"), client)
+      @instance_location = Util::LinkUtils.get_link_href(details, 'node-instances')
     end
-    
+
+    # Reloads the node's details from the server
+    def reload
+      super
+      @java_home = details['java-home']
+    end
+
+    # @return [NodeInstances] the node's instances
+    def instances
+      @instances ||= NodeInstances.new(@instance_location, client)
+    end
+
     # @return [String] a string representation of the node
     def to_s
-      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#{java_home}'>"
+      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#@java_home' metadata='#{metadata}'>"
     end
 
   end

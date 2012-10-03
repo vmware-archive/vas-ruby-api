@@ -37,10 +37,10 @@ module Gemfire
 
       json = client.get(location)
       
-      @groups = Groups.new(Util::LinkUtils.get_link_href(json, "groups"), client)
-      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, "installation-images"), client)
-      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, "nodes"), client)
-      @application_code_images = ApplicationCodeImages.new(Util::LinkUtils.get_link_href(json, "application-code-images"), client)
+      @groups = Groups.new(Util::LinkUtils.get_link_href(json, 'groups'), client)
+      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, 'installation-images'), client)
+      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, 'nodes'), client)
+      @application_code_images = ApplicationCodeImages.new(Util::LinkUtils.get_link_href(json, 'application-code-images'), client)
 
     end
     

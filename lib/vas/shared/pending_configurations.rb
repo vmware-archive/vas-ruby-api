@@ -26,7 +26,7 @@ module Shared
     #
     # @return [PendingConfiguration] the new configuration
     def create(path, content)
-      entry_class.new(client.post_image(location, content, { :path => path }), client)
+      create_image(content, { :path => path })
     end
 
   end
@@ -39,7 +39,7 @@ module Shared
     # @param new_content [String] the new content
     def content=(new_content)
       client.post(content_location, new_content)
-      @size = client.get(location)['size']
+      reload
     end
 
   end

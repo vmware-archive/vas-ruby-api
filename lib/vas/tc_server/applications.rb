@@ -32,13 +32,13 @@ module TcServer
     #
     # @return [Application] the new application
     def create(name, context_path, service, host)
-      Application.new(client.post(location, {"context-path" => context_path, :name => name, :host => host, :service => service}, "group-application"), client)
+      payload = {'context-path' => context_path,
+                 :name => name,
+                 :host => host,
+                 :service => service}
+      super(payload, 'group-application')
     end
 
-    private
-    def create_entry(json)
-      Application.new(Util::LinkUtils.get_self_link_href(json), client)
-    end
   end
 
   # An application
@@ -56,30 +56,39 @@ module TcServer
     # @return [String] the host the application will deploy its revisions to
     attr_reader :host
 
-    # @return [Revisions] the application's revisions
-    attr_reader :revisions
-    
-    # @return [Instance] the instance that contains the application
-    attr_reader :instance
-
     # @private
     def initialize(location, client)
       super(location, client)
 
-      @revisions = Revisions.new(Util::LinkUtils.get_link_href(details, "group-revisions"), client)
-      @context_path = details["context-path"]
-      @name = details["name"]
-      @service = details["service"]
-      @host = details["host"]
-      @instance = Instance.new(Util::LinkUtils.get_link_href(details, "group-instance"), client)
+      @revisions_location = Util::LinkUtils.get_link_href(details, 'group-revisions')
+      @instance_location = Util::LinkUtils.get_link_href(details, 'group-instance')
+
+      @context_path = details['context-path']
+      @name = details['name']
+      @service = details['service']
+      @host = details['host']
+    end
+
+    # Reloads the application's details from the server
+    # @return [void]
+    def reload
+      super
+      @node_applications = nil
     end
 
     # @return [NodeApplication[]] the application's individual node applications
     def node_applications
-      node_applications = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), 'node-application').each {
-          |node_application_location| node_applications << NodeApplication.new(node_application_location, client)}
-      node_applications
+      @node_applications ||= create_resources_from_links('node-application', NodeApplication)
+    end
+
+    # @return [Instance] the instance that contains the application
+    def instance
+      @instance ||= Instance.new(@instance_location, client)
+    end
+
+    # @return [Revisions] the application's revisions
+    def revisions
+      @revisions ||= Revisions.new(@revisions_location, client)
     end
 
     # @return [String] a string representation of the application

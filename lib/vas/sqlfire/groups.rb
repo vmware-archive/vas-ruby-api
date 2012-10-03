@@ -29,21 +29,28 @@ module Sqlfire
   # A SQLFire group
   class Group < Shared::MutableGroup
 
-    # @return [AgentInstances] the group's agent instances
-    attr_reader :agent_instances
-
-    # @return [LocatorInstances] the group's locator instances
-    attr_reader :locator_instances
-
-    # @return [ServerInstances] the group's server instances
-    attr_reader :server_instances
-
     # @private
     def initialize(location, client)
       super(location, client, Node, Installations)
-      @agent_instances = AgentInstances.new(Util::LinkUtils.get_link_href(details, "agent-group-instances"), client)
-      @locator_instances = LocatorInstances.new(Util::LinkUtils.get_link_href(details, "locator-group-instances"), client)
-      @server_instances = ServerInstances.new(Util::LinkUtils.get_link_href(details, "server-group-instances"), client)
+
+      @agent_instances_location = Util::LinkUtils.get_link_href(details, 'agent-group-instances')
+      @locator_instances_location = Util::LinkUtils.get_link_href(details, 'locator-group-instances')
+      @server_instances_location = Util::LinkUtils.get_link_href(details, 'server-group-instances')
+    end
+
+    # @return [AgentInstances] the group's agent instances
+    def agent_instances
+      @agent_instances ||= AgentInstances.new(@agent_instances_location, client)
+    end
+
+    # @return [LocatorInstances] the group's locator instances
+    def locator_instances
+      @locator_instances ||= LocatorInstances.new(@locator_instances_location, client)
+    end
+
+    # @return [ServerInstances] the group's server instances
+    def server_instances
+      @server_instances ||= ServerInstances.new(@server_instances_location, client)
     end
 
   end

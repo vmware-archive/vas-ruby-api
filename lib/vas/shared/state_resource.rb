@@ -40,7 +40,7 @@ module Shared
       client.post(@state_location, { :status => 'STOPPED' })
     end
 
-    # @return [String] the state of the resource
+    # @return [String] Retrieves the state of the resource from the server
     def state
       client.get(@state_location)['status']
     end

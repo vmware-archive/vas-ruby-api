@@ -28,8 +28,8 @@ module VFabric
     # @private
     def initialize(location, client)
       json = client.get(location)
-      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, "nodes"), client)
-      @agent_image = AgentImage.new(Util::LinkUtils.get_link_href(json, "agent-image"), client)
+      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, 'nodes'), client)
+      @agent_image = AgentImage.new(Util::LinkUtils.get_link_href(json, 'agent-image'), client)
     end
 
   end

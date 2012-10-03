@@ -21,7 +21,7 @@ module RabbitMq
 
     # @private
     def initialize(location, client)
-      super(location, client, "group-instances", Instance)
+      super(location, client, 'group-instances', Instance)
     end
 
     # Creates a new instance
@@ -32,16 +32,13 @@ module RabbitMq
     # @return  [Instance] the new instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
-      Instance.new(client.post(location, payload, "group-instance"), client)
+      super(payload, 'group-instance')
     end
 
   end
 
   # A RabbitMQ instance
   class Instance < Shared::Instance
-
-    # @return [Plugins] the instance's plugins
-    attr_reader :plugins
 
     # @private
     def initialize(location, client)
@@ -55,7 +52,13 @@ module RabbitMq
     #
     # @return [void]
     def update(installation)
-      client.post(location, { :installation => installation.location });
+      client.post(location, { :installation => installation.location })
+      reload
+    end
+
+    # @return [Plugins] the instance's plugins
+    def plugins
+      @plugins ||= Plugins.new(Util::LinkUtils.get_link_href(details, 'plugins'), client)
     end
 
   end

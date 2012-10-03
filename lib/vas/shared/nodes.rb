@@ -40,10 +40,19 @@ module Shared
     # @return [String] the node's operating system
     attr_reader :operating_system
 
+    # @return [Hash] the node's metadata
+    attr_reader :metadata
+
     # @private
     def initialize(location, client)
       super(location, client)
-      
+    end
+
+    # Reloads the node's details from the server
+    #
+    # @return [void]
+    def reload
+      super
       @agent_home = details['agent-home']
       @architecture = details['architecture']
       @host_names = details['host-names']
@@ -55,13 +64,10 @@ module Shared
     end
 
     # Updates the node's metadata
+    # @return [void]
     def update(metadata)
       client.post(location, {:metadata => metadata})
-    end
-
-    # @return [Hash] the node's metadata
-    def metadata
-      client.get(location)['metadata']
+      reload
     end
 
   end
@@ -75,12 +81,14 @@ module Shared
       @group_class = group_class
     end
 
+    def reload
+      super
+      @groups = nil
+    end
+
     # @return [Group[]] the groups that contain this node
     def groups
-      groups = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), 'group').each {
-          |group_location| groups << @group_class.new(group_location, client)}
-      groups
+      @groups ||= create_resources_from_links('group', @group_class)
     end
   end
 

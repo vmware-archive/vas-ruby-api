@@ -21,7 +21,7 @@ module WebServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", Configuration)
+      super(location, client, 'live-configurations', Configuration)
     end
 
   end
@@ -31,7 +31,7 @@ module WebServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "group-instance", Instance, NodeLiveConfiguration)
+      super(location, client, 'group-instance', Instance, NodeLiveConfiguration)
     end
 
   end

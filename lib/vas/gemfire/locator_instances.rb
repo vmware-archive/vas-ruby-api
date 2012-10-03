@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "locator-group-instances", LocatorInstance)
+      super(location, client, 'locator-group-instances', LocatorInstance)
     end
 
     # Creates a new locator instance
@@ -47,7 +47,7 @@ module Gemfire
         payload[:server] = options[:server]
       end
 
-      LocatorInstance.new(client.post(location, payload, "locator-group-instance"), client)
+      super(payload, 'locator-group-instance')
     end
 
   end
@@ -55,10 +55,20 @@ module Gemfire
   # A locator instance
   class LocatorInstance < Shared::Instance
 
+    # @return [Integer] the port that the locator will listen on
+    attr_reader :port
+
+    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
+    attr_reader :peer
+
+    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
+    attr_reader :server
+
     # @private
     def initialize(location, client)
       super(location, client, Group, Installation, LocatorLiveConfigurations, LocatorPendingConfigurations, LocatorNodeInstance, 'locator-node-instance')
     end
+
 
     # Updates the instance using the supplied +options+.
     #
@@ -92,21 +102,21 @@ module Gemfire
       end
 
       client.post(location, payload)
+      reload
     end
 
-    # @return [Integer] the port that the locator will listen on
-    def port
-      client.get(location)['port']
+    # Reloads the instance's details from the server
+    # @return [void]
+    def reload
+      super
+      @port = details['port']
+      @peer = details['peer']
+      @server = details['server']
     end
 
-    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
-    def peer
-      client.get(location)['peer']
-    end
-
-    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
-    def server
-      client.get(location)['server']
+    # @return [String] a string representation of the instance
+    def to_s
+      "#<#{self.class} name=#{name} port='#@port' peer='#@peer' server='#@server'>"
     end
 
   end

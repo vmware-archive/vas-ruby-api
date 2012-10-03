@@ -15,13 +15,13 @@
 
 
 module Sqlfire
-  
+
   # Used to enumerate SqlFire nodes
   class Nodes < Shared::Collection
 
     # @private
     def initialize(location, client)
-      super(location, client, "nodes", Node)
+      super(location, client, 'nodes', Node)
     end
 
   end
@@ -31,28 +31,41 @@ module Sqlfire
 
     # @return [String] the Node's Java home
     attr_reader :java_home
-    
-    # @return [AgentNodeInstances] the node's agent instances
-    attr_reader :agent_instances
-    
-    # @return [LocatorNodeInstances] the node's locator instances
-    attr_reader :locator_instances
-
-    # @return [ServerNodeInstances] the node's server instances
-    attr_reader :server_instances
 
     # @private
     def initialize(location, client)
       super(location, client, Group)
-      @java_home = details["java-home"]
-      @agent_instances = AgentNodeInstances.new(Util::LinkUtils.get_link_href(details, "agent-node-instances"), client)
-      @locator_instances = LocatorNodeInstances.new(Util::LinkUtils.get_link_href(details, "locator-node-instances"), client)
-      @server_instances = ServerNodeInstances.new(Util::LinkUtils.get_link_href(details, "server-node-instances"), client)
+
+      @agent_instances_location = Util::LinkUtils.get_link_href(details, 'agent-node-instances')
+      @locator_instances_location = Util::LinkUtils.get_link_href(details, 'locator-node-instances')
+      @server_instances_location = Util::LinkUtils.get_link_href(details, 'server-node-instances')
+    end
+
+    # Reloads the node's details from the server
+    # @return [void]
+    def reload
+      super
+      @java_home = details['java-home']
+    end
+
+    # @return [AgentNodeInstances] the node's agent instances
+    def agent_instances
+      @agent_instances ||= AgentNodeInstances.new(@agent_instances_location, client)
+    end
+
+    # @return [LocatorNodeInstances] the node's locator instances
+    def locator_instances
+      @locator_instances ||= LocatorNodeInstances.new(@locator_instances_location, client)
+    end
+
+    # @return [ServerNodeInstances] the node's server instances
+    def server_instances
+      @server_instances ||= ServerNodeInstances.new(@server_instances_location, client)
     end
 
     # @return [String] a string representation of the node
     def to_s
-      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#{java_home}'>"
+      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' java_home='#@java_home' metadata='#{metadata}'>"
     end
 
   end

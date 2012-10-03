@@ -21,7 +21,7 @@ module TcServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "node-instances", NodeInstance)
+      super(location, client, 'node-instances', NodeInstance)
     end
 
   end
@@ -38,17 +38,31 @@ module TcServer
     # @return [Hash] the instance's services
     attr_reader :services
 
-    # @return [NodeApplications] the instance's applications
-    attr_reader :applications
-
     # @private
     def initialize(location, client)
       super(location, client, Node, Logs, Instance, 'group-instance', NodeLiveConfigurations)
 
-      @layout = details["layout"]
-      @runtime_version = details["runtime-version"]
-      @services = details["services"]
-      @applications = NodeApplications.new(Util::LinkUtils.get_link_href(details, "node-applications"), client)
+      @layout = details['layout']
+
+      @applications_location = Util::LinkUtils.get_link_href(details, 'node-applications')
+    end
+
+    # Reloads the instance's details from the server
+    # @return [void]
+    def reload
+      super
+      @runtime_version = details['runtime-version']
+      @services = details['services']
+    end
+
+    # @return [NodeApplications] the instance's applications
+    def applications
+      @applications ||= NodeApplications.new(@applications_location, client)
+    end
+
+    # @return [String] a string representation of the instance
+    def to_s
+      "#<#{self.class} name='#{name}' layout='#@layout' runtime_version='#@runtime_version' services='#@services'>"
     end
 
   end

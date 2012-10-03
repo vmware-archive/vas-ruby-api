@@ -34,19 +34,28 @@ module Gemfire
       super(location, client, InstallationImage, Group)
     end
 
+    # Reloads the installation's details from the server
+    # @return [void]
+    def reload
+      super
+      @agent_instances = nil
+      @cache_server_instances = nil
+      @locator_instances = nil
+    end
+
     # @return [AgentInstance[]] the agent instances that are using the installation
     def agent_instances
-      retrieve_instances("agent-group-instance", AgentInstance);
+      @agent_instances ||= create_resources_from_links('agent-group-instance', AgentInstance);
     end
 
     # @return [CacheServerInstance[]] the cache server instances that are using the installation
     def cache_server_instances
-      retrieve_instances("cache-server-group-instance", CacheServerInstance);
+      @cache_server_instances ||= create_resources_from_links('cache-server-group-instance', CacheServerInstance);
     end
 
     # @return [LocatorInstance[]] the locator instances that are using the installation
     def locator_instances
-      retrieve_instances("locator-group-instance", LocatorInstance);
+      @locator_instances ||= create_resources_from_links('locator-group-instance', LocatorInstance);
     end
     
   end

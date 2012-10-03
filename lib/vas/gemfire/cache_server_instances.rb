@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "cache-server-group-instances", CacheServerInstance)
+      super(location, client, 'cache-server-group-instances', CacheServerInstance)
     end
 
     # Creates a new cache server instance
@@ -32,7 +32,7 @@ module Gemfire
     # @return [CacheServerInstance] the new cache server instance
     def create(installation, name)
       payload = { :installation => installation.location, :name => name }
-      CacheServerInstance.new(client.post(location, payload, "cache-server-group-instance"), client)
+      super(payload, 'cache-server-group-instance')
     end
 
   end
@@ -40,17 +40,14 @@ module Gemfire
   # A cache server instance
   class CacheServerInstance < Shared::Instance
 
-    # @return [LiveApplicationCodes] the instance's live application code
-    attr_reader :live_application_code
-
-    # @return [PendingApplicationCodes] the instance's pending application code
-    attr_reader :pending_application_code
-
     # @private
     def initialize(location, client)
-      super(location, client, Group, Installation, CacheServerLiveConfigurations, CacheServerPendingConfigurations, CacheServerNodeInstance, 'cache-server-node-instance')
-      @live_application_code = LiveApplicationCodes.new(Util::LinkUtils.get_link_href(details, 'live-application-code'), client)
-      @pending_application_code = PendingApplicationCodes.new(Util::LinkUtils.get_link_href(details, 'pending-application-code'), client)
+      super(location, client, Group, Installation, CacheServerLiveConfigurations, CacheServerPendingConfigurations,
+            CacheServerNodeInstance, 'cache-server-node-instance')
+
+      @live_application_code_location = Util::LinkUtils.get_link_href(details, 'live-application-code')
+      @pending_application_code_location = Util::LinkUtils.get_link_href(details, 'pending-application-code')
+
     end
 
     # Updates the instance to use a different installation
@@ -59,7 +56,18 @@ module Gemfire
     #
     # @return [void]
     def update(installation)
-      client.post(location, { :installation => installation.location });
+      client.post(location, { :installation => installation.location })
+      reload
+    end
+
+    # @return [LiveApplicationCodes] the instance's live application code
+    def live_application_code
+      @live_application_code ||= LiveApplicationCodes.new(@live_application_code_location, client)
+    end
+
+    # @return [PendingApplicationCodes] the instance's pending application code
+    def pending_application_code
+      @pending_application_code ||= PendingApplicationCodes.new(@pending_application_code_location, client)
     end
 
   end

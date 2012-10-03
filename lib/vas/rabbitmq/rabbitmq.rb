@@ -37,10 +37,10 @@ module RabbitMq
 
       json = client.get(location)
 
-      @groups = Groups.new(Util::LinkUtils.get_link_href(json, "groups"), client)
-      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, "installation-images"), client)
-      @plugin_images = PluginImages.new(Util::LinkUtils.get_link_href(json, "plugin-images"), client)
-      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, "nodes"), client)
+      @groups = Groups.new(Util::LinkUtils.get_link_href(json, 'groups'), client)
+      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, 'installation-images'), client)
+      @plugin_images = PluginImages.new(Util::LinkUtils.get_link_href(json, 'plugin-images'), client)
+      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, 'nodes'), client)
     end
 
   end

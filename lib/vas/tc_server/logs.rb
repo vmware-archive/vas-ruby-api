@@ -19,7 +19,8 @@ module TcServer
   # Used to enumerate a tc Server node instance's logs
   class Logs < Shared::Logs
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, Log)
     end
 
@@ -28,7 +29,8 @@ module TcServer
   # A log file in a tc Server node instance
   class Log < Shared::Log
 
-    def initialize(location, client) #:nodoc:
+    # @private
+    def initialize(location, client)
       super(location, client, 'node-instance', NodeInstance)
     end
 

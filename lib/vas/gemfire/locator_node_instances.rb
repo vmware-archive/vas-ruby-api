@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "locator-node-instances", LocatorNodeInstance)
+      super(location, client, 'locator-node-instances', LocatorNodeInstance)
     end
 
   end
@@ -29,24 +29,32 @@ module Gemfire
   # A locator node instance
   class LocatorNodeInstance < Shared::NodeInstance
 
+    # @return [Integer] the port that the locator will listen on
+    attr_reader :port
+
+    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
+    attr_reader :peer
+
+    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
+    attr_reader :server
+
     # @private
-    def initialize(location, client) #:nodoc:
+    def initialize(location, client)
       super(location, client, Node, LocatorLogs, LocatorInstance, 'locator-group-instance', LocatorNodeLiveConfigurations)
     end
 
-    # @return [Integer] the port that the locator will listen on
-    def port
-      client.get(location)['port']
+    # Reloads the instance's details from the server
+    # @return [void]
+    def reload
+      super
+      @port = details['port']
+      @peer = details['peer']
+      @server = details['server']
     end
 
-    # @return [Boolean] +true+ if the locator will act as a peer, +false+ if it will not
-    def peer
-      client.get(location)['peer']
-    end
-
-    # @return [Boolean] +true+ if the locator will act as a server, +false+ if it will not
-    def server
-      client.get(location)['server']
+    # @return [String] a string representation of the instance
+    def to_s
+      "#<#{self.class} name=#{name} port='#@port' peer='#@peer' server='#@server'>"
     end
 
   end

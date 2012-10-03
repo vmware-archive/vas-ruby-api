@@ -34,9 +34,17 @@ module WebServer
       super(location, client, InstallationImage, Group)
     end
 
+    # Reloads the installation's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @instances = nil
+    end
+
     # @return [Instance[]] the instances that are using the installation
     def instances
-      retrieve_instances("group-instance", Instance);
+      @instances ||= create_resources_from_links('group-instance', Instance)
     end
     
   end

@@ -40,11 +40,11 @@ module TcServer
 
       json = client.get(location)
       
-      @groups = Groups.new(Util::LinkUtils.get_link_href(json, "groups"), client)
-      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, "installation-images"), client)
-      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, "nodes"), client)
-      @revision_images = RevisionImages.new(Util::LinkUtils.get_link_href(json, "revision-images"), client)
-      @template_images = TemplateImages.new(Util::LinkUtils.get_link_href(json, "template-images"), client)
+      @groups = Groups.new(Util::LinkUtils.get_link_href(json, 'groups'), client)
+      @installation_images = InstallationImages.new(Util::LinkUtils.get_link_href(json, 'installation-images'), client)
+      @nodes = Nodes.new(Util::LinkUtils.get_link_href(json, 'nodes'), client)
+      @revision_images = RevisionImages.new(Util::LinkUtils.get_link_href(json, 'revision-images'), client)
+      @template_images = TemplateImages.new(Util::LinkUtils.get_link_href(json, 'template-images'), client)
     end
     
   end

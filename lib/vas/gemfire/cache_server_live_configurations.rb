@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", CacheServerLiveConfiguration)
+      super(location, client, 'live-configurations', CacheServerLiveConfiguration)
     end
 
   end
@@ -31,7 +31,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "cache-server-group-instance", CacheServerInstance, CacheServerNodeLiveConfiguration)
+      super(location, client, 'cache-server-group-instance', CacheServerInstance, CacheServerNodeLiveConfiguration)
     end
 
   end

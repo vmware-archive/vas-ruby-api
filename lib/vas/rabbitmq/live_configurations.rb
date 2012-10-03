@@ -21,7 +21,7 @@ module RabbitMq
 
     # @private
     def initialize(location, client)
-      super(location, client, "live-configurations", LiveConfiguration)
+      super(location, client, 'live-configurations', LiveConfiguration)
     end
 
   end
@@ -31,7 +31,7 @@ module RabbitMq
 
     # @private
     def initialize(location, client)
-      super(location, client, "group-instance", Instance, NodeLiveConfiguration)
+      super(location, client, 'group-instance', Instance, NodeLiveConfiguration)
     end
 
   end

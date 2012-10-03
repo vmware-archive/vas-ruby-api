@@ -37,10 +37,20 @@ module Shared
       @location = location
       @client = client
 
-      @details = client.get(location)
+      reload
 
-      @security = Security.new(Util::LinkUtils.get_link_href(@details, 'security'), client)
+      @security = Security.new(Util::LinkUtils.get_link_href(@details, 'security'), @client)
+    end
 
+    # Reloads the resource's details from the server
+    # @return [void]
+    def reload
+      @details = client.get(@location)
+    end
+
+    private
+    def create_resources_from_links(link_rel, resource_class)
+      Util::LinkUtils.get_link_hrefs(details, link_rel).collect {|location| resource_class.new(location, client)}
     end
   
   end

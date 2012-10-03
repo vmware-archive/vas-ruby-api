@@ -18,16 +18,17 @@ module RabbitMq
 
   # Used to enumerate, create, and delete plugins
   class Plugins < Shared::MutableCollection
-    
-    def initialize(location, client) #:nodoc:
-      super(location, client, "plugins", Plugin)
+
+    def initialize(location, client)
+      super(location, client, 'plugins', Plugin)
     end
 
     # Creates a plugin from the +plugin_image+
+    # @return [Plugin] the new plugin
     def create(plugin_image)
-      Plugin.new(client.post(location, { :image => plugin_image.location}, 'plugin'), client)
+      super({:image => plugin_image.location}, 'plugin')
     end
-    
+
   end
 
   # A plugin in a RabbitMQ instance
@@ -38,24 +39,30 @@ module RabbitMq
 
     # @return [String] the plugin's name
     attr_reader :name
-    
-    # @return [Instance] the instance that contains the plugin
-    attr_reader :instance
-    
-    # @return [PluginImage] the plugin image, if any, that was used to create the plugin
-    attr_reader :plugin_image
-    
+
     # @private
     def initialize(location, client)
       super(location, client)
-      
+
       @name = details['name']
       @version = details['version']
-      @instance = Instance.new(Util::LinkUtils.get_link_href(details, 'group-instance'), client)
+
+      @instance_location = Util::LinkUtils.get_link_href(details, 'group-instance')
       @state_location = Util::LinkUtils.get_link_href(details, 'state')
-      
-      plugin_image_location = Util::LinkUtils.get_link_href(details, 'plugin-image')
-      @plugin_image = PluginImage.new(plugin_image_location, client) unless plugin_image_location.nil?
+    end
+
+    # @return [PluginImage] the plugin image, if any, that was used to create the plugin
+    def plugin_image
+      if @plugin_image.nil?
+        plugin_image_location = Util::LinkUtils.get_link_href(details, 'plugin-image')
+        @plugin_image = PluginImage.new(plugin_image_location, client) unless plugin_image_location.nil?
+      end
+      @plugin_image
+    end
+
+    # @return [Instance] the instance that contains the plugin
+    def instance
+      @instance ||= Instance.new(@instance_location, client)
     end
 
     # @return [String] the state of the plugin
@@ -67,16 +74,16 @@ module RabbitMq
     #
     # @return [void]
     def enable
-      client.post(@state_location, { :status => 'ENABLED' })
+      client.post(@state_location, {:status => 'ENABLED'})
     end
 
     # Disables the plugin
     #
     # @return [void]
     def disable
-      client.post(@state_location, { :status => 'DISABLED' })
+      client.post(@state_location, {:status => 'DISABLED'})
     end
-    
+
     # @return [String] a string representation of the plugin
     def to_s
       "#<#{self.class} name='#@name' version='#@version'>"

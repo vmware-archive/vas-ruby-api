@@ -40,7 +40,7 @@ module VFabric
     #
     # @return [void]
     def extract_to(location = '.')
-      agent_image = Tempfile.open('agent-image.zip') { |temp_file|
+      Tempfile.open('agent-image.zip') { |temp_file|
         content { |chunk| temp_file << chunk }
         temp_file.rewind
         Zip::ZipFile.foreach(temp_file.path) { |entry|

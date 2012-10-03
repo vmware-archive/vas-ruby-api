@@ -26,25 +26,32 @@ module Shared
     attr_reader :size
 
     private
-    
+
     attr_reader :content_location
-    
+
     public
 
     # @private
     def initialize(location, client, instance_type, instance_class)
       super(location, client)
 
-      @path = details["path"]
-      @size = details["size"]
+      @instance_class = instance_class
 
       @instance_location = Util::LinkUtils.get_link_href(details, instance_type)
-      @content_location = Util::LinkUtils.get_link_href(details, "content")
+      @content_location = Util::LinkUtils.get_link_href(details, 'content')
 
-      @instance_class = instance_class
+      @path = details['path']
     end
 
-    # Retrieves the configuration's content and passes it to the block
+    # Reloads the configuration's details from the server
+    #
+    # @return [void]
+    def reload
+      super
+      @size = details['size']
+    end
+
+    # Retrieves the configuration's content from the server and passes it to the block
     #
     # @yield [chunk] a chunk of the configuration's content
     #
@@ -55,12 +62,12 @@ module Shared
 
     # @return [Instance] the instance that owns the configuration
     def instance
-      @instance_class.new(@instance_location, client)
+      @instance ||= @instance_class.new(@instance_location, client)
     end
 
     # @return [String] a string representation of the configuration
     def to_s
-      "#<#{self.class} name='#@path' size=#@size>"
+      "#<#{self.class} name='#@path' size='#@size'>"
     end
 
   end

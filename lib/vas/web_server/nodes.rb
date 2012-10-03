@@ -21,7 +21,7 @@ module WebServer
 
     # @private
     def initialize(location, client)
-      super(location, client, "nodes", Node)
+      super(location, client, 'nodes', Node)
     end
 
   end
@@ -29,18 +29,23 @@ module WebServer
   # A Web Server node
   class Node < Shared::GroupableNode
 
-    # @return [NodeInstances] the node's instances
     attr_reader :instances
 
     # @private
     def initialize(location, client)
       super(location, client, Group)
-      @instances = NodeInstances.new(Util::LinkUtils.get_link_href(details, "node-instances"), client)
+
+      @node_instances_location = Util::LinkUtils.get_link_href(details, 'node-instances')
+    end
+
+    # @return [NodeInstances] the node's instances
+    def instances
+      @instances ||= NodeInstances.new(@node_instances_location, client)
     end
     
     # @return [String] a string representation of the node
     def to_s
-      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}'>"
+      "#<#{self.class} host_names='#{host_names}' ip_addresses='#{ip_addresses}' ipv4_addresses='#{ipv4_addresses}' ipv6_addresses='#{ipv6_addresses}' operating_system='#{operating_system}' architecture='#{architecture}' agent_home='#{agent_home}' metedata='#{metadata}'>"
     end
 
   end

@@ -19,10 +19,25 @@ module Shared
   # @abstract A collection that allows items to be deleted from it
   class MutableCollection < Collection
 
-    # Deletes the item from the collection
+    # Deletes the item from the collection and reloads the collection's contents from the server
     # @return [void]
     def delete(entry)
       client.delete(entry.location)
+      reload
+    end
+
+    # @private
+    def create(payload, rel=nil)
+      created = entry_class.new(client.post(location, payload, rel), client)
+      reload
+      created
+    end
+
+    # @private
+    def create_image(path, payload=nil)
+      created = entry_class.new(client.post_image(location, path, payload), client)
+      reload
+      created
     end
 
   end

@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, "pending-application-code", ApplicationCode)
+      super(location, client, 'pending-application-code', ApplicationCode)
     end
 
     # Creates a new pending application code
@@ -30,7 +30,7 @@ module Gemfire
     #
     # @return [ApplicationCode] the new application code
     def create(image)
-      ApplicationCode.new(client.post(location, { :image => image.location}), client)
+      super({:image => image.location})
     end
 
   end

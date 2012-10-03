@@ -30,7 +30,7 @@ module RabbitMq
     #
     # @return [PluginImage] the new plugin image
     def create(path)
-      PluginImage.new(client.post_image(location, path), client)
+      create_image(path)
     end
     
   end
@@ -51,21 +51,26 @@ module RabbitMq
     def initialize(location, client)
       super(location, client)
 
-      @name = details["name"]
-      @version = details["version"]
+      @name = details['name']
+      @version = details['version']
       @size = details['size']
+    end
+
+    # Reloads the plugin image's details from the server
+    # @return [void]
+    def reload
+      super
+      @plugins = nil
     end
 
     # @return [Plugin[]] the plugins that have been created from this plugin image
     def plugins
-      plugins = []
-      Util::LinkUtils.get_link_hrefs(client.get(location), "plugin").each { |plugin_location| plugins << Plugin.new(plugin_location, client)}
-      plugins
+      @plugins ||= create_resources_from_links('plugin', Plugin)
     end
 
     # @return [String] a string representation of the plugin image
     def to_s
-      "#<#{self.class} name='#@name' version='#@version'>"
+      "#<#{self.class} name='#@name' size='#@size' version='#@version'>"
     end
 
   end

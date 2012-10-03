@@ -33,30 +33,42 @@ module Shared
     # @return [String] the instance's name
     attr_reader :name
 
-    # @return [GroupableNode] the node that contains this instance
-    attr_reader :node
-
-    # @return [Logs] the instance's Logs
-    attr_reader :logs
-
-    # @return [Instance] the node instance's group instance
-    attr_reader :group_instance
-
-    # @return the node instance's live configuration
-    attr_reader :live_configurations
-
     # @private
     def initialize(location, client, node_class, logs_class, group_instance_class, group_instance_type,
         node_live_configurations_class)
       super(location, client)
 
-      @name = details["name"]
+      @name = details['name']
 
-      @node = node_class.new(Util::LinkUtils.get_link_href(details, "node"), client)
-      @logs = logs_class.new(Util::LinkUtils.get_link_href(details, "logs"), client)
-      @group_instance = group_instance_class.new(Util::LinkUtils.get_link_href(details, group_instance_type), client)
-      @live_configurations = node_live_configurations_class.new(
-          Util::LinkUtils.get_link_href(details, 'node-live-configurations'), client)
+      @node_class = node_class
+      @logs_class = logs_class
+      @group_instance_class = group_instance_class
+      @live_configurations_class = node_live_configurations_class
+
+      @node_location = Util::LinkUtils.get_link_href(details, 'node')
+      @logs_location = Util::LinkUtils.get_link_href(details, 'logs')
+      @group_instance_location = Util::LinkUtils.get_link_href(details, group_instance_type)
+      @live_configurations_location = Util::LinkUtils.get_link_href(details, 'node-live-configurations')
+    end
+
+    # @return [GroupableNode] the node that contains this instance
+    def node
+      @node ||= @node_class.new(@node_location, client)
+    end
+
+    # @return [Logs] the instance's logs
+    def logs
+      @logs ||= @logs_class.new(@logs_location, client)
+    end
+
+    # @return [Instance] the node instance's group instance
+    def group_instance
+      @group_instance ||= @group_instance_class.new(@group_instance_location, client)
+    end
+
+    # @return the node instance's live configuration
+    def live_configurations
+      @live_configurations ||= @live_configurations_class.new(@live_configurations_location, client)
     end
 
     # @return [String] a string representation of the node instance

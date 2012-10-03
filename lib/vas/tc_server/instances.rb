@@ -47,7 +47,7 @@ module TcServer
       end
       
       if options.has_key?(:runtime_version)
-        payload["runtime-version"] = options[:runtime_version]
+        payload['runtime-version'] = options[:runtime_version]
       end
       
       if options.has_key?(:templates)
@@ -59,8 +59,8 @@ module TcServer
       if options.has_key?(:layout)
         payload[:layout] = options[:layout]
       end
-      
-      Instance.new(client.post(location, payload, "group-instance"), client)
+
+      super(payload, 'group-instance')
     end
 
   end
@@ -77,21 +77,27 @@ module TcServer
     # @return [Hash] the instance's services
     attr_reader :services
 
-    # @return [Applications] the instance's applications
-    attr_reader :applications
-
     # @private
     def initialize(location, client)
       super(location, client, Group, Installation, LiveConfigurations, PendingConfigurations, NodeInstance, 'node-instance')
 
-      @layout = details["layout"]
-      @runtime_version = details["runtime-version"]
-      @services = details["services"]
-      @applications = Applications.new(Util::LinkUtils.get_link_href(details, "group-applications"), client)
-
+      @layout = details['layout']
     end
 
-    # Updates the installation and, optionally, the runtime_version used by the instance
+    # Reloads the instance's details from the server
+    # @return [void]
+    def reload
+      super
+      @runtime_version = details['runtime-version']
+      @services = details['services']
+    end
+
+    # @return [Applications] the instance's applications
+    def applications
+      @applications ||= Applications.new(Util::LinkUtils.get_link_href(details, 'group-applications'), client)
+    end
+
+    # Updates the installation and, optionally, the +runtime_version+ used by the instance
     #
     # @param installation [Installation] the installation to be used by the instance
     # @param runtime_version [String] the version of the runtime to be used by the instance
@@ -99,10 +105,16 @@ module TcServer
     # @return [void]
     def update(installation, runtime_version = nil)
       payload = { :installation => installation.location }
-      if (!runtime_version.nil?)
+      if runtime_version
         payload['runtime-version'] = runtime_version
       end
-      client.post(location, payload);
+      client.post(location, payload)
+      reload
+    end
+
+    # @return [String] a string representation of the instance
+    def to_s
+      "#<#{self.class} name='#{name}' layout='#@layout' runtime_version='#@runtime_version' services='#@services'>"
     end
 
   end
