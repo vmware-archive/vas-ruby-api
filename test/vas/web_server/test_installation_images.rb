@@ -32,9 +32,14 @@ module WebServer
   
       installation_image_location = "https://localhost:8443/web-server/v1/installation-images/1/"
   
-      client.expect(:post_image, installation_image_location, [location, path, { :version => "1.2.3"}])
+      client.expect(:post_image, installation_image_location, [location, path, { :version => "1.2.3",
+                                                                                 :architecture => 'x86_64',
+                                                                                 'operating-system' => 'Linux'}])
   
-      assert_equal(installation_image_location, InstallationImages.new(location, client).create(path, "1.2.3").location)
+      assert_equal(installation_image_location, InstallationImages.new(location, client).create(path,
+                                                                                                "1.2.3",
+                                                                                                'x86_64',
+                                                                                                'Linux').location)
     end
   
     def test_installation_image

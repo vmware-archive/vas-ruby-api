@@ -24,6 +24,21 @@ module WebServer
       super(location, client, InstallationImage)
     end
 
+    # Creates an installation image by uploading a file to the server and assigning it a version, architecture,
+    # and operating system
+    #
+    # @param path the path of the file to upload
+    # @param version [String] the installation image's version
+    # @param architecture [String] the installation image's architecture
+    # @param operating_system [String] the installation image's operating system
+    #
+    # @return [InstallationImage] the new installation image
+    def create(path, version, architecture, operating_system)
+      create_image(path, { :version => version,
+                           :architecture => architecture,
+                           'operating-system' => operating_system })
+    end
+
   end
   
   # A Web Server installation image
