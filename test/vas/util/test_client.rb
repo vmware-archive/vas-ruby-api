@@ -69,13 +69,33 @@ module Util
       assert_raises(VasException) { Client.new("username", "password").delete("https://localhost:8443/test/location") }
     end
 
-    def test_post_with_accepted_response
+    def test_json_post_with_accepted_response
       FakeWeb.register_uri(:post, "https://username:password@localhost:8443/test/location", :status =>["202", "Accepted"], :location => "https://localhost:8443/task/location")
       TasklessClient.new("username", "password").post("https://localhost:8443/test/location", { :foo => "bar"})
 
       request = FakeWeb.last_request
       assert_instance_of(Net::HTTP::Post, request)
       assert_equal("bar", JSON.parse(request.body)["foo"])
+      assert_equal('application/json', request['Content-Type'])
+    end
+
+    def test_json_post_with_ok_response
+      FakeWeb.register_uri(:post, "https://username:password@localhost:8443/test/location", :status =>["200", "OK"], :location => "https://localhost:8443/task/location")
+      Client.new("username", "password").post("https://localhost:8443/test/location", { :foo => "bar"})
+
+      request = FakeWeb.last_request
+      assert_instance_of(Net::HTTP::Post, request)
+      assert_equal("bar", JSON.parse(request.body)["foo"])
+    end
+
+    def test_string_post_with_ok_response
+      FakeWeb.register_uri(:post, "https://username:password@localhost:8443/test/location", :status =>["200", "OK"], :location => "https://localhost:8443/task/location")
+      Client.new("username", "password").post("https://localhost:8443/test/location", "content")
+
+      request = FakeWeb.last_request
+      assert_instance_of(Net::HTTP::Post, request)
+      assert_equal("content", request.body)
+      assert_equal('text/plain', request['Content-Type'])
     end
 
     def test_post_with_error_response
