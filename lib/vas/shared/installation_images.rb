@@ -41,6 +41,8 @@ module Shared
   #   group.
   class InstallationImage < Resource
     
+    include Deletable
+    
     # @return [String] the installation image's version
     attr_reader :version
 

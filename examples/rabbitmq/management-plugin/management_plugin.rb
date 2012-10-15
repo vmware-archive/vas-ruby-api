@@ -97,9 +97,9 @@ instance.stop
 puts 'done'
 
 print 'Deleting group... '
-rabbitmq.groups.delete(group)
+group.delete
 puts 'done'
 
 print 'Deleting installation image... '
-rabbitmq.installation_images.delete(installation_image)
+installation_image.delete
 puts 'done'

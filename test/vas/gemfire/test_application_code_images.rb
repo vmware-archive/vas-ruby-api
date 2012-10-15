@@ -68,12 +68,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      application_code_images = ApplicationCodeImages.new('https://localhost:8443/gemfire/v1/application-code-images/', client)
 
       application_code_image_location = "https://localhost:8443/gemfire/v1/application-code-images/1/"
       client.expect(:delete, nil, [application_code_image_location])
 
-      application_code_images.delete(ApplicationCodeImage.new(application_code_image_location, client))
+      ApplicationCodeImage.new(application_code_image_location, client).delete
 
       client.verify
     end

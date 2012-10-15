@@ -40,6 +40,8 @@ module Shared
 
   # @abstract A collection of one or more nodes
   class Group < Shared::Resource
+    
+    include Deletable
 
     # @return [String] the group's name
     attr_reader :name

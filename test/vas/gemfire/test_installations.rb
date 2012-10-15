@@ -60,12 +60,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      installations = Installations.new('https://localhost:8443/gemfire/v1/groups/1/installations/', client)
 
       installation_location = 'https://localhost:8443/gemfire/v1/groups/1/installations/2/'
       client.expect(:delete, nil, [installation_location])
 
-      installations.delete(Installation.new(installation_location, client))
+      Installation.new(installation_location, client).delete
 
       client.verify
     end

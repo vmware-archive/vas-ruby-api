@@ -38,6 +38,8 @@ module RabbitMq
   # A plugin image
   class PluginImage < Shared::Resource
 
+    include Shared::Deletable
+
     # The plugin image's name
     attr_reader :name
 

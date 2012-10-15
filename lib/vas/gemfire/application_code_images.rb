@@ -39,6 +39,8 @@ module Gemfire
   
   # An application code image
   class ApplicationCodeImage < Shared::Resource
+    
+    include Shared::Deletable
 
     # @return [String] the application code image's name
     attr_reader :name

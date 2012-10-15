@@ -44,6 +44,8 @@ module TcServer
   # An application
   class Application < Shared::Resource
 
+    include Shared::Deletable
+
     # @return [String] the application's context path
     attr_reader :context_path
 

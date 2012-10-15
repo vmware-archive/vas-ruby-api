@@ -16,22 +16,19 @@
 
 module Shared
   
-  # @abstract A collection that allows items to be created
-  class MutableCollection < Collection
-
+  # The +Deletable+ mixin provides classes with support for deletion. The
+  # class must provide two instance variables: client and location
+  module Deletable
+    
     # @private
-    def create(payload, rel=nil)
-      created = create_entry(client.post(location, payload, rel))
-      reload
-      created
-    end
+    attr_accessor :collection
 
-    # @private
-    def create_image(path, payload=nil)
-      created = create_entry(client.post_image(location, path, payload))
-      reload
-      created
+    # Performs a delete. If a collection is available it is reloaded
+    def delete
+      @client.delete(@location)
+      @collection.reload unless @collection.nil?
     end
 
   end
+
 end

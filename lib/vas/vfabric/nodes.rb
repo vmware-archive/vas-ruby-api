@@ -26,18 +26,11 @@ module VFabric
 
   end
 
-  # Deletes the node
-  #
-  # @param node [Node] the node to delete
-  #
-  # @return [void]
-  def delete(node)
-    client.delete(node.location)
-  end
-
   # A VFabric node
   class Node < Shared::Node
-  
+
+    include Shared::Deletable
+
     # @private
     def initialize(location, client)
       super(location, client)

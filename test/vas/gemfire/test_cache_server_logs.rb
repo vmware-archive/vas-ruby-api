@@ -63,11 +63,10 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      logs = CacheServerLogs.new('https://localhost:8443/gemfire/v1/nodes/1/cache-server-instances/2/logs/', client)
       location = 'https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/logs/4/'
       client.expect(:delete, nil, [location])
 
-      logs.delete(CacheServerLog.new(location, client))
+      CacheServerLog.new(location, client).delete
 
       client.verify
     end

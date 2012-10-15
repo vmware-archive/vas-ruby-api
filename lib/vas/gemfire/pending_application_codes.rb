@@ -21,7 +21,7 @@ module Gemfire
 
     # @private
     def initialize(location, client)
-      super(location, client, 'pending-application-code', ApplicationCode)
+      super(location, client, 'pending-application-code', PendingApplicationCode)
     end
 
     # Creates a new pending application code
@@ -33,6 +33,11 @@ module Gemfire
       super({:image => image.location})
     end
 
+  end
+  
+  # An application code that is pending
+  class PendingApplicationCode < ApplicationCode
+    include Shared::Deletable
   end
 
 end

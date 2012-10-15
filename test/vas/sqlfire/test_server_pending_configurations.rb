@@ -61,14 +61,9 @@ module Sqlfire
 
     def test_delete
       client = StubClient.new
-      configurations = ServerPendingConfigurations.new(
-          'https://localhost:8443/sqlfire/v1/groups/1/server-instances/2/configurations/pending/', client)
-
       location = 'https://localhost:8443/sqlfire/v1/groups/0/server-instances/1/configurations/pending/2/'
       client.expect(:delete, nil, [location])
-
-      configurations.delete(ServerPendingConfiguration.new(location, client))
-
+      ServerPendingConfiguration.new(location, client).delete
       client.verify
     end
   

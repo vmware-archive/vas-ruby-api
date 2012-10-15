@@ -44,13 +44,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      disk_stores = DiskStores.new(
-          'https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/disk-stores/', client)
 
       location = 'https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/disk-stores/4/'
       client.expect(:delete, nil, [location])
 
-      disk_stores.delete(DiskStores.new(location, client))
+      DiskStore.new(location, client).delete
 
       client.verify
     end

@@ -39,6 +39,8 @@ module Shared
   #   installation is used when creating a new instance and provides the binaries that the instance uses at
   #   runtime
   class Installation < Shared::Resource
+    
+    include Deletable
 
     # @return [String] the installation's version
     attr_reader :version

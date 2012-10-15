@@ -28,6 +28,8 @@ module Gemfire
 
   # A disk store in a cache server node instance
   class DiskStore < Shared::Resource
+    
+    include Shared::Deletable
 
     # @return [String] the name of the disk store
     attr_reader :name

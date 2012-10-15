@@ -158,10 +158,9 @@ module TcServer
 
     def test_delete
       client = StubClient.new
-      instances = Instances.new('https://localhost:8443/tc-server/v1/groups/1/instances/', client)
       instance_location = 'https://localhost:8443/tc-server/v1/groups/2/instances/4/'
       client.expect(:delete, nil, [instance_location])
-      instances.delete(Instance.new(instance_location, client))
+      Instance.new(instance_location, client).delete
       client.verify
     end
   end
