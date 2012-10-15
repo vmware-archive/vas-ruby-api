@@ -19,10 +19,12 @@ module Shared
   # @abstract A dynamic collection of items
   class Collection < Shared::Resource
 
+    include Enumerable
+
     private
-    
+
     attr_reader :entry_class
-    
+
     public
 
     # @private
@@ -46,7 +48,7 @@ module Shared
         }
       end
     end
-  
+
   end
-  
+
 end
