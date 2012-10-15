@@ -56,10 +56,11 @@ module Util
     def test_delete_with_accepted_response
       FakeWeb.register_uri(:delete, "https://username:password@localhost:8443/test/location", :status =>["202", "Accepted"], :location => "https://localhost:8443/task/location")
       FakeWeb.register_uri(:get, "https://username:password@localhost:8443/task/location", :status =>["200", "OK"], :body => '{ "status" : "SUCCESS"}')
+      FakeWeb.register_uri(:delete, "https://username:password@localhost:8443/task/location", :status =>["200", "OK"])
       Client.new("username", "password").delete("https://localhost:8443/test/location")
 
       request = FakeWeb.last_request
-      assert_instance_of(Net::HTTP::Get, request)
+      assert_instance_of(Net::HTTP::Delete, request)
       assert_equal("https://localhost:8443/task/location", request.path)
     end
 
@@ -98,21 +99,36 @@ module Util
       FakeWeb.register_uri(:get, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"], :body => '{ "status" : "PENDING"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "IN_PROGRESS"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "SUCCESS"}'} ])
+      FakeWeb.register_uri(:delete, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"]}])
       Client.new("username", "password").send(:await_task, "https://localhost:8443/task/location")
+      
+      request = FakeWeb.last_request
+      assert_instance_of(Net::HTTP::Delete, request)
+      assert_equal("https://localhost:8443/task/location", request.path)
     end
 
     def test_await_task_with_rel_with_successful_outcome
       FakeWeb.register_uri(:get, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"], :body => '{ "status" : "PENDING"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "IN_PROGRESS"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "SUCCESS", "links" : [ { "rel" : "link-rel", "href" : "https://localhost:8443/link/location" } ] }'} ])
+      FakeWeb.register_uri(:delete, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"]}])
       assert_equal("https://localhost:8443/link/location", Client.new("username", "password").send(:await_task, "https://localhost:8443/task/location", "link-rel"))
+      
+      request = FakeWeb.last_request
+      assert_instance_of(Net::HTTP::Delete, request)
+      assert_equal("https://localhost:8443/task/location", request.path)
     end
 
     def test_await_task_with_failure_outcome
       FakeWeb.register_uri(:get, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"], :body => '{ "status" : "PENDING"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "IN_PROGRESS"}' },
                                                                                             { :status =>["200", "OK"], :body => '{ "status" : "FAILURE"}'}])
+      FakeWeb.register_uri(:delete, "https://username:password@localhost:8443/task/location", [{ :status =>["200", "OK"]}])
       assert_raises(VasException) { Client.new("username", "password").send(:await_task, "https://localhost:8443/task/location", "link-rel")}
+      
+      request = FakeWeb.last_request
+      assert_instance_of(Net::HTTP::Delete, request)
+      assert_equal("https://localhost:8443/task/location", request.path)
     end
 
     class TasklessClient < Client
