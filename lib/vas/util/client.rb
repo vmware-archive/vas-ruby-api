@@ -134,12 +134,14 @@ module Util
           when "IN_PROGRESS"
             sleep TASK_POLLING_INTERVAL
           when "SUCCESS"
+            delete(task_location)
             if rel
               return LinkUtils.get_link_hrefs(task, rel)[0]
             else
               return
             end
           else
+            delete(task_location)
             raise VasException.new([task["message"], task["detail"]])
         end
       end
