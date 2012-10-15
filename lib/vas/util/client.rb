@@ -71,18 +71,25 @@ module Util
         end
       }
     end
-  
+    
     def post(location, payload, rel = nil)
-  
+
       req = Net::HTTP::Post.new(location)
-  
-      req['Content-Type'] = "application/json"
-      req.body = payload.to_json
-  
+
+      if (payload.is_a?(String))
+        req['Content-Type'] = "text/plain"
+        req.body = payload
+      else
+        req['Content-Type'] = "application/json"
+        req.body = payload.to_json
+      end
+
       do_request(req) { |res|
         case res.code
           when "202"
             return await_task(res["Location"], rel)
+          when "200"
+            return
           else
             raise_vas_exception(res)
         end
