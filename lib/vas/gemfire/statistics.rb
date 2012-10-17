@@ -28,6 +28,8 @@ module Gemfire
 
   # A statistic of a cache server
   class Statistic < Shared::Resource
+    
+    include Shared::Deletable
 
     # @return [String] the path of statistic
     attr_reader :path

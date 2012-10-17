@@ -33,6 +33,8 @@ module Shared
 
   # @abstract A configuration file that is pending and will be made live the next time its instance is started
   class PendingConfiguration < Configuration
+    
+    include Deletable
 
     # Updates the contents of the configuration
     #

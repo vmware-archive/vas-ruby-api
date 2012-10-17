@@ -42,13 +42,13 @@ module Gemfire
 
       client = StubClient.new
       pending_configuration = AgentPendingConfiguration.new(location, client)
-  
+
       assert_equal('https://localhost:8443/gemfire/v1/groups/0/agent-instances/1/configurations/pending/2/', pending_configuration.location)
       assert_equal('agent.properties', pending_configuration.path)
       assert_equal(10537, pending_configuration.size)
       assert_equal('https://localhost:8443/gemfire/v1/groups/0/agent-instances/1/', pending_configuration.instance.location)
       assert_equal('https://localhost:8443/vfabric/v1/security/3/', pending_configuration.security.location)
-  
+
       content = ''
       pending_configuration.content { |chunk| content << chunk}
       assert_equal('somestreamedcontent', content)
@@ -61,16 +61,14 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      configurations = AgentPendingConfigurations.new(
-          'https://localhost:8443/gemfire/v1/groups/1/agent-instances/2/configurations/pending/', client)
 
       location = 'https://localhost:8443/gemfire/v1/groups/0/agent-instances/1/configurations/pending/2/'
       client.expect(:delete, nil, [location])
 
-      configurations.delete(AgentPendingConfiguration.new(location, client))
+      AgentPendingConfiguration.new(location, client).delete
 
       client.verify
     end
-  
+
   end
 end

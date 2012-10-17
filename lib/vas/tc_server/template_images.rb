@@ -40,6 +40,8 @@ module TcServer
   # A template image
   class TemplateImage < Shared::Resource
 
+    include Shared::Deletable
+
     # @return [String] the template image's name
     attr_reader :name
 

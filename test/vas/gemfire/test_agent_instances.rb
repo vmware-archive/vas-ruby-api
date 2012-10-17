@@ -83,10 +83,9 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      agent_instances = AgentInstances.new('https://localhost:8443/gemfire/v1/groups/1/agent-instances/', client)
       instance_location = 'https://localhost:8443/gemfire/v1/groups/2/agent-instances/4/'
       client.expect(:delete, nil, [instance_location])
-      agent_instances.delete(AgentInstance.new(instance_location, client))
+      AgentInstance.new(instance_location, client).delete
       client.verify
     end
 

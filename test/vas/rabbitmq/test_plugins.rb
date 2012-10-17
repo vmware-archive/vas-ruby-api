@@ -68,12 +68,11 @@ module RabbitMq
 
     def test_delete
       client = StubClient.new
-      plugins = Plugins.new('https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/', client)
 
       location = 'https://localhost:8443/rabbitmq/v1/groups/1/instances/2/plugins/3/'
       client.expect(:delete, nil, [location])
 
-      plugins.delete(Plugin.new(location, client))
+      Plugin.new(location, client).delete
 
       client.verify
     end

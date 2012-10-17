@@ -34,6 +34,8 @@ module RabbitMq
   # A plugin in a RabbitMQ instance
   class Plugin < Shared::Resource
 
+    include Shared::Deletable
+
     # @return [String] the plugin's version
     attr_reader :version
 

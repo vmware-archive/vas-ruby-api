@@ -38,6 +38,8 @@ module TcServer
   # A tc Server template
   class Template < Shared::Resource
 
+    include Shared::Deletable
+
     # @return [String] the template's version
     attr_reader :version
     

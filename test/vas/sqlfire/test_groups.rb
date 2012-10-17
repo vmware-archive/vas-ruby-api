@@ -82,13 +82,11 @@ module Sqlfire
     end
 
     def test_delete
+      group_location = 'https://localhost:8443/sqlfire/v1/groups/1/'
       client = StubClient.new
-      groups = Groups.new("https://localhost:8443/sqlfire/v1/groups/", client)
-
-      group_location = "https://localhost:8443/sqlfire/v1/groups/2/"
       client.expect(:delete, nil, [group_location])
 
-      groups.delete(Group.new(group_location, client))
+      Group.new(group_location, client).delete
 
       client.verify
     end

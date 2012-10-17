@@ -61,13 +61,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      configurations = CacheServerPendingConfigurations.new(
-          'https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/configurations/pending/', client)
 
       location = 'https://localhost:8443/gemfire/v1/groups/0/cache-server-instances/1/configurations/pending/2/'
       client.expect(:delete, nil, [location])
 
-      configurations.delete(CacheServerPendingConfiguration.new(location, client))
+      CacheServerPendingConfiguration.new(location, client).delete
 
       client.verify
     end

@@ -56,13 +56,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      application_code = PendingApplicationCodes.new(
-          'https://localhost:8443/gemfire/v1/groups/1/cache-server-instances/2/application-code/pending/', client)
 
       location = 'https://localhost:8443/gemfire/v1/groups/0/cache-server-instances/1/application-code/pending/2/'
       client.expect(:delete, nil, [location])
 
-      application_code.delete(ApplicationCode.new(location, client))
+      PendingApplicationCode.new(location, client).delete
 
       client.verify
     end

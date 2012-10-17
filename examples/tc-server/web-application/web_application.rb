@@ -110,13 +110,13 @@ instance.stop
 puts 'done'
 
 print 'Deleting group... '
-tc_server.groups.delete(group)
+group.delete
 puts 'done'
 
 print 'Deleting revision image... '
-tc_server.revision_images.delete(revision_image)
+revision_image.delete
 puts 'done'
 
 print 'Deleting installation image... '
-tc_server.installation_images.delete(installation_image)
+installation_image.delete
 puts 'done'

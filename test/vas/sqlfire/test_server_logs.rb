@@ -63,12 +63,9 @@ module Sqlfire
 
     def test_delete
       client = StubClient.new
-      logs = ServerLogs.new('https://localhost:8443/sqlfire/v1/nodes/1/server-instances/2/logs/', client)
       location = 'https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/logs/4/'
       client.expect(:delete, nil, [location])
-
-      logs.delete(ServerLog.new(location, client))
-
+      ServerLog.new(location, client).delete
       client.verify
     end
 

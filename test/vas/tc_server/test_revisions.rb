@@ -78,11 +78,9 @@ module TcServer
 
     def test_delete
       client = StubClient.new
-      revisions = Revisions.new(
-          'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions', client)
       revision_location = 'https://localhost:8443/tc-server/v1/groups/1/instances/2/applications/3/revisions/4/'
       client.expect(:delete, nil, [revision_location])
-      revisions.delete(Revision.new(revision_location, client))
+      Revision.new(revision_location, client).delete
       client.verify
     end
 

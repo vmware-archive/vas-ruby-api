@@ -18,6 +18,8 @@ module Shared
 
   # @abstract A collection of instances
   class Instance < Shared::StateResource
+    
+    include Deletable
 
     # @return [String] the instance's name
     attr_reader :name

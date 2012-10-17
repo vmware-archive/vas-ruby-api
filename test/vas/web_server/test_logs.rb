@@ -61,11 +61,10 @@ module WebServer
 
     def test_delete
       client = StubClient.new
-      logs = Logs.new('https://localhost:8443/web-server/v1/nodes/1/instances/2/logs/', client)
       location = 'https://localhost:8443/web-server/v1/nodes/0/instances/3/logs/4/'
       client.expect(:delete, nil, [location])
 
-      logs.delete(Log.new(location, client))
+      Log.new(location, client).delete
 
       client.verify
     end

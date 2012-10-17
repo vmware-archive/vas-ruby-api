@@ -179,10 +179,9 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      locator_instances = LocatorInstances.new('https://localhost:8443/gemfire/v1/groups/1/locator-instances/', client)
       instance_location = 'https://localhost:8443/gemfire/v1/groups/2/locator-instances/4/'
       client.expect(:delete, nil, [instance_location])
-      locator_instances.delete(LocatorInstance.new(instance_location, client))
+      LocatorInstance.new(instance_location, client).delete
       client.verify
     end
 

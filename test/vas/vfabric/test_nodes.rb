@@ -52,7 +52,14 @@ module VFabric
 
       Node.new(location, client).update(metadata)
     end
-  
+    
+    def test_delete
+      location = "https://localhost:8443/vfabric/v1/nodes/1/"
+      client = StubClient.new
+      client.expect(:delete, nil, [location])
+      Node.new(location, client).delete
+      client.verify
+    end
   end
 end
   

@@ -40,6 +40,8 @@ module TcServer
   # A revision image, i.e. a WAR file
   class RevisionImage < Shared::Resource
 
+    include Shared::Deletable
+
     # @return [String] the revision image's name
     attr_reader :name
 

@@ -38,6 +38,8 @@ module TcServer
   # A revision of an application
   class Revision < Shared::StateResource
 
+    include Shared::Deletable
+
     # @return [String] the revision's version
     attr_reader :version
 

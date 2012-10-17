@@ -65,14 +65,9 @@ module WebServer
 
     def test_delete
       client = StubClient.new
-      configurations = PendingConfigurations.new(
-          'https://localhost:8443/web-server/v1/groups/1/instances/2/configurations/pending/', client)
-
       location = 'https://localhost:8443/web-server/v1/groups/0/instances/1/configurations/pending/2/'
       client.expect(:delete, nil, [location])
-
-      configurations.delete(PendingConfiguration.new(location, client))
-
+      PendingConfiguration.new(location, client).delete
       client.verify
     end
   

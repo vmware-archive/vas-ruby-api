@@ -54,10 +54,20 @@ module Shared
     def create_collection_entries
       entries_json = details[@type]
       if entries_json
-        entries_json.collect { |json| @entry_class.new(Util::LinkUtils.get_self_link_href(json), client) }
+        entries_json.collect { |json| create_entry(Util::LinkUtils.get_self_link_href(json)) }
       else
         []
       end
+    end
+    
+    def create_entry(location)
+      entry = @entry_class.new(location, client)
+
+      if @entry_class.include?(Deletable)
+        entry.collection = self
+      end
+      
+      entry
     end
 
   end

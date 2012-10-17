@@ -28,6 +28,8 @@ module Shared
 
   # abstract A log file in a node instance
   class Log < Shared::Resource
+    
+    include Deletable
 
     # @return [String] the name of the log
     attr_reader :name

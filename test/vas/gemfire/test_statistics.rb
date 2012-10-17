@@ -44,13 +44,11 @@ module Gemfire
 
     def test_delete
       client = StubClient.new
-      statistics = Statistics.new(
-          'https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/statistics/', client)
 
       location = 'https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/statistics/4/'
       client.expect(:delete, nil, [location])
 
-      statistics.delete(Statistics.new(location, client))
+      Statistic.new(location, client).delete
 
       client.verify
     end
