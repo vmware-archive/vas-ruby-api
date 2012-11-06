@@ -93,6 +93,24 @@ module Gemfire
 
       assert_equal(instance_location, LocatorInstances.new(location, client).create(installation, 'test-instance', {:port => 23456}).location)
     end
+    
+    def test_create_with_address
+      location = 'https://localhost:8443/gemfire/v1/groups/1/locator-instances/'
+      installation_location = 'https://localhost:8443/gemfire/v1/groups/1/installations/2/'
+      instance_location = 'https://localhost:8443/gemfire/v1/groups/1/locator-instances/3/'
+
+      client = StubClient.new
+
+      installation = create_mock_with_location(installation_location)
+
+      client.expect(:post, instance_location, [location,
+                                               {:installation => installation_location,
+                                                :name => 'test-instance',
+                                                :address => 'locator.address' },
+                                               'locator-group-instance'])
+
+      assert_equal(instance_location, LocatorInstances.new(location, client).create(installation, 'test-instance', {:address => 'locator.address'}).location)
+    end
 
     def test_instance
       location = 'https://localhost:8443/gemfire/v1/groups/2/locator-instances/4/'
@@ -105,6 +123,7 @@ module Gemfire
       assert_equal(42222, instance.port)
       assert_equal(true, instance.peer)
       assert_equal(true, instance.server)
+      assert_equal('locator.address', instance.address)
       assert_equal('https://localhost:8443/gemfire/v1/groups/2/', instance.group.location)
       assert_equal('https://localhost:8443/gemfire/v1/groups/2/installations/3/', instance.installation.location)
       assert_equal('https://localhost:8443/gemfire/v1/groups/2/locator-instances/4/configurations/live/', instance.live_configurations.location)
@@ -173,6 +192,19 @@ module Gemfire
                                  {:server => true}])
 
       instance.update({:server => true})
+
+      client.verify
+    end
+
+    def test_update_with_address
+      client = StubClient.new
+      installation = create_mock_with_location('https://localhost:8443/gemfire/v1/groups/1/installations/3/')
+      instance = LocatorInstance.new('https://localhost:8443/gemfire/v1/groups/1/locator-instances/2/', client)
+
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/1/locator-instances/2/',
+                                 {:address => 'new.address'}])
+
+      instance.update({:address => 'new.address'})
 
       client.verify
     end

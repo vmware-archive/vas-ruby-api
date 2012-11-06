@@ -1,6 +1,6 @@
 {
     "name":"example",
-    "address":"host.example.com",
+    "address":"locator.address",
     "port":42222,
     "peer":true,
     "server":true,
