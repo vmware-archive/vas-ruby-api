@@ -43,10 +43,18 @@ module WebServer
   
   # A Web Server installation image
   class InstallationImage < Shared::InstallationImage
+    
+    # @return [String] the operating system of the installation image
+    attr_reader :operating_system
+    
+    # @return [String] the architecture of the installation image
+    attr_reader :architecture
 
     # @private
     def initialize(location, client)
       super(location, client, Installation)
+      @operating_system = details['operating-system']
+      @architecture = details['architecture']
     end
 
   end
