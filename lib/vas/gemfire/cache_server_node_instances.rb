@@ -38,6 +38,16 @@ module Gemfire
       @statistics_location = Util::LinkUtils.get_link_href(details, 'statistics')
 
     end
+    
+    # Starts the cache server node instance, optionally triggering a rebalance
+    #
+    # @param rebalance [Boolean] +true+ if the start should trigger a rebalance, +false+ if it
+    #   should not
+    #
+    # @return [void]
+    def start(rebalance = false)
+      client.post(@state_location, { :status => 'STARTED', :rebalance => rebalance })
+    end
 
     # @return [DiskStores] the instance's disk stores
     def disk_stores

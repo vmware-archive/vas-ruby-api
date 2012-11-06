@@ -42,11 +42,13 @@ module Gemfire
       assert_equal('https://localhost:8443/vfabric/v1/security/4/', instance.security.location)
       assert_equal('https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/statistics/', instance.statistics.location)
 
-      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/state/', { :status => 'STARTED'}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/state/', { :status => 'STARTED', :rebalance => false}])
       client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/state/', { :status => 'STOPPED'}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/nodes/0/cache-server-instances/3/state/', { :status => 'STARTED', :rebalance => true}])
 
       instance.start
       instance.stop
+      instance.start(true)
 
       client.verify
     end
