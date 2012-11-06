@@ -50,6 +50,8 @@ module WebServer
       assert_equal(location, installation_image.location)
       assert_equal("2.8.1", installation_image.version)
       assert_equal(7340032, installation_image.size)
+      assert_equal('Linux', installation_image.operating_system)
+      assert_equal('x64', installation_image.architecture)
 
       assert_count(2, installation_image.installations)
       assert_equal('https://localhost:8443/web-server/v1/groups/1/installations/2/', installation_image.installations[0].location)
