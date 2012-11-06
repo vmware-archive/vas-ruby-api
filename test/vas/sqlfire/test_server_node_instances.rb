@@ -48,11 +48,13 @@ module Sqlfire
       assert_equal('https://localhost:8443/sqlfire/v1/nodes/0/', instance.node.location)
       assert_equal('https://localhost:8443/vfabric/v1/security/4/', instance.security.location)
 
-      client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/state/', { :status => 'STARTED'}])
+      client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/state/', { :status => 'STARTED', :rebalance => false}])
       client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/state/', { :status => 'STOPPED'}])
+      client.expect(:post, nil, ['https://localhost:8443/sqlfire/v1/nodes/0/server-instances/3/state/', { :status => 'STARTED', :rebalance => true}])
 
       instance.start
       instance.stop
+      instance.start(true)
 
       client.verify
     end
