@@ -83,6 +83,22 @@ module Shared
     def pending_configurations
       @pending_configurations ||= @pending_configurations_class.new(@pending_configurations_location, client)
     end
+    
+    # Starts the instance
+    #
+    # @param serial [Boolean] +true+ if the starting of the individual instances represented by
+    #   this group instance should happen serially, +false+ if they should happen in parallel
+    def start(serial = false)
+      client.post(@state_location, { :status => 'STARTED', :serial => serial })
+    end
+    
+    # Stops the instance
+    #
+    # @param serial [Boolean] +true+ if the stoping of the individual instances represented by this
+    #   group instance should happen serially, +false+ if they should happen in parallel
+    def stop(serial = false)
+      client.post(@state_location, { :status => 'STOPPED', :serial => serial })
+    end
 
     # @return [String] a string representation of the instance
     def to_s
