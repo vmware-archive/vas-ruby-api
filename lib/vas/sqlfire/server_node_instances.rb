@@ -76,6 +76,16 @@ module Sqlfire
       @run_netserver = details['run-netserver']
     end
 
+    # Starts the server node instance, optionally triggering a rebalance
+    #
+    # @param rebalance [Boolean] +true+ if the start should trigger a rebalance, +false+ if it
+    #   should not
+    #
+    # @return [void]
+    def start(rebalance = false)
+      client.post(@state_location, { :status => 'STARTED', :rebalance => rebalance })
+    end
+
     # @return [String] a string representation of the instance
     def to_s
       "#<#{self.class} name='#{name}' bind_address='#@bind_address' client_bind_address='#@client_bind_address' client_port='#@client_port' critical_heap_percentage='#@critical_heap_percentage' initial_heap='#@initial_heap' jvm_options='#@jvm_options' max_heap='#@max_heap' run_netserver='#@run_netserver'>"
