@@ -35,8 +35,8 @@ module Gemfire
       assert_equal(41111, instance.port)
       assert_equal(true, instance.peer)
       assert_equal(true, instance.server)
-  
       assert_equal('example', instance.name)
+      assert_equal('locator.address', instance.address)
       assert_equal('https://localhost:8443/gemfire/v1/nodes/0/', instance.node.location)
       assert_equal('https://localhost:8443/gemfire/v1/groups/1/locator-instances/2/', instance.group_instance.location)
       assert_equal('https://localhost:8443/gemfire/v1/nodes/0/locator-instances/3/logs/', instance.logs.location)

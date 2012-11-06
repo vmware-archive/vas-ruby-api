@@ -29,6 +29,11 @@ module Gemfire
   # A locator node instance
   class LocatorNodeInstance < Shared::NodeInstance
 
+    # @return [String, nil] the property in a node's metadata used to determine the address
+    #   of the network card on which the locator will listen. If nil the locator will listen
+    #   on the address of the default network card
+    attr_reader :address
+
     # @return [Integer] the port that the locator will listen on
     attr_reader :port
 
@@ -50,11 +55,12 @@ module Gemfire
       @port = details['port']
       @peer = details['peer']
       @server = details['server']
+      @address = details['address']
     end
 
     # @return [String] a string representation of the instance
     def to_s
-      "#<#{self.class} name=#{name} port='#@port' peer='#@peer' server='#@server'>"
+      "#<#{self.class} name=#{name} address='#@address' port='#@port' peer='#@peer' server='#@server'>"
     end
 
   end

@@ -25,12 +25,18 @@ module Gemfire
     end
 
     # Creates a new locator instance
+    #
     # @param installation [Installation] the installation that the instance will use
     # @param name [String] the name of the instance
     # @param options [Hash] optional configuration for the instance
+    #
+    # @option options :address [String] the property in a node's metadata to use to determine the
+    #   address of the network card on which the locator should listen. If omitted or nil the locator
+    #   will listen on the address of the default network card
     # @option options :peer (true) +true+ if the locator should act as a peer, otherwise +false+
     # @option options :port [Integer] (10334) the port that the locator will listen on
     # @option options :server (true) +true+ if the locator should act as a server, otherwise +false+
+    #
     # @return [LocatorInstance] the new instance
     def create(installation, name, options = {})
       payload = { :installation => installation.location, :name => name }
@@ -46,6 +52,10 @@ module Gemfire
       if options.has_key?(:server)
         payload[:server] = options[:server]
       end
+      
+      if options.has_key?(:address)
+        payload[:address] = options[:address]
+      end
 
       super(payload, 'locator-group-instance')
     end
@@ -55,6 +65,11 @@ module Gemfire
   # A locator instance
   class LocatorInstance < Shared::Instance
 
+    # @return [String, nil] the property in a node's metadata used to determine the address
+    #   of the network card on which the locator will listen. If nil the locator will listen
+    #   on the address of the default network card
+    attr_reader :address
+    
     # @return [Integer] the port that the locator will listen on
     attr_reader :port
 
@@ -74,6 +89,10 @@ module Gemfire
     #
     # @param options [Hash] optional configuration for the instance
     #
+    # @option options :address [String] the property in a node's metadata to use to determine
+    #   the address that the locator instance will bind to. If omitted or nil, the configuration
+    #   will not be changed. If an empty string is specified, the locator instance will bind to
+    #   the default network address
     # @option options :installation [Installation] the installation to be used by the instance.
     #   If omitted or nil, the installation configuration will not be changed
     # @option options :peer +true+ if the locator should act as a peer, otherwise +false+.
@@ -101,6 +120,10 @@ module Gemfire
         payload[:server] = options[:server]
       end
 
+      if options.has_key?(:address)
+        payload[:address] = options[:address]
+      end
+
       client.post(location, payload)
       reload
     end
@@ -112,11 +135,12 @@ module Gemfire
       @port = details['port']
       @peer = details['peer']
       @server = details['server']
+      @address = details['address']
     end
 
     # @return [String] a string representation of the instance
     def to_s
-      "#<#{self.class} name=#{name} port='#@port' peer='#@peer' server='#@server'>"
+      "#<#{self.class} name=#{name} address='#@address' port='#@port' peer='#@peer' server='#@server'>"
     end
 
   end
