@@ -69,11 +69,15 @@ module Gemfire
 
       assert_equal('STOPPED', instance.state)
 
-      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STARTED'}])
-      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STOPPED'}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STARTED', :serial => false}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STOPPED', :serial => false}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STARTED', :serial => true}])
+      client.expect(:post, nil, ['https://localhost:8443/gemfire/v1/groups/2/cache-server-instances/4/state/', {:status => 'STOPPED', :serial => true}])
 
       instance.start
       instance.stop
+      instance.start(true)
+      instance.stop(true)
 
       client.verify
     end
