@@ -17,7 +17,7 @@
 
 Gem::Specification.new do |gem|
   gem.name          = "vas"
-  gem.version       = "1.1.0.dev"
+  gem.version       = "1.1.0"
   gem.author        = "VMware"
   gem.email         = "support@vmware.com"
   gem.homepage      = "http://vfabric.co"
