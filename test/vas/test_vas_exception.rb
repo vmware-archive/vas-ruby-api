@@ -1,5 +1,5 @@
 # vFabric Administration Server Ruby API
-# Copyright (c) 2012, 2013 VMware, Inc. All Rights Reserved.
+# Copyright (c) 2013 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,20 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+class TestVasException < VasTestCase
 
-# Raised to indicate a failure has occurred when communicating with the vFabric Administration Server
-class VasException < RuntimeError
+  def test_code_is_integer_when_initialized_with_integer
+    exception = VasException.new [], 404
+    assert(exception.code.is_a? Integer)
+  end
 
-  # @return [Integer, nil] the HTTP error code, if any, returned by the server
-  attr_reader :code
+  def test_code_is_integer_when_initialized_with_string
+    exception = VasException.new [], '404'
+    assert(exception.code.is_a? Integer)
+  end
 
-  # @return [String[]] the error messages, if any, returned by the server
-  attr_reader :messages
-
-  # @private
-  def initialize(messages, code=nil)
-    @code = code.to_i unless code.nil?
-    @messages = messages
+  def test_code_is_nil_when_initializaed_with_nil
+    exception = VasException.new [], nil
+    assert_nil(exception.code)
   end
 
 end
