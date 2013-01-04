@@ -17,16 +17,16 @@
 
 Gem::Specification.new do |gem|
   gem.name          = "vas"
-  gem.version       = "1.1.1.dev"
+  gem.version       = "1.1.2.dev"
   gem.author        = "VMware"
   gem.email         = "support@vmware.com"
   gem.homepage      = "http://vfabric.co"
   gem.description   = "A Ruby API for VMware vFabric Administration Server"
   gem.summary       = "vFabric Administration Server Ruby API"
-  
+
   gem.platform = Gem::Platform::RUBY
   gem.extra_rdoc_files = %w(README.md LICENSE NOTICE)
-  
+
   gem.add_dependency "json_pure", "~> 1.7.3"
   gem.add_dependency "multipart-post", "~> 1.1.5"
   gem.add_dependency "rubyzip", "~> 0.9.9"
