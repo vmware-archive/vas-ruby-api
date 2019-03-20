@@ -1,7 +1,7 @@
 # vFabric Administration Server Ruby API
 
 The vFabric Administration Server (VAS) API is a Ruby library used for interacting with the
-[vFabric Administration Server](http://www.vmware.com/support/pubs/vfabric-vas.html).
+[vFabric Administration Server](https://www.vmware.com/support/pubs/vfabric-vas.html).
 
 VAS's primary mode of interaction is via RESTful interface. This API enables the use of VAS using
 rich Ruby types, eliminating the need for a detailed understanding of the REST API and its JSON
@@ -37,7 +37,7 @@ A number of [examples](https://github.com/vFabric/vas-ruby-api/tree/master/examp
 
 ### Documentation
 
-You may also like to look at the [API documentation](http://rubydoc.info/gems/vas/frames).
+You may also like to look at the [API documentation](https://www.rubydoc.info/gems/vas/frames).
 
 ##Licence
 
