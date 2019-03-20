@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.version       = "1.1.2.dev"
   gem.author        = "VMware"
   gem.email         = "support@vmware.com"
-  gem.homepage      = "http://vfabric.co"
+  gem.homepage      = "https://www.vmware.com/vfabric"
   gem.description   = "A Ruby API for VMware vFabric Administration Server"
   gem.summary       = "vFabric Administration Server Ruby API"
 
