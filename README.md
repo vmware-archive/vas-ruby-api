@@ -43,4 +43,4 @@ You may also like to look at the [API documentation](https://www.rubydoc.info/ge
 
 The VAS Ruby API is licensed under the [Apache Licence, Version 2.0][asl2].
 
-[asl2]: http://www.apache.org/licenses/LICENSE-2.0.html
+[asl2]: https://www.apache.org/licenses/LICENSE-2.0.html
