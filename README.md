@@ -1,3 +1,5 @@
+# vas-ruby-api is no longer actively maintained by VMware, Inc.
+
 # vFabric Administration Server Ruby API
 
 The vFabric Administration Server (VAS) API is a Ruby library used for interacting with the
